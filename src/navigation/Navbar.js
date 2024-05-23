@@ -18,17 +18,28 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import { useSelector } from 'react-redux';
 
-
 const drawerWidth = 240;
 const navItems = ['Products', 'Home', 'Reviews'];
-
 
 export default function Navbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [selectedItem, setSelectedItem] = React.useState('Products');
+  const [isCartClicked, setIsCartClicked] = React.useState(false);
   const { cartList } = useSelector((state) => state.productListData);
+
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
+  };
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+    setIsCartClicked(false); // Reset cart color when another item is clicked
+  };
+
+  const handleCartClick = () => {
+    setSelectedItem(''); // Reset selected item color
+    setIsCartClicked(true);
   };
 
   const drawer = (
@@ -40,15 +51,13 @@ export default function Navbar(props) {
       <List>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
+            <ListItemButton sx={{ textAlign: 'center' }} onClick={() => handleItemClick(item)}>
               <ListItemText primary={item} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-
     </Box>
-
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
@@ -76,22 +85,30 @@ export default function Navbar(props) {
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
-              <Link to={item === 'Products' ? '/' : item}>
-                <Button key={item} sx={{ color: 'white', fontWeight: '500' }}>
+              <Link to={item === 'Products' ? '/' : item} key={item}>
+                <Button 
+                  sx={{ 
+                    color: selectedItem === item ? 'pink' : 'whitesmoke', 
+                    fontWeight: '500' 
+                  }}
+                  onClick={() => handleItemClick(item)}
+                >
                   {item}
                 </Button>
               </Link>
             ))}
           </Box>
-
           <Link to={'/Cart'}>
-            <IconButton aria-label="cart" style={{ color: 'white' }}>
+            <IconButton 
+              aria-label="cart" 
+              onClick={handleCartClick}
+              style={{ color: isCartClicked ? 'pink' : 'white' }}
+            >
               <Badge badgeContent={cartList.length} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
           </Link>
-
         </Toolbar>
       </AppBar>
       <nav>
@@ -111,9 +128,6 @@ export default function Navbar(props) {
           {drawer}
         </Drawer>
       </nav>
-
-
     </Box>
-
   );
 }
