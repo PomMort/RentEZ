@@ -42,7 +42,7 @@ export default function Cart_Products({ cart }) {
 
 
     const handDleRemoveToCart = () => {
-        const check = window.confirm('Are you want to delete this item?');
+        const check = window.confirm('Do you want to delete this item?');
         if (check){
             dispatch({ type: "REMOVE_PRODUCT", payload: cart })
         toast.success("Deleted successfully ! ");
