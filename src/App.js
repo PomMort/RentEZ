@@ -2,12 +2,13 @@
 import './App.css';
 import Home from './component/Home';
 import Products from './component/Products';
-import Reviews from './component/Reviews';
 import Cart from './component/Cart';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './navigation/Navbar';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Aboutus from './component/Aboutus';
+import Footer from './navigation/Footer';
 
 
 
@@ -22,7 +23,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Products />} ></Route>
         <Route path='/Home' element={<Home />} ></Route>
-        <Route path='/Reviews' element={<Reviews />} ></Route>
+        <Route path='/AboutUs' element={<Aboutus />} ></Route>
         <Route path='/Cart' element={<Cart />} ></Route>
       </Routes>
 
@@ -39,7 +40,7 @@ function App() {
         theme="light"
         
       />
-
+        <Footer/>
     </>
     // </BrowserRouter>
   );
