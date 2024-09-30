@@ -4,18 +4,13 @@ export default function Blog() {
   return (
     <div className="bg-gray-100">
       {/* Header Section */}
-      <header className="bg-[#d9d9d9] h-[20rem] text-center py-10 shadow-md relative">
-        <div className="bg-black absolute right-[36%] bottom-[10%] w-[25rem] p-6 tracking-[0.25rem]">
-          <h1 className="text-4xl font-bold text-white mb-2 font-text">
-            RENTEZ
-          </h1>
-          <h1 className="text-4xl text-white font-text">RENTING EASY</h1>
-        </div>
+      <header className="h-[30rem] text-center shadow-md relative">
+        <img src="/image/banner2.png" alt="fashion" className="h-full w-full"/>
       </header>
 
       {/* Introduction Section */}
       <section className="bg-white text-center py-10">
-        <p className="text-lg text-black max-w-3xl mx-auto px-4 font-text text-justify">
+        <p className="text-lg font-bold text-black max-w-3xl mx-auto px-4 font-text">
           Founded in 2024, RentEZ Group is one of Vietnam’s first rental
           e-commerce platforms. With a presence in Ho Chi Minh City and Hanoi –
           we connect this vast and diverse region through our technology,
