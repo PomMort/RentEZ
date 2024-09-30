@@ -3,43 +3,28 @@ import { faH, faPhone, faSearch, faShoppingCart, faUser } from '@fortawesome/fre
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import axios from 'axios';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+const Navbar = () =>{
+  const location = useLocation();
 
-const Navbar = () => {
-  const navItems = [
-    {
-      title: 'Home',
-      path: '/'
-    },
-    {
-      title: 'About us',
-      path: '/AboutUs'
-    },
-    {
-      title: 'Blog',
-      path: '/Blog'
-    },
-    {
-      title: 'Contact us',
-      path: '/ContactUs'
-    },
-    {
-      title: 'Cart',
-      path: '/Cart'
-    },
-  ]
-  return (
+  const getActiveClass = (path) =>{
+    return location.pathname === (path) ? 'text-[#FFD154]' : 'text-white';
+  };
+  return(
     <header className='bg-gray-900 text-white'>
       <div className='flex justify-between items-center px-6 py-2 bg-gray-200 text-black'>
         <div className='flex items-center space-x-4'>
-          <FontAwesomeIcon icon={faPhone} className='text-sm' />
-          <span className='text-sm'>+12 345 6789 0</span>
-          <FontAwesomeIcon icon={faEnvelope} />
-          <span className='text-sm'>RentEzSupport@gmail.com</span>
+          <img src='/image/Logo.png' alt='RentEZ' className='w-[2rem] h-[2rem] mr-[62px]'/>
+          <FontAwesomeIcon icon={faPhone} className='text-sm'/>
+          <span className='text-sm font-text'>+12 345 6789 0</span>
+          <FontAwesomeIcon icon={faEnvelope}/>
+          <span className='text-sm font-text'>RentEzSupport@gmail.com</span>
         </div>
         <div className='flex items-center space-x-4'>
-          <FontAwesomeIcon icon={faUser} className="text-black" />
-          <span>My account</span>
+        <FontAwesomeIcon icon={faUser} className="text-black" />
+          <span className='font-text'>My account</span>
+
+
           <FontAwesomeIcon icon={faBell} className="text-black" />
         </div>
       </div>
@@ -47,10 +32,10 @@ const Navbar = () => {
         {/* Logo và Menu */}
         <div className="flex items-center space-x-8">
           <h1 className="text-3xl font-bold text-[#FFD700] font-logo">RentEZ</h1>
-          {navItems.map((item) =>
-            <Link to={item.path} className="text-white hover:text-gray-400">{item.title}</Link>
-          )}
-
+          <Link to="/" className={`${getActiveClass('/')} hover:text-gray-400 font-text`}>Home</Link>
+          <Link to="/AboutUs" className={`${getActiveClass('/AboutUs')} hover:text-gray-400 font-text`}>About us</Link>
+          <Link to="/Blog" className={`${getActiveClass('/Blog')} hover:text-gray-400 font-text`}>Blog</Link>
+          <Link to="/ContactUs" className={`${getActiveClass('/ContactUs')} hover:text-gray-400 font-text`}>Contact us</Link>    
         </div>
         {/* Search Box và Icons */}
         <div className="flex items-center space-x-4">
