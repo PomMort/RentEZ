@@ -8,9 +8,9 @@ export default function Aboutus() {
     <>
       <div className="flex flex-col items-center py-12 bg-white">
         {/* Tiêu đề liên hệ */}
-        <h2 className="text-black text-lg font-semibold">CONTACT</h2>
+        <h2 className="text-black text-lg font-semibold font-text">CONTACT</h2>
         {/* Dòng chữ We're here to help */}
-        <h1 className="text-4xl font-bold text-[#FFD700] mt-2">
+        <h1 className="text-4xl font-bold text-[#FFD700] mt-2 font-text">
           We're here to help
         </h1>
         {/* Thanh tìm kiếm */}
@@ -34,12 +34,12 @@ export default function Aboutus() {
       </div>
       <div className="flex flex-col items-center py-12 bg-white">
         <div className="flex flex-col items-center">
-          <h1 className="font-bold text-3xl">How Can I Contact RentEZ?</h1>
+          <h1 className="font-bold text-3xl font-text">How Can I Contact RentEZ?</h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
           <div className="flex flex-col items-center text-center">
             <FontAwesomeIcon icon={faComment} className="text-4xl mb-4" />
-            <h3 className="font-semibold">Chat With Us</h3>
+            <h3 className="font-semibold font-text">Chat With Us</h3>
             <p>5:00 - 23:00</p>
             <p> 7 days a Week</p>
           </div>

@@ -7,8 +7,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './navigation/Navbar';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Aboutus from './component/Aboutus';
+import Contactus from './component/Contactus';
 import Footer from './navigation/Footer';
+import Blog from './component/Blog';
 
 
 
@@ -23,7 +24,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Products />} ></Route>
         <Route path='/Home' element={<Home />} ></Route>
-        <Route path='/AboutUs' element={<Aboutus />} ></Route>
+        <Route path='/ContactUs' element={<Contactus />} ></Route>
+        <Route path='/Blog' element={<Blog/>}></Route>
         <Route path='/Cart' element={<Cart />} ></Route>
       </Routes>
 

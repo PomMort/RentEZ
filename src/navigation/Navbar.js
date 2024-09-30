@@ -14,14 +14,15 @@ const Navbar = () =>{
     <header className='bg-gray-900 text-white'>
       <div className='flex justify-between items-center px-6 py-2 bg-gray-200 text-black'>
         <div className='flex items-center space-x-4'>
+          <img src='/image/Logo.png' alt='RentEZ' className='w-[2rem] h-[2rem] mr-[62px]'/>
           <FontAwesomeIcon icon={faPhone} className='text-sm'/>
-          <span className='text-sm'>+12 345 6789 0</span>
+          <span className='text-sm font-text'>+12 345 6789 0</span>
           <FontAwesomeIcon icon={faEnvelope}/>
-          <span className='text-sm'>RentEzSupport@gmail.com</span>
+          <span className='text-sm font-text'>RentEzSupport@gmail.com</span>
         </div>
         <div className='flex items-center space-x-4'>
         <FontAwesomeIcon icon={faUser} className="text-black" />
-          <span>My account</span>
+          <span className='font-text'>My account</span>
           <FontAwesomeIcon icon={faBell} className="text-black" />
         </div>
       </div>
@@ -29,10 +30,10 @@ const Navbar = () =>{
         {/* Logo và Menu */}
         <div className="flex items-center space-x-8">
           <h1 className="text-3xl font-bold text-[#FFD700] font-logo">RentEZ</h1>
-          <Link to="/" className={`${getActiveClass('/')} hover:text-gray-400`}>Home</Link>
-          <Link to="/AboutUs" className={`${getActiveClass('/AboutUs')} hover:text-gray-400`}>About us</Link>
-          <Link to="/Blog" className={`${getActiveClass('/Blog')} hover:text-gray-400`}>Blog</Link>
-          <Link to="/ContactUs" className={`${getActiveClass('/ContactUs')} hover:text-gray-400`}>Contact us</Link>
+          <Link to="/" className={`${getActiveClass('/')} hover:text-gray-400 font-text`}>Home</Link>
+          <Link to="/AboutUs" className={`${getActiveClass('/AboutUs')} hover:text-gray-400 font-text`}>About us</Link>
+          <Link to="/Blog" className={`${getActiveClass('/Blog')} hover:text-gray-400 font-text`}>Blog</Link>
+          <Link to="/ContactUs" className={`${getActiveClass('/ContactUs')} hover:text-gray-400 font-text`}>Contact us</Link>
         </div>
         {/* Search Box và Icons */}
         <div className="flex items-center space-x-4">
