@@ -1,0 +1,38 @@
+
+/* Sign up container */
+.signup-container {
+    margin-top: 40px;
+}
+
+.signup-container span {
+    font-size: 14px;
+    color: #666;
+}
+
+.signup-link {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+
+.password-input-container {
+    position: relative;
+}
+
+.password-toggle-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #555;
+}
+
+.password-toggle-icon:hover {
+    color: #007BFF;
+}

@@ -1,9 +1,9 @@
 import { faBell, faEnvelope, faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faH, faPhone, faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import axios from 'axios';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
 const Navbar = () =>{
   const location = useLocation();
 
@@ -23,6 +23,8 @@ const Navbar = () =>{
         <div className='flex items-center space-x-4'>
         <FontAwesomeIcon icon={faUser} className="text-black" />
           <span className='font-text'>My account</span>
+
+
           <FontAwesomeIcon icon={faBell} className="text-black" />
         </div>
       </div>
@@ -33,7 +35,7 @@ const Navbar = () =>{
           <Link to="/" className={`${getActiveClass('/')} hover:text-gray-400 font-text`}>Home</Link>
           <Link to="/AboutUs" className={`${getActiveClass('/AboutUs')} hover:text-gray-400 font-text`}>About us</Link>
           <Link to="/Blog" className={`${getActiveClass('/Blog')} hover:text-gray-400 font-text`}>Blog</Link>
-          <Link to="/ContactUs" className={`${getActiveClass('/ContactUs')} hover:text-gray-400 font-text`}>Contact us</Link>
+          <Link to="/ContactUs" className={`${getActiveClass('/ContactUs')} hover:text-gray-400 font-text`}>Contact us</Link>    
         </div>
         {/* Search Box và Icons */}
         <div className="flex items-center space-x-4">

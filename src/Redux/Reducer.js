@@ -70,9 +70,6 @@ var Reducer = (state = initProductList, { type, payload }) => {
                
             }
                 
-            
-
-
             case "REMOVE_PRODUCT":
                 const updatedCartList = state.cartList.filter(
                     (c) => c.product.id !== payload.product.id
