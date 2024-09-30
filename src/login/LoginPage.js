@@ -44,7 +44,7 @@ const LoginPage = () => {
                 <div className='Logo-center'>
                     <h1>Welcome To</h1>
                     <img src={logo} alt="Logo" className="logo" />
-                    <h2 style={{ fontFamily: 'cursive', fontWeight: 'bold' }}>RentEZ</h2>
+                    <h2 className='font-logo'>RentEZ</h2>
                 </div>
 
                 <form onSubmit={handleLogin}>
