@@ -6,6 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from "react-toastify";
+import { Tooltip } from '@mui/material';
 
 
 
@@ -41,31 +42,33 @@ export default function DetailProducts() {
 
   }
 
-  
+
 
 
   return (
 
-    <div className='mt-2 shadow hover:shadow-lg rounded-2xl shadow-gray-500'>
-      <img className='m-auto' style={{ width: '90%' }} src={selectorProduct.img} alt='' />
+    <div className='mt-2 shadow hover:shadow-lg rounded-2xl shadow-gray-500 min-h-[1000px]'>
+      <img className='m-auto' style={{ width: '85%' }} src={selectorProduct.img} alt='' />
 
       <div className='mt-10'>
 
         <div className='text-3xl font-semibold ml-5'>
           {selectorProduct.productName}
         </div>
+        <Tooltip title={selectorProduct.description}>
+          <p className='mt-2 text-gray-500 text-justify ml-5 text-xs overflow-hidden'>
+            {selectorProduct.description}
+          </p>
+        </Tooltip>
 
-        <p className='mt-2 text-gray-500 text-justify ml-5 text-xs'>
-          {selectorProduct.description}
-        </p>
+
 
       </div>
 
 
-      <div className='flex justify-between mx-5 mt-24 items-center'>
-
-
+      <div className='flex justify-between mx-5 mt-5 items-center mb-3'>
         <div className='flex items-center'>
+
           <IconButton aria-label="delete" size="large" onClick={handleDecreaseQuantity}>
             <RemoveIcon fontSize="inherit" style={{ marginTop: '1px', color: 'black' }} />
           </IconButton>
@@ -82,24 +85,12 @@ export default function DetailProducts() {
           ${selectorProduct.price}
         </p>
 
-
         <Button variant="contained" size='medium' style={{ color: 'white', background: 'black', fontWeight: 'lighter' }} className='transition ease-in-out hover:-translate-y-1 hover:scale-110  duration-500 rounded-xl ' onClick={handleAddToCard} >
 
           <ShoppingCartOutlinedIcon style={{ marginRight: '8px' }} /> Add to cart
 
         </Button>
-
-
-
-
-
-
       </div>
-
-
-
-
-
     </div >
   )
 

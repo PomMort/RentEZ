@@ -34,10 +34,10 @@ export default function Cart() {
             </div>
 
             <div className='flex flex-row gap-5 my-10'>
-                <div className='basis-3/5'>
+                <div className='basis-3/5 min-h-[800px]'>
                     <Cart_Item />
                 </div>
-                <div className='basis-2/5'>
+                <div className='basis-2/5 min-h-[800px]'>
                     <Cart_Payment />
                 </div>
 

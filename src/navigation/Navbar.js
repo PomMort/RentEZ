@@ -1,20 +1,44 @@
 import { faBell, faEnvelope, faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faH, faPhone, faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import axios from 'axios';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Navbar = () =>{
-  return(
+const Navbar = () => {
+  const navItems = [
+    {
+      title: 'Home',
+      path: '/'
+    },
+    {
+      title: 'About us',
+      path: '/AboutUs'
+    },
+    {
+      title: 'Blog',
+      path: '/Blog'
+    },
+    {
+      title: 'Contact us',
+      path: '/ContactUs'
+    },
+    {
+      title: 'Cart',
+      path: '/Cart'
+    },
+  ]
+  return (
     <header className='bg-gray-900 text-white'>
       <div className='flex justify-between items-center px-6 py-2 bg-gray-200 text-black'>
         <div className='flex items-center space-x-4'>
-          <FontAwesomeIcon icon={faPhone} className='text-sm'/>
+          <FontAwesomeIcon icon={faPhone} className='text-sm' />
           <span className='text-sm'>+12 345 6789 0</span>
-          <FontAwesomeIcon icon={faEnvelope}/>
+          <FontAwesomeIcon icon={faEnvelope} />
           <span className='text-sm'>RentEzSupport@gmail.com</span>
         </div>
         <div className='flex items-center space-x-4'>
-        <FontAwesomeIcon icon={faUser} className="text-black" />
+          <FontAwesomeIcon icon={faUser} className="text-black" />
           <span>My account</span>
           <FontAwesomeIcon icon={faBell} className="text-black" />
         </div>
@@ -23,10 +47,10 @@ const Navbar = () =>{
         {/* Logo và Menu */}
         <div className="flex items-center space-x-8">
           <h1 className="text-3xl font-bold text-[#FFD700] font-logo">RentEZ</h1>
-          <a href="#" className="text-white hover:text-gray-400">Home</a>
-          <a href="#" className="text-white hover:text-gray-400">About us</a>
-          <a href="#" className="text-white hover:text-gray-400">Blog</a>
-          <a href="#" className="text-white hover:text-gray-400">Contact us</a>
+          {navItems.map((item) =>
+            <Link to={item.path} className="text-white hover:text-gray-400">{item.title}</Link>
+          )}
+
         </div>
         {/* Search Box và Icons */}
         <div className="flex items-center space-x-4">

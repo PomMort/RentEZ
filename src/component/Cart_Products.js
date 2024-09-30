@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useDispatch } from 'react-redux';
 import { toast } from "react-toastify";
+import { Tooltip } from '@mui/material';
 
 
 
@@ -43,10 +44,10 @@ export default function Cart_Products({ cart }) {
 
     const handDleRemoveToCart = () => {
         const check = window.confirm('Do you want to delete this item?');
-        if (check){
+        if (check) {
             dispatch({ type: "REMOVE_PRODUCT", payload: cart })
-        toast.success("Deleted successfully ! ");
-        }else{
+            toast.success("Deleted successfully ! ");
+        } else {
             toast.info("You have canceled the deletion of the product !");
         }
     }
@@ -55,10 +56,10 @@ export default function Cart_Products({ cart }) {
 
     return (
         <Grid item xs={6}>
-            <div className='justify-center flex flex-row rounded-lg shadow hover:shadow-lg mb-3 shadow-gray-500 pr-12'>
+            <div className='justify-center flex flex-row rounded-lg shadow hover:shadow-lg mb-3 shadow-gray-500 pr-12 min-h-[200px]'>
                 <img className='w-44 scale-75' src={cart.product.img} />
 
-                <div className='mt-5 mx-10'>
+                <div className='mt-5 min-w-[200px]'>
                     <div className='flex justify-between'>
                         <div className='text-xl font-bold mt-2 ml-1'>
                             {cart.product.productName}
@@ -68,10 +69,12 @@ export default function Cart_Products({ cart }) {
                         </IconButton>
                     </div>
 
+                    <Tooltip title={cart.product.description}>
+                        <p className=' text-gray-500 text-xs ml-1 mt-2 overflow-hidden'>
+                            {cart.product.description}
+                        </p>
+                    </Tooltip>
 
-                    <p className='  text-gray-500 text-xs ml-1 mt-2'>
-                        {cart.product.description}
-                    </p>
 
                     <div className='flex justify-between mt-9 my-3 items-center'>
 
