@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../Logo.png';
@@ -9,7 +9,6 @@ const LoginPage = () => {
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [data, setData] = useState([]);
     const navigate = useNavigate();
 
 
