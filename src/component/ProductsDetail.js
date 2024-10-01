@@ -47,8 +47,8 @@ export default function DetailProducts() {
 
   return (
 
-    <div className='mt-2 shadow hover:shadow-lg rounded-2xl shadow-gray-500 max-h-[990px]'>
-      <img className='m-auto max-h-[650px] mt-10' style={{ width: '85%' }} src={selectorProduct.img} alt='' />
+    <div className='mt-2 shadow hover:shadow-lg rounded-2xl shadow-gray-500 max-h-[990px] min-w-[400px]'>
+      <img className='m-auto max-h-[600px] mt-10' style={{ width: '85%' }} src={selectorProduct.img} alt='' />
 
       <div className='mt-10'>
         <Tooltip title={selectorProduct.productName}>

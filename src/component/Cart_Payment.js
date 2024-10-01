@@ -23,7 +23,7 @@ export default function Cart_Payment() {
 
     return (
         <div>
-            <div className='mt-2 shadow hover:shadow-lg  rounded-2xl shadow-gray-500 min-h-[200px]'>
+            <div className='mt-2 shadow hover:shadow-lg  rounded-2xl shadow-gray-500 min-h-[235px] min-w-[150px]'>
                 <p className='font-bold text-xl mx-4 py-4'>Order Infor </p>
                 <div className='mx-10'>
                     <p className='flex justify-between '>

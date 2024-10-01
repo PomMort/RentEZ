@@ -56,10 +56,10 @@ export default function Cart_Products({ cart }) {
 
     return (
         <Grid item xs={6}>
-            <div className='justify-center flex flex-row rounded-lg shadow hover:shadow-lg mb-3 shadow-gray-500 pr-12 min-h-[200px]'>
+            <div className='justify-center flex flex-row rounded-lg shadow hover:shadow-lg mb-3 shadow-gray-500 pr-12 max-h-[300px] min-w-[750px] '>
                 <img className='w-44 scale-75' src={cart.product.img} />
 
-                <div className='mt-5 min-w-[200px]'>
+                <div className='mt-5 min-w-[200px] flex-1'>
                     <div className='flex justify-between'>
                         <div className='text-xl font-bold mt-2 ml-1'>
                             {cart.product.productName}
@@ -90,7 +90,7 @@ export default function Cart_Products({ cart }) {
                             </IconButton>
 
                         </div>
-                        <p className='text-black  font-bold '>
+                        <p className='text-black  font-bold mr-4 '>
                             ${cart.product.price}
                         </p>
                     </div>

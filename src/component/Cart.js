@@ -1,13 +1,13 @@
 
 import Cart_Item from './Cart_Item';
 import Cart_Payment from './Cart_Payment';
-import { useDispatch } from 'react-redux';
-import React, { useEffect } from 'react'
+// import { useDispatch } from 'react-redux';
+import React from 'react'
 import { useSelector } from "react-redux";
 
 
 export default function Cart() {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const { cartList } = useSelector((state) => state.productListData);
 
   if (cartList.length === 0) {
