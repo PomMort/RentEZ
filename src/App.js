@@ -10,8 +10,8 @@ import LoginPage from './login/LoginPage';
 import RegisterPage from './login/RegisterPage';
 import MainLayout from './layout/MainLayout';
 import AboutUs from './component/AboutUs';
-import ContactUs from './component/Contactus';
 import Blog from './component/Blog';
+import Contactus from './component/Contactus';
 
 
 
@@ -26,7 +26,7 @@ function App() {
         <Route path='/Blog' element={<MainLayout><Blog /></MainLayout>} ></Route>
         <Route path='/Cart' element={<MainLayout><Cart /></MainLayout>} ></Route>
         <Route path='/AboutUs' element={<MainLayout><AboutUs /></MainLayout>} ></Route>
-        <Route path='/ContactUs' element={<MainLayout><ContactUs /></MainLayout>} ></Route>
+        <Route path='/ContactUs' element={<MainLayout><Contactus /></MainLayout>} ></Route>
         <Route path='/Login' element={<LoginPage />}></Route>
         <Route path='/Register' element={<RegisterPage />}></Route>
       </Routes>
