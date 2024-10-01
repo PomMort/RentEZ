@@ -31,7 +31,7 @@ export default function ListProducts() {
                     {productList.map((product) => (
                         <Grid item xs={6} key={product.id} style={{ width: '100%' }}>
                             <div className='justify-start flex flex-row rounded-lg shadow hover:shadow-lg mb-3 shadow-gray-500'>
-                                <img className='w-44 scale-75' src={product?.img} />
+                                <img className='w-44 scale-75 max-h-[235px]' src={product?.img} />
                                 <div className='my-5 mx-10 flex-1'>
                                     <Tooltip title={product?.productName}>
                                         <div className='text-xl font-bold mt-2 ml-1 max-w-[400px] truncate '>
