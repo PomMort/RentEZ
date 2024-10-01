@@ -34,7 +34,7 @@ export default function ListProducts() {
                                 <img className='w-44 scale-75' src={product?.img} />
                                 <div className='my-5 mx-10 flex-1'>
                                     <Tooltip title={product?.productName}>
-                                        <div className='text-xl font-bold mt-2 ml-1 max-w-[500px] overflow-hidden '>
+                                        <div className='text-xl font-bold mt-2 ml-1 max-w-[400px] truncate '>
                                             {product.productName}
                                         </div>
                                     </Tooltip>

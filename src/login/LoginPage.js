@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../Logo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
     const [username, setUserName] = useState('');
@@ -29,6 +30,7 @@ const LoginPage = () => {
                     localStorage.setItem('Auth', JSON.stringify(response.data));
                     // console.log(response.data);
                     navigate('/')
+                    toast.success('Login successfully')
                 } else {
                     return null;
                 }
