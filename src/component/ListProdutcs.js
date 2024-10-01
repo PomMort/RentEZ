@@ -44,7 +44,7 @@ export default function ListProducts() {
                                             {product.description}
                                         </p>
                                     </Tooltip>
-                                    <div className='flex justify-between mt-10 mr-3'>
+                                    <div className='flex justify-between mt-10 mr-3 max-w-[400px] '>
                                         <p className='text-black font-bold mt-2 ml-1'>
                                             ${product.price}
                                         </p>
