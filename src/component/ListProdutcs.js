@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { Tooltip } from '@mui/material';
+import { Grid2, Tooltip } from '@mui/material';
 
 export default function ListProducts() {
     const dispatch = useDispatch();
@@ -24,14 +23,14 @@ export default function ListProducts() {
     return (
         <div className='grid grid-flow-row auto-rows-max mt-2 max-h-[1000px] overflow-x-hidden'>
             <Box sx={{ width: '100%' }}>
-                <Grid container
+                <Grid2 container
                     direction="column"
                     justifyContent="center"
                     alignItems="baseline">
                     {productList.map((product) => (
-                        <Grid item xs={6} key={product.id} style={{ width: '100%' }}>
+                        <Grid2 item xs={6} key={product.id} style={{ width: '100%' }}>
                             <div className='justify-start flex flex-row rounded-lg shadow hover:shadow-lg mb-3 shadow-gray-500'>
-                                <img className='w-44 scale-75 max-h-[235px]' src={product?.img} />
+                                <img className='w-44 scale-75 max-h-[235px]' src={product?.img} alt='Failed' />
                                 <div className='my-5 mx-10 flex-1'>
                                     <Tooltip title={product?.productName}>
                                         <div className='text-xl font-bold mt-2 ml-1 max-w-[400px] truncate '>
@@ -54,10 +53,10 @@ export default function ListProducts() {
                                     </div>
                                 </div>
                             </div>
-                        </Grid>
+                        </Grid2>
                     ))}
 
-                </Grid>
+                </Grid2>
             </Box>
         </div>
     );
