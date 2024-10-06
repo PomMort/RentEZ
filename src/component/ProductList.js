@@ -1,4 +1,4 @@
-import { Box, Grid2 } from '@mui/material'
+import { Box, Grid2, Tooltip } from '@mui/material'
 import React, { useCallback } from 'react'
 import { FaTruckMoving } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa";
@@ -20,42 +20,53 @@ export default function ProductList() {
     return (
         <div className='mx-3'>
             <Box sx={{ width: '100%' }}>
-                <Grid2 container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
+                <Grid2 container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     {productList.map((product) => (
                         <Grid2 size={3} className='rounded-lg shadow hover:shadow-lg mb-10 shadow-gray-500'
                             style={{ cursor: 'pointer' }}
                             onClick={() => handleSelectProduct(product)}
                             key={product.id}>
                             {/* {console.log(product)} */}
-                            <div className='min-w-[300px] min-h-[350px] mx-4'>
+                            <div className='max-w-[400px] min-h-[350px] mx-4'>
                                 <div className='flex justify-center'>
                                     <img className=' mt-4 bg-center min-h-[400px]' style={{ width: '80%' }} src={product?.img} alt='anh_cuoi' />
                                 </div>
                                 <div>
-                                    <div className='min-w-[300px] my-3'>
-                                        <p className='font-text text-xl'>{product?.productName}</p>
-                                        <div className='flex justify-between' style={{ alignItems: 'center' }}>
+                                    <div className='max-w-[400px] max-h-[350px] my-3'>
+                                        <Tooltip title={product.productName}>
+                                            <p className='font-text text-xl overflow-hidden truncate' style={{ whiteSpace: 'nowrap' }}>{product?.productName}</p>
+                                        </Tooltip>
+
+                                        <div className='flex justify-between mt-2' style={{ alignItems: 'center' }}>
                                             <p className='font-text' style={{ color: 'red', fontSize: '20px' }}>{product?.price}</p>
                                             <p className='font-text' style={{
                                                 background: '#ffc800',
                                                 color: 'black',
                                                 fontSize: '16px',
-                                                padding: '2px 10px',
+                                                padding: '3px 10px',
                                                 borderRadius: '5px',
-                                                display: 'inline-block'
+                                                display: 'flex',  // Change to flex to prevent layout breaking
+                                                grid:'none',
+                                                alignItems: 'center', // Vertically center the text
+                                                justifyContent: 'center', // Horizontally center the text
+                                                minWidth: '50px' // Ensures the element maintains a minimum width
                                             }}>
                                                 -53%
                                             </p>
                                             <FaTruckMoving style={{ color: 'yellowgreen', fontSize: '40px' }} />
                                         </div>
-                                        <div className='flex justify-center mt-6'>
+                                        <div className='flex justify-center mt-6 max-w-[400px] min-h-[20px]'>
                                             <p className='font-text' style={{
                                                 background: '#ffff00',
                                                 color: 'black',
                                                 fontSize: '16px',
-                                                padding: '5px 80px',
+                                                padding: '10px', // Simplified padding to prevent overflow
                                                 borderRadius: '5px',
-                                                display: 'inline-block'
+                                                display: 'block', // Ensures the element takes full width
+                                                width: '100%', // Ensures it fits the container
+                                                boxSizing: 'border-box', // Includes padding in width
+                                                margin: '5px 0',
+                                                textAlign: 'center' // Center the text without breaking layout
                                             }}>
                                                 Voucher giảm giá 50%
                                             </p>
