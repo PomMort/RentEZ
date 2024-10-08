@@ -3,10 +3,10 @@ import axios from 'axios';
 
 //Call API
 const getProducts = async () => {
-    const res = await axios.get("https://65321e684d4c2e3f333da188.mockapi.io/api/v1/products")
+    const res = await axios.get("https://localhost:7085/api/products")
     // const res = await axios.get("https://65321e684d4c2e3f333da188.mockapi.io/api/v1/categories")
     if (res.status === 200) {
-        return res.data;
+        return res.data.data;
     }
     else {
         return null;

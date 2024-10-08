@@ -16,7 +16,6 @@ export default function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(JSON.parse(localStorage.getItem('Auth')));
     dispatch({ type: "GET_DATA" });
   }, [dispatch]);
 

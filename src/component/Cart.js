@@ -29,7 +29,7 @@ export default function Cart() {
         <div className='w-4/5 m-auto mt-20'>
 
 
-            <div className='shadow md:shadow-lg rounded-lg shadow-gray-400 py-3 flex justify-center font-bold text-2xl'>
+            <div className='shadow md:shadow-lg rounded-lg shadow-gray-400 py-3 flex justify-center font-bold font-text text-2xl'>
                 My Shopping Cart
             </div>
 

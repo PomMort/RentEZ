@@ -12,6 +12,7 @@ import MainLayout from './layout/MainLayout';
 import AboutUs from './component/AboutUs';
 import Blog from './component/Blog';
 import Contactus from './component/Contactus';
+import ProductsDetail from './component/ProductsDetail';
 
 
 
@@ -29,6 +30,8 @@ function App() {
         <Route path='/ContactUs' element={<MainLayout><Contactus /></MainLayout>} ></Route>
         <Route path='/Login' element={<LoginPage />}></Route>
         <Route path='/Register' element={<RegisterPage />}></Route>
+        <Route path='/Detail/:id' element={<MainLayout><ProductsDetail /></MainLayout>}></Route>
+
       </Routes>
       <ToastContainer
         position="top-center"
