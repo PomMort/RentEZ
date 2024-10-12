@@ -1,25 +1,20 @@
-import React, { useEffect } from 'react'
-// import ListProdutcs from './ListProdutcs';
-// import ProductDetail from './ProductsDetail';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { FaAngleRight } from "react-icons/fa";
 import ProductList from './ProductList';
 
-
-
-
 export default function Home() {
-  const { status } = useSelector((state) => state.productListData)
+  // Comment lại phần useEffect và dispatch
+  // const { status } = useSelector((state) => state.productListData)
+  // const dispatch = useDispatch();
 
-  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch({ type: "GET_DATA" });
+  // }, [dispatch]);
 
-  useEffect(() => {
-    dispatch({ type: "GET_DATA" });
-  }, [dispatch]);
-
-
+  // Dữ liệu giả lập (fake data) cho mục đích kiểm thử
+  const status = true; // Giả sử dữ liệu đã sẵn sàng (có thể đặt false để kiểm thử trạng thái loading)
 
   if (!status) {
     return (
@@ -28,7 +23,7 @@ export default function Home() {
           <CircularProgress />
         </Box>
       </div>
-    )
+    );
   } else {
     return (
       <>
@@ -43,7 +38,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className=' md:container md:mx-auto grid-cols-2 grid px-5 my-12'>
+        <div className='md:container md:mx-auto grid-cols-2 grid px-5 my-12'>
           <div className='bg-cover bg-center min-w-[400px] min-h-[300px]' style={{ backgroundImage: `url('image/anh_nen_2.1.jpg')`, padding: '30px' }}>
             <div className='flex justify-between mt-60'>
               <p className='font-bold font-text text-2xl mt-2 text-neutral-50'>MEN</p>
@@ -66,30 +61,13 @@ export default function Home() {
           </div>
         </div>
 
-        <image className='bg-cover bg-center min-w-[400px] min-h-[750px] flex flex-1 mb-8 mt-2' style={{ backgroundImage: `url('image/anh_nen_3.jpg')` }}>
-        </image>
+        <div className='bg-cover bg-center min-w-[400px] min-h-[750px] flex flex-1 mb-8 mt-2' style={{ backgroundImage: `url('image/anh_nen_3.jpg')` }}>
+        </div>
 
         <div className='my-20'>
           <ProductList />
         </div>
-
       </>
-
-
-
-
-      // <div className='grid grid-cols-2 px-10 m-auto gap-10 my-20' >
-
-      //   <ProductDetail />
-      //   <ListProdutcs />
-
-
-      // </div>
-
-
-
-    )
-
+    );
   }
-
 }

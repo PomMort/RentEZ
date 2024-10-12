@@ -26,7 +26,6 @@ function App() {
         <Route path='/' element={<MainLayout><Home /></MainLayout>} ></Route>
         <Route path='/Blog' element={<MainLayout><Blog /></MainLayout>} ></Route>
         <Route path='/Cart' element={<MainLayout><Cart /></MainLayout>} ></Route>
-        <Route path='/AboutUs' element={<MainLayout><AboutUs /></MainLayout>} ></Route>
         <Route path='/ContactUs' element={<MainLayout><Contactus /></MainLayout>} ></Route>
         <Route path='/Login' element={<LoginPage />}></Route>
         <Route path='/Register' element={<RegisterPage />}></Route>
