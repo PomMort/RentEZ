@@ -1,15 +1,31 @@
 import { faBell, faEnvelope, faHeart } from '@fortawesome/free-regular-svg-icons';
-import { faH, faPhone, faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
 const Navbar = () => {
   const location = useLocation();
+  
+  // State để theo dõi trạng thái đăng nhập của người dùng
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // State để quản lý việc mở/đóng menu thả xuống
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const getActiveClass = (path) => {
-    return location.pathname === (path) ? 'text-[#FFD154]' : 'text-white';
+    return location.pathname === path ? 'text-[#FFD154]' : 'text-white';
   };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false); // Đăng xuất người dùng
+    setIsMenuOpen(false); // Đóng menu sau khi đăng xuất
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen); // Đổi trạng thái menu khi click
+  };
+
   return (
     <header className='bg-gray-900 text-white'>
       <div className='flex justify-between items-center px-6 py-2 bg-gray-200 text-black'>
@@ -20,24 +36,41 @@ const Navbar = () => {
           <FontAwesomeIcon icon={faEnvelope} />
           <span className='text-sm font-text'>RentEzSupport@gmail.com</span>
         </div>
-        <div className='flex items-center space-x-4'>
-          <FontAwesomeIcon icon={faUser} className="text-black" />
-          <span className='font-text'>My account</span>
-
-
+        <div className='flex items-center space-x-4 relative'>
+          <div className="relative">
+            <div className="flex items-center cursor-pointer" onClick={toggleMenu}>
+              <FontAwesomeIcon icon={faUser} className="text-black" />
+              <span className='font-text ml-2'>My Account</span>
+            </div>
+            {isMenuOpen && (
+              <div className="absolute right-0 mt-2 bg-white text-black rounded-md shadow-lg w-40">
+                {isLoggedIn ? (
+                  <>
+                    <Link to="/myProfile" className="block px-4 py-2 text-sm hover:bg-gray-200" onClick={() => setIsMenuOpen(false)}>
+                      My Profile
+                    </Link>
+                    <button onClick={handleLogout} className="block px-4 py-2 text-sm w-full text-left hover:bg-gray-200">
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <Link to="/login" className="block px-4 py-2 text-sm hover:bg-gray-200" onClick={() => setIsMenuOpen(false)}>
+                    Login
+                  </Link>
+                )}
+              </div>
+            )}
+          </div>
           <FontAwesomeIcon icon={faBell} className="text-black" />
         </div>
       </div>
       <nav className="flex justify-between items-center px-8 py-4">
-        {/* Logo và Menu */}
         <div className="flex items-center space-x-8">
           <h1 className="text-3xl font-bold text-[#FFD700] font-logo">RentEZ</h1>
           <Link to="/" className={`${getActiveClass('/')} hover:text-gray-400 font-text`}>Home</Link>
-          <Link to="/AboutUs" className={`${getActiveClass('/AboutUs')} hover:text-gray-400 font-text`}>About us</Link>
           <Link to="/Blog" className={`${getActiveClass('/Blog')} hover:text-gray-400 font-text`}>Blog</Link>
           <Link to="/ContactUs" className={`${getActiveClass('/ContactUs')} hover:text-gray-400 font-text`}>Contact us</Link>
         </div>
-        {/* Search Box và Icons */}
         <div className="flex items-center space-x-4">
           <div className="flex">
             <input
@@ -56,6 +89,7 @@ const Navbar = () => {
         </div>
       </nav>
     </header>
-  )
-}
-export default Navbar
+  );
+};
+
+export default Navbar;
