@@ -1,14 +1,11 @@
-
-
-
-
 const initProductList = {
     productList: [],
     selectorProduct: {},
     cartList: [],
-    status: false
+    status: false,
+    isLoggedIn: false,
+    user: null
 }
-
 
 var Reducer = (state = initProductList, { type, payload }) => {
     switch (type) {
@@ -20,7 +17,6 @@ var Reducer = (state = initProductList, { type, payload }) => {
         case "SET_DATA":
             return {
                 ...state,
-                // status:false,
                 productList: payload.productList,
                 selectorProduct: payload.productList[0]
             }
@@ -28,7 +24,6 @@ var Reducer = (state = initProductList, { type, payload }) => {
             return {
                 ...state,
                 selectorProduct: payload
-
             }
         case "ADD_TO_CART":
             const existingProductIndex = state.cartList.findIndex(
@@ -37,8 +32,7 @@ var Reducer = (state = initProductList, { type, payload }) => {
             
             if (existingProductIndex !== -1) {
                 const updatedCartList = [...state.cartList];
-                updatedCartList[existingProductIndex].quantity +=
-                  payload.quantity;
+                updatedCartList[existingProductIndex].quantity += payload.quantity;
                 
                 return {
                     ...state,
@@ -50,40 +44,46 @@ var Reducer = (state = initProductList, { type, payload }) => {
                 return {
                     ...state,
                     cartList: updatedCartList
-                    
                 };
             }
             
-            case "CHANGE_QUANTITY":{
+        case "CHANGE_QUANTITY":{
+            const updatedCartList = state.cartList.map(c => {
+                return (
+                    c.product.id === payload.product.id ? 
+                    {...c, quantity: payload.quantity} :
+                    c
+                )
+            })
+            return {
+                ...state,
+                cartList: updatedCartList,
+            };
+        }
                 
-                    const updatedCartList = state.cartList.map(c =>{
-                        return(
-                             c.product.id === payload.product.id ? 
-                             {...c, quantity :payload.quantity} :
-                             c
-                        )
-                    })
-                    return {
-                        ...state,
-                        cartList: updatedCartList ,
-                    };
-               
+        case "REMOVE_PRODUCT":
+            const updatedCartList = state.cartList.filter(
+                (c) => c.product.id !== payload.product.id
+            );
+            return {
+                ...state,
+                cartList: updatedCartList
             }
-                
-            case "REMOVE_PRODUCT":
-                const updatedCartList = state.cartList.filter(
-                    (c) => c.product.id !== payload.product.id
-                );
-                return{
-                    ...state,
-                    cartList: updatedCartList
-                }
+        case "LOGIN_SUCCESS":
+            return {
+                ...state,
+                isLoggedIn: true,
+                user: payload
+            }
+        case "LOGOUT":
+            return {
+                ...state,
+                isLoggedIn: false,
+                user: null
+            }
         default:
             return state
     }
 }
-
-
-
 
 export default Reducer;

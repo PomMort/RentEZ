@@ -1,16 +1,16 @@
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faEnvelope, faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faPhone, faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.productListData.isLoggedIn);
+  const user = useSelector(state => state.productListData.user);
   
-  // State để theo dõi trạng thái đăng nhập của người dùng
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // State để quản lý việc mở/đóng menu thả xuống
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const getActiveClass = (path) => {
@@ -18,12 +18,13 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false); // Đăng xuất người dùng
-    setIsMenuOpen(false); // Đóng menu sau khi đăng xuất
+    dispatch({ type: "LOGOUT" });
+    setIsMenuOpen(false);
+    localStorage.removeItem('Auth');
   };
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen); // Đổi trạng thái menu khi click
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
@@ -40,7 +41,9 @@ const Navbar = () => {
           <div className="relative">
             <div className="flex items-center cursor-pointer" onClick={toggleMenu}>
               <FontAwesomeIcon icon={faUser} className="text-black" />
-              <span className='font-text ml-2'>My Account</span>
+              <span className='font-text ml-2'>
+                {isLoggedIn && user ? user.fullName : 'My Account'}
+              </span>
             </div>
             {isMenuOpen && (
               <div className="absolute right-0 mt-2 bg-white text-black rounded-md shadow-lg w-40">

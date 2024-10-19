@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import logo from '../Logo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
@@ -11,32 +12,27 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-
-
-
-
-
-
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        // Handle login logic here
-        axios.post("https://localhost:7085/api/auth/authentication", {
-            username: username,
-            password: password
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    localStorage.setItem('Auth', JSON.stringify(response.data));
-                    // console.log(response.data);
-                    navigate('/')
-                    toast.success('Login successfully')
-                } else {
-                    return null;
-                }
-            })
-            .catch((error) => {console.log(error)});
-        // console.log('Logging in with', { username, password });
+        try {
+            const response = await axios.post("https://localhost:7085/api/auth/authentication", {
+                username: username,
+                password: password
+            });
+
+            if (response.status === 200) {
+                const userData = response.data;
+                localStorage.setItem('Auth', JSON.stringify(userData));
+                dispatch({ type: "LOGIN_SUCCESS", payload: userData });
+                navigate('/');
+                toast.success('Login successfully');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            toast.error('Login failed. Please check your credentials.');
+        }
     };
 
     return (
@@ -49,7 +45,6 @@ const LoginPage = () => {
                 </div>
 
                 <form onSubmit={handleLogin}>
-                    {/* username Input */}
                     <p style={{
                         display: 'flex',
                         justifyContent: 'start',
@@ -68,7 +63,6 @@ const LoginPage = () => {
                         className="input"
                     />
 
-                    {/* Password Input */}
                     <p style={{
                         display: 'flex',
                         justifyContent: 'start',
@@ -96,10 +90,6 @@ const LoginPage = () => {
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </span>
                     </div>
-
-                    {/* <div className="forgot-password">
-                        <Link to="/">Forgot your Password?</Link>
-                    </div> */}
 
                     <button type="submit" className="login-button" style={{ marginTop: '30px' }}>
                         Login
