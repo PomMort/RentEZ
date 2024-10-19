@@ -30,7 +30,6 @@ function App() {
         <Route path='/Login' element={<LoginPage />}></Route>
         <Route path='/Register' element={<RegisterPage />}></Route>
         <Route path='/Detail/:id' element={<MainLayout><ProductsDetail /></MainLayout>}></Route>
-
       </Routes>
       <ToastContainer
         position="top-center"

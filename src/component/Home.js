@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { FaAngleRight } from "react-icons/fa";
 import ProductList from './ProductList';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Home() {
   // Comment lại phần useEffect và dispatch
-  // const { status } = useSelector((state) => state.productListData)
-  // const dispatch = useDispatch();
+  const { status } = useSelector((state) => state.productListData)
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch({ type: "GET_DATA" });
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch({ type: "GET_DATA" });
+  }, [dispatch]);
 
-  // Dữ liệu giả lập (fake data) cho mục đích kiểm thử
-  const status = true; // Giả sử dữ liệu đã sẵn sàng (có thể đặt false để kiểm thử trạng thái loading)
+  
 
   if (!status) {
     return (

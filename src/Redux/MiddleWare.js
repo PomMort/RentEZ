@@ -34,7 +34,7 @@ function* GetData() {
 }
 
 function* mySaga() {
-    yield takeLatest("GET_DATA", GetData) 
+    yield takeLatest("GET_DATA", GetData)
     // yield takeLatest("GET_DATA", GetData)
 }
 
