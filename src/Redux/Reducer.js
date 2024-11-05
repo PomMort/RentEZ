@@ -1,4 +1,4 @@
-import { saveCart } from "../util/common";
+import { getCart, saveCart } from "../util/common";
 
 const initProductList = {
 	productList: [],
@@ -77,11 +77,14 @@ var Reducer = (state = initProductList, { type, payload }) => {
 		}
 
 		case "CHANGE_QUANTITY": {
-			const updatedCartList = state.cartList.map((c) => {
-				return c.product.id === payload.product.id
-					? { ...c, quantity: payload.quantity }
-					: c;
-			});
+			const updatedCartList = [...state.cartList];
+
+			updatedCartList[payload?.shopIndex].products[
+				payload?.productIndex
+			].quantity += payload?.delta;
+
+			saveCart(updatedCartList);
+
 			return {
 				...state,
 				cartList: updatedCartList,
@@ -89,13 +92,33 @@ var Reducer = (state = initProductList, { type, payload }) => {
 		}
 
 		case "REMOVE_PRODUCT":
-			const updatedCartList = state.cartList.filter(
-				(c) => c.product.id !== payload.product.id
+			let updatedCartList = [...state.cartList];
+
+			updatedCartList[payload.shopIndex] = {
+				...updatedCartList[payload.shopIndex],
+				products: updatedCartList[payload.shopIndex].products.filter(
+					(_, index) => index !== payload.productIndex
+				),
+			};
+
+			updatedCartList = updatedCartList.filter(
+				(cartItem) => cartItem?.products?.length > 0
 			);
+
+			saveCart(updatedCartList);
+
 			return {
 				...state,
 				cartList: updatedCartList,
 			};
+		case "LOAD_CART": {
+			const cartData = getCart();
+
+			return {
+				...state,
+				cartList: cartData,
+			};
+		}
 		case "LOGIN_SUCCESS":
 			return {
 				...state,
