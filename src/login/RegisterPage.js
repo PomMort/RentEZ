@@ -1,121 +1,148 @@
-import React, { useState } from 'react';
-import './Register.css';
-import { Link } from 'react-router-dom';
-import logo from '../Logo.png';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import React, { useState } from "react";
+import "./Register.css";
+import { Link } from "react-router-dom";
+import logo from "../Logo.png";
+import { Button, TextField } from "@mui/material";
+import axiosInstace from "../util/axiosInstance";
+import { toast } from "react-toastify";
 
 const RegisterPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false); // State to toggle visibility
-    const [showNewPassword, setShowNewPassword] = useState(false); // For new password
+	const [info, setInfo] = useState({
+		userName: "",
+		fullName: "",
+		email: "",
+		phoneNumber: "",
+		password: "",
+		confirmPassword: "",
+		address: "",
+	});
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        // Handle login logic here
-        console.log('Registering with', { email, password, newPassword });
-    };
+	const handleSubmit = () => {
+		axiosInstace
+			.post("/api/auth/register", info)
+			.then((res) => {
+				if (res.statusCode === 200) {
+					toast.success(
+						"Đăng ký thành công! Hãy kiểm tra email để kích hoạt"
+					);
+					setInfo({
+						userName: "",
+						fullName: "",
+						email: "",
+						phoneNumber: "",
+						password: "",
+						confirmPassword: "",
+						address: "",
+					});
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
 
-    return (
-        <div className="login-container">
-            <div className="login-box">
-                <div className='Logo-center'>
-                    <h1>Welcome To</h1>
-                    <img src={logo} alt="Logo" className="logo" />
-                    <h2 style={{ fontFamily: 'cursive', fontWeight: 'bold' }}>RentEZ</h2>
-                </div>
+	return (
+		<div className='login-container'>
+			<div className='login-box'>
+				<div className='Logo-center'>
+					<h1>Welcome To</h1>
+					<img src={logo} alt='Logo' className='logo size-20' />
+					<h2 style={{ fontFamily: "cursive", fontWeight: "bold" }}>
+						RentEZ
+					</h2>
+				</div>
 
-                <form onSubmit={handleLogin}>
-                    {/* Email Input */}
-                    <p style={{
-                        display: 'flex',
-                        justifyContent: 'start',
-                        fontSize: '15px',
-                        marginBottom: '-10px',
-                        color: 'black'
-                    }}>
-                        Email:
-                    </p>
-                    <input
-                        type="email"
-                        placeholder="email@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        className="input"
-                    />
+				<div className='grid grid-cols-2 gap-5'>
+					<TextField
+						id='outlined-basic'
+						label='Username'
+						variant='outlined'
+						size='small'
+						value={info.userName}
+						onChange={(e) =>
+							setInfo({ ...info, userName: e.target.value })
+						}
+					/>
+					<TextField
+						id='outlined-basic'
+						label='Full Name'
+						variant='outlined'
+						size='small'
+						value={info.fullName}
+						onChange={(e) =>
+							setInfo({ ...info, fullName: e.target.value })
+						}
+					/>
+					<TextField
+						id='outlined-basic'
+						label='Email'
+						variant='outlined'
+						size='small'
+						value={info.email}
+						onChange={(e) => setInfo({ ...info, email: e.target.value })}
+					/>
+					<TextField
+						id='outlined-basic'
+						label='Phone number'
+						variant='outlined'
+						size='small'
+						value={info.phoneNumber}
+						onChange={(e) =>
+							setInfo({ ...info, phoneNumber: e.target.value })
+						}
+					/>
+					<TextField
+						id='outlined-basic'
+						label='Password'
+						variant='outlined'
+						size='small'
+						type='password'
+						value={info.password}
+						onChange={(e) =>
+							setInfo({ ...info, password: e.target.value })
+						}
+					/>
+					<TextField
+						id='outlined-basic'
+						label='Confirm password'
+						variant='outlined'
+						size='small'
+						type='password'
+						value={info.confirmPassword}
+						onChange={(e) =>
+							setInfo({ ...info, confirmPassword: e.target.value })
+						}
+					/>
+					<div className='col-span-2'>
+						<TextField
+							id='outlined-basic'
+							label='Address'
+							variant='outlined'
+							size='small'
+							value={info.address}
+							onChange={(e) =>
+								setInfo({ ...info, address: e.target.value })
+							}
+							sx={{ width: "100%" }}
+						/>
+					</div>
+				</div>
 
-                    {/* Password Input */}
-                    <p style={{
-                        display: 'flex',
-                        justifyContent: 'start',
-                        fontSize: '15px',
-                        marginBottom: '-9px',
-                        color: 'black',
-                        marginTop: '20px'
-                    }}>
-                        Password:
-                    </p>
-                    <div className="password-input-container">
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            placeholder="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            className="input"
-                        />
-                        <span
-                            className="password-toggle-icon"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                        </span>
-                    </div>
+				<div className='mt-8'>
+					<Button variant='contained' onClick={handleSubmit}>
+						Đăng ký
+					</Button>
+				</div>
 
-                    {/* New Password */}
-                    <p style={{
-                        display: 'flex',
-                        justifyContent: 'start',
-                        fontSize: '15px',
-                        marginBottom: '-10px',
-                        color: 'black',
-                        marginTop: '20px'
-                    }}>
-                        Enter new password:
-                    </p>
-                    <div className="password-input-container">
-                        <input
-                            type={showNewPassword ? "text" : "password"}
-                            placeholder="New password"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            required
-                            className="input"
-                        />
-                        <span
-                            className="password-toggle-icon"
-                            onClick={() => setShowNewPassword(!showNewPassword)}
-                        >
-                            {showNewPassword ? <FaEyeSlash /> : <FaEye />}
-                        </span>
-                    </div>
-
-                    <button type="submit" className="login-button" style={{marginTop:'20px'}}>
-                        Sign up
-                    </button>
-                </form>
-
-                <div className="signup-container">
-                    <span style={{ color: 'black' }}>Already have an account?</span>
-                    <Link to="/Login" className="signup-link">
-                        Sign In Here
-                    </Link>
-                </div>
-            </div>
-        </div>
-    );
+				<div className='signup-container'>
+					<span style={{ color: "black" }}>Already have an account?</span>
+					<Link to='/Login' className='signup-link'>
+						Sign In Here
+					</Link>
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default RegisterPage;

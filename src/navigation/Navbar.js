@@ -82,13 +82,22 @@ const Navbar = () => {
 										</button>
 									</>
 								) : (
-									<Link
-										to='/login'
-										className='block px-4 py-2 text-sm hover:bg-gray-200'
-										onClick={() => setIsMenuOpen(false)}
-									>
-										Login
-									</Link>
+									<>
+										<Link
+											to='/login'
+											className='block px-4 py-2 text-sm hover:bg-gray-200'
+											onClick={() => setIsMenuOpen(false)}
+										>
+											Login
+										</Link>
+										<Link
+											to='/Register'
+											className='block px-4 py-2 text-sm hover:bg-gray-200'
+											onClick={() => setIsMenuOpen(false)}
+										>
+											Register
+										</Link>
+									</>
 								)}
 							</div>
 						)}
