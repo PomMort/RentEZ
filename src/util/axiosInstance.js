@@ -1,13 +1,22 @@
 import axios from "axios";
+import { getUser } from "./common";
+import { domainBE } from "./constant";
 
 const axiosInstance = axios.create({
-	baseURL: "https://localhost:7085",
+	baseURL: domainBE,
 });
 
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
 	function (config) {
 		// Do something before request is sent
+		config.headers["Content-Type"] = "application/json-patch+json";
+
+		const user = getUser();
+		if (user) {
+			config.headers.Authorization = "Bearer " + user?.token;
+		}
+
 		return config;
 	},
 	function (error) {

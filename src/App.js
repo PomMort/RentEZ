@@ -12,8 +12,18 @@ import AboutUs from "./component/AboutUs";
 import Blog from "./component/Blog";
 import Contactus from "./component/Contactus";
 import ProductDetail from "./component/Product/ProductsDetail";
+import Order from "./component/Order/Order";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import OrderHandler from "./component/Order/OrderHandler";
 
 function App() {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch({ type: "LOAD_USER" });
+	}, [dispatch]);
+
 	return (
 		<>
 			<Routes>
@@ -46,6 +56,22 @@ function App() {
 					element={
 						<MainLayout>
 							<Contactus />
+						</MainLayout>
+					}
+				></Route>
+				<Route
+					path='/order'
+					element={
+						<MainLayout>
+							<Order />
+						</MainLayout>
+					}
+				></Route>
+				<Route
+					path='/order-handler'
+					element={
+						<MainLayout>
+							<OrderHandler />
 						</MainLayout>
 					}
 				></Route>

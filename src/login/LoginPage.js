@@ -22,10 +22,7 @@ const LoginPage = () => {
 				password: password,
 			});
 
-			console.log(response);
-
 			const userData = response;
-			localStorage.setItem("Auth", JSON.stringify(userData));
 			dispatch({ type: "LOGIN_SUCCESS", payload: userData });
 			navigate("/");
 			toast.success("Login successfully");

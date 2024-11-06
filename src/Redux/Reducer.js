@@ -1,9 +1,10 @@
-import { getCart, saveCart } from "../util/common";
+import { getCart, getUser, saveCart, saveUser } from "../util/common";
 
 const initProductList = {
 	productList: [],
 	selectorProduct: {},
 	cartList: [],
+	productsSelected: [], // Những sản phâm chọn để thanh toán
 	status: false,
 	isLoggedIn: false,
 	user: null,
@@ -22,12 +23,19 @@ var Reducer = (state = initProductList, { type, payload }) => {
 				productList: payload.productList,
 				selectorProduct: payload.productList[0],
 			};
-		case "SELECT_PRODUCT":
-			return {
-				...state,
-				selectorProduct: payload,
-			};
+		case "LOAD_USER":
+			const _user = getUser();
+			if (_user) {
+				return {
+					...state,
+					user: _user,
+					isLoggedIn: true,
+				};
+			}
+			return state;
 		case "ADD_TO_CART": {
+			console.log(payload);
+
 			const updatedCartList = [...state.cartList];
 			const existingShopIndex = updatedCartList.findIndex(
 				(shop) => shop.shopId === payload.product?.shopId
@@ -51,6 +59,9 @@ var Reducer = (state = initProductList, { type, payload }) => {
 					updatedCartList[existingShopIndex].products.push({
 						product: payload.product,
 						quantity: payload.quantity,
+						rentDateTime: payload.rentDateTime, // ngày bắt đầu thuê
+						returnDateTime: payload.returnDateTime, // ngày trả đồ
+						dayRent: payload.dayRent, // số ngày thuê
 					});
 				}
 			} else {
@@ -62,6 +73,9 @@ var Reducer = (state = initProductList, { type, payload }) => {
 						{
 							product: payload.product,
 							quantity: payload.quantity,
+							rentDateTime: payload.rentDateTime, // ngày bắt đầu thuê
+							returnDateTime: payload.returnDateTime, // ngày trả đồ
+							dayRent: payload.dayRent, // số ngày thuê
 						},
 					],
 				});
@@ -90,7 +104,6 @@ var Reducer = (state = initProductList, { type, payload }) => {
 				cartList: updatedCartList,
 			};
 		}
-
 		case "REMOVE_PRODUCT":
 			let updatedCartList = [...state.cartList];
 
@@ -111,6 +124,13 @@ var Reducer = (state = initProductList, { type, payload }) => {
 				...state,
 				cartList: updatedCartList,
 			};
+		case "REMOVE_ALL_PRODUCT": {
+			localStorage.removeItem("cart");
+			return {
+				...state,
+				cartList: [],
+			};
+		}
 		case "LOAD_CART": {
 			const cartData = getCart();
 
@@ -119,7 +139,31 @@ var Reducer = (state = initProductList, { type, payload }) => {
 				cartList: cartData,
 			};
 		}
+		case "PRODUCTS_PAYMENT": {
+			const productList = [];
+			state.cartList.forEach((cart) => {
+				cart?.products?.forEach((product, productIndex) => {
+					if (
+						payload?.productIdListSelected?.includes(product?.product?.id)
+					) {
+						productList.push(cart.products[productIndex]);
+					}
+				});
+			});
+
+			return {
+				...state,
+				productsSelected: productList,
+			};
+		}
+		case "REMOVE_PRODUCTS_PAYMENT": {
+			return {
+				...state,
+				productsSelected: [],
+			};
+		}
 		case "LOGIN_SUCCESS":
+			saveUser(payload);
 			return {
 				...state,
 				isLoggedIn: true,

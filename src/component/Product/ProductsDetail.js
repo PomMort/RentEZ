@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { FaCartPlus, FaHeart } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
-import { Grid2 } from "@mui/material";
+import { Grid2, MenuItem, Select } from "@mui/material";
 import axiosInstance from "../../util/axiosInstance";
 import ProductItem from "./ProductItem";
 import { useDispatch } from "react-redux";
+import { getFutureDate } from "../../util/common";
+import { toast } from "react-toastify";
 
 const ProductDetail = () => {
-	const [selectedColor, setSelectedColor] = useState("black");
-	const [selectedSize, setSelectedSize] = useState("M");
 	const [selectedTab, setSelectedTab] = useState("description"); // Quản lý tab hiện tại
 
 	const { id } = useParams();
 	const [product, setProduct] = useState();
 	const [relatedProduct, setRelatedProduct] = useState([]);
+	const [datesRent, setDatesRent] = useState([]); // render ra ngày cần thuê
+
+	const [dayRent, setDayRent] = useState(3); // số ngày thuê
+	const [dateRent, setDateRent] = useState(); // chọn này thuê
 
 	const dispatch = useDispatch();
 
@@ -41,11 +45,14 @@ const ProductDetail = () => {
 		}
 	}, [product]);
 
-	// Các màu có thể chọn
-	const colors = ["black", "green", "white"];
-
-	// Các kích thước có thể chọn
-	const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
+	useEffect(() => {
+		const dates = [];
+		[3, 4, 5].forEach((d) => {
+			dates.push(getFutureDate(new Date().toDateString(), d));
+		});
+		setDatesRent(dates);
+		setDateRent(dates[0]);
+	}, []);
 
 	// Hàm để chuyển tab nội dung
 	const renderContent = () => {
@@ -70,7 +77,17 @@ const ProductDetail = () => {
 	};
 
 	const handleAddCart = () => {
-		dispatch({ type: "ADD_TO_CART", payload: { product, quantity: 1 } });
+		toast.success("Đã thêm sản phẩm vào giỏ hàng");
+		dispatch({
+			type: "ADD_TO_CART",
+			payload: {
+				product,
+				quantity: 1,
+				rentDateTime: dateRent,
+				returnDateTime: getFutureDate(dateRent.isoDate, dayRent),
+				dayRent,
+			},
+		});
 	};
 
 	return (
@@ -101,41 +118,55 @@ const ProductDetail = () => {
 						</span>
 					</div>
 
-					{/* Màu sắc */}
 					<div className='mb-4'>
-						<p className='font-semibold'>Màu sắc: {selectedColor}</p>
+						<p className='font-semibold'>Số ngày thuê: {dayRent} ngày</p>
 						<div className='flex items-center gap-3 mt-2'>
-							{colors.map((color) => (
-								<button
-									key={color}
-									className={`w-8 h-8 rounded-full border ${selectedColor === color ? "ring-2 ring-yellow-500" : ""}`}
-									style={{ backgroundColor: color }}
-									onClick={() => setSelectedColor(color)}
-								/>
-							))}
+							<Select
+								labelId='demo-simple-select-label'
+								id='demo-simple-select'
+								value={dayRent}
+								onChange={(e) => setDayRent(e.target.value)}
+								size='small'
+							>
+								{Array(7)
+									.fill()
+									.map((_, index) => (
+										<MenuItem value={index + 1}>
+											{index + 1} ngày
+										</MenuItem>
+									))}
+							</Select>
 						</div>
 					</div>
 
-					{/* Kích thước */}
 					<div className='mb-4'>
-						<p className='font-semibold'>Kích thước:</p>
+						<p className='font-semibold'>Ngày thuê đồ:</p>
 						<div className='flex items-center gap-3 mt-2'>
-							{sizes.map((size) => (
-								<button
-									key={size}
-									className={`px-4 py-2 border rounded ${selectedSize === size ? "bg-gray-300" : "bg-white"}`}
-									onClick={() => setSelectedSize(size)}
-								>
-									{size}
-								</button>
-							))}
+							<Select
+								labelId='demo-simple-select-label'
+								id='demo-simple-select'
+								value={dateRent ? dateRent.isoDate : ""}
+								onChange={(e) => {
+									const selectedDate = datesRent.find(
+										(date) => date.isoDate === e.target.value
+									);
+									setDateRent(selectedDate);
+								}}
+								size='small'
+							>
+								{datesRent.map((date, index) => (
+									<MenuItem value={date.isoDate} key={index}>
+										{date.formattedDate}
+									</MenuItem>
+								))}
+							</Select>
 						</div>
 					</div>
 
 					{/* Ngày dự kiến */}
 					<div className='mb-4'>
 						<p className='font-semibold'>
-							Ngày giao hàng dự kiến: 5-7 ngày
+							Ngày giao hàng dự kiến: 3-5 ngày
 						</p>
 					</div>
 

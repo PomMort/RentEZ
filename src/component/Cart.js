@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MdDeleteOutline } from "react-icons/md";
 import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
-	const { cartList } = useSelector((state) => state.productListData);
+	const { cartList, isLoggedIn } = useSelector(
+		(state) => state.productListData
+	);
 	const [cart, setCart] = useState([]);
 
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		dispatch({ type: "LOAD_CART" });
@@ -69,6 +73,34 @@ const Cart = () => {
 				}, 0)
 			);
 		}, 0);
+	};
+
+	const handleClickPayment = () => {
+		if (!isLoggedIn) {
+			toast.info("Bạn cần đăng nhập để có thể thanh toán");
+			return;
+		}
+
+		const productIdListSelected = [];
+		cart.forEach((c) => {
+			c?.products?.forEach((product) => {
+				if (product.selected) {
+					productIdListSelected.push(product?.product?.id);
+				}
+			});
+		});
+
+		if (productIdListSelected.length === 0) {
+			toast.info("Phải chọn ít nhất 1 món đồ để thanh toán");
+			return;
+		}
+
+		dispatch({
+			type: "PRODUCTS_PAYMENT",
+			payload: { productIdListSelected },
+		});
+
+		navigate("/order");
 	};
 
 	return (
@@ -146,6 +178,19 @@ const Cart = () => {
 														<p className='text-gray-500'>
 															Tồn kho:{" "}
 															{product?.product?.quantity}
+														</p>
+														<p className='text-gray-500'>
+															Ngày thuê:{" "}
+															{
+																product?.rentDateTime
+																	?.formattedDate
+															}{" "}
+															-{" "}
+															{
+																product?.returnDateTime
+																	?.formattedDate
+															}{" "}
+															({product?.dayRent} ngày)
 														</p>
 													</div>
 												</td>
@@ -235,7 +280,10 @@ const Cart = () => {
 							<span className='mr-4 text-xl font-bold'>
 								Tổng thanh toán: {calculateTotal().toLocaleString()}đ
 							</span>
-							<button className='bg-yellow-400 text-white px-6 py-3 rounded hover:bg-yellow-500'>
+							<button
+								className='bg-yellow-400 text-white px-6 py-3 rounded hover:bg-yellow-500'
+								onClick={handleClickPayment}
+							>
 								Thanh toán
 							</button>
 						</div>
