@@ -16,6 +16,7 @@ import Order from "./component/Order/Order";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import OrderHandler from "./component/Order/OrderHandler";
+import ActiveAccountPage from "./login/ActiveAccountPage";
 
 function App() {
 	const dispatch = useDispatch();
@@ -77,6 +78,10 @@ function App() {
 				></Route>
 				<Route path='/Login' element={<LoginPage />}></Route>
 				<Route path='/Register' element={<RegisterPage />}></Route>
+				<Route
+					path='/active-account/:email/:username'
+					element={<ActiveAccountPage />}
+				></Route>
 				<Route
 					path='/Detail/:id'
 					element={

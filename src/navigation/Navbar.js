@@ -13,6 +13,7 @@ import {
 	faShoppingCart,
 	faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
 	const location = useLocation();
@@ -29,7 +30,7 @@ const Navbar = () => {
 	const handleLogout = () => {
 		dispatch({ type: "LOGOUT" });
 		setIsMenuOpen(false);
-		localStorage.removeItem("Auth");
+		toast.success("Logout Success");
 	};
 
 	const toggleMenu = () => {

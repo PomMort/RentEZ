@@ -170,6 +170,7 @@ var Reducer = (state = initProductList, { type, payload }) => {
 				user: payload,
 			};
 		case "LOGOUT":
+			localStorage.removeItem("user");
 			return {
 				...state,
 				isLoggedIn: false,
