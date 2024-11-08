@@ -69,7 +69,7 @@ const Navbar = () => {
 								{isLoggedIn ? (
 									<>
 										<Link
-											to='/myProfile'
+											to='/profile'
 											className='block px-4 py-2 text-sm hover:bg-gray-200'
 											onClick={() => setIsMenuOpen(false)}
 										>

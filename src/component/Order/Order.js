@@ -21,7 +21,8 @@ export default function Order() {
 	// Đây là biến sau khi calculate order (cũng là dữ liệu để cho vào tạo order)
 	const [orderInfo, setOrderInfo] = useState();
 
-	const [voucherSelected, setVoucherSelected] = useState(null);
+	const [voucherShipSelected, setVoucherShipSelected] = useState(null);
+	const [voucherRentSelected, setVoucherRentSelected] = useState(null);
 	const [note, setNote] = useState("");
 	const [informationUser, setInformationUser] = useState({
 		address: "",
@@ -31,9 +32,15 @@ export default function Order() {
 
 	// Fetch vouchers
 	useEffect(() => {
-		axiosInstance.get("/api/vouchers").then((res) => {
+		axiosInstance.get("/api/vouchers?Status=2").then((res) => {
 			if (res.statusCode === 200) {
-				setVouchers(res?.data?.items);
+				const vouchersResponse = res?.data?.items;
+				vouchersResponse?.sort((a, b) => {
+					if (a < b) return -1;
+					if (a > b) return 1;
+					return 0;
+				});
+				setVouchers(vouchersResponse);
 			}
 		});
 	}, []);
@@ -58,8 +65,11 @@ export default function Order() {
 			}),
 		};
 
-		if (voucherSelected) {
-			data = { ...data, voucherIds: [voucherSelected?.id] };
+		let voucherIds = [voucherRentSelected?.id, voucherShipSelected?.id];
+		voucherIds = voucherIds.filter((voucherId) => voucherId);
+
+		if (voucherIds.length > 0) {
+			data = { ...data, voucherIds };
 		}
 
 		axiosInstance
@@ -81,7 +91,7 @@ export default function Order() {
 			handleCalculate();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [voucherSelected, productsSelected]);
+	}, [voucherShipSelected, voucherRentSelected, productsSelected]);
 
 	const handlePayment = async () => {
 		if (
@@ -254,29 +264,59 @@ export default function Order() {
 						</button>
 					</div>
 					<hr className='my-5' />
-					{voucherSelected ? (
-						<div className='flex max-h-[116px] min-w-[500px] gap-3 bg-slate-50 rounded-lg overflow-hidden border-2 shadow-lg hover:opacity-90 w-fit h-fit'>
-							<img
-								src='https://cdn2.vectorstock.com/i/1000x1000/32/81/voucher-icon-coupon-and-gift-offer-discount-vector-7403281.jpg'
-								alt=''
-								className='h-[116px] object-cover'
-							/>
-							<div className='flex flex-col justify-between flex-1 p-3'>
-								<p className='text-wrap font-bold text-lg'>
-									{voucherSelected?.name}
-								</p>
-								<p className='text-wrap text-sm mt-1 max-w-[300px] text-[#6a6a6a]'>
-									{voucherSelected?.description}
-								</p>
-								<p className='text-[#ffa200] text-[14px] font-bold underline'>
-									<span>Giảm: </span>
-									{Number.isInteger(voucherSelected?.value)
-										? (voucherSelected?.value).toLocaleString() + "đ"
-										: voucherSelected?.value * 100 + "%"}
-								</p>
+					<div className='flex items-center justify-between'>
+						{voucherShipSelected && (
+							<div className='flex max-h-[116px] min-w-[500px] gap-3 bg-slate-50 rounded-lg overflow-hidden border-2 shadow-lg hover:opacity-90 w-fit h-fit'>
+								<img
+									src='https://img.pikbest.com/png-images/20210627/free-ship-free-nationwide_6010376.png!bw700'
+									alt=''
+									className='h-[116px] object-cover'
+								/>
+								<div className='flex flex-col justify-between flex-1 p-3'>
+									<p className='text-wrap font-bold text-lg'>
+										{voucherShipSelected?.name}
+									</p>
+									<p className='text-wrap text-sm mt-1 max-w-[300px] text-[#6a6a6a]'>
+										{voucherShipSelected?.description}
+									</p>
+									<p className='text-[#ffa200] text-[14px] font-bold underline'>
+										<span>Giảm: </span>
+										{Number.isInteger(voucherShipSelected?.value)
+											? (voucherShipSelected?.value).toLocaleString() +
+												"đ"
+											: voucherShipSelected?.value * 100 + "%"}
+									</p>
+								</div>
 							</div>
-						</div>
-					) : (
+						)}
+
+						{voucherRentSelected && (
+							<div className='flex max-h-[116px] min-w-[500px] gap-3 bg-slate-50 rounded-lg overflow-hidden border-2 shadow-lg hover:opacity-90 w-fit h-fit'>
+								<img
+									src='https://cdn2.vectorstock.com/i/1000x1000/32/81/voucher-icon-coupon-and-gift-offer-discount-vector-7403281.jpg'
+									alt=''
+									className='h-[116px] object-cover'
+								/>
+								<div className='flex flex-col justify-between flex-1 p-3'>
+									<p className='text-wrap font-bold text-lg'>
+										{voucherRentSelected?.name}
+									</p>
+									<p className='text-wrap text-sm mt-1 max-w-[300px] text-[#6a6a6a]'>
+										{voucherRentSelected?.description}
+									</p>
+									<p className='text-[#ffa200] text-[14px] font-bold underline'>
+										<span>Giảm: </span>
+										{Number.isInteger(voucherRentSelected?.value)
+											? (voucherRentSelected?.value).toLocaleString() +
+												"đ"
+											: voucherRentSelected?.value * 100 + "%"}
+									</p>
+								</div>
+							</div>
+						)}
+					</div>
+
+					{!voucherShipSelected && !voucherRentSelected && (
 						<div className='mt-5 text-gray-600 text-sm'>
 							Không có voucher nào được chọn
 						</div>
@@ -402,19 +442,27 @@ export default function Order() {
 									<input
 										type='radio'
 										id={voucher?.id}
-										name='voucher'
+										name={voucher?.type === "Ship" ? "Ship" : "Rent"}
 										value={voucher?.code}
-										onChange={() => setVoucherSelected(voucher)}
+										onChange={() =>
+											voucher?.type === "Ship"
+												? setVoucherShipSelected(voucher)
+												: setVoucherRentSelected(voucher)
+										}
 										className='hidden peer'
 									/>
 									<label
 										htmlFor={voucher?.id}
-										className='flex max-h-[116px] min-w-[500px] gap-3 bg-slate-50 rounded-lg overflow-hidden border-2 shadow-lg transition-colors peer-checked:border-yellow-500 peer-checked:bg-[#deb7364f] cursor-pointer hover:opacity-90 w-fit h-fit'
+										className={`flex max-h-[116px] min-w-[500px] gap-3 bg-slate-50 rounded-lg overflow-hidden border-2 shadow-lg transition-colors  cursor-pointer hover:opacity-90 w-fit h-fit ${voucher?.type === "Ship" ? " peer-checked:border-green-500 peer-checked:bg-[#3be52f4f] " : " peer-checked:border-yellow-500 peer-checked:bg-[#deb7364f] "}`}
 									>
 										<img
-											src='https://cdn2.vectorstock.com/i/1000x1000/32/81/voucher-icon-coupon-and-gift-offer-discount-vector-7403281.jpg'
+											src={
+												voucher?.type === "Ship"
+													? "https://img.pikbest.com/png-images/20210627/free-ship-free-nationwide_6010376.png!bw700"
+													: "https://cdn2.vectorstock.com/i/1000x1000/32/81/voucher-icon-coupon-and-gift-offer-discount-vector-7403281.jpg"
+											}
 											alt=''
-											className='h-[116px] object-cover'
+											className='size-28 object-cover'
 										/>
 										<div className='flex flex-col justify-between flex-1 p-3'>
 											<p className='text-wrap font-bold text-lg'>

@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import OrderHandler from "./component/Order/OrderHandler";
 import ActiveAccountPage from "./login/ActiveAccountPage";
+import UserProfile from "./component/Profile/UserProfile";
 
 function App() {
 	const dispatch = useDispatch();
@@ -57,6 +58,14 @@ function App() {
 					element={
 						<MainLayout>
 							<Contactus />
+						</MainLayout>
+					}
+				></Route>
+				<Route
+					path='/profile'
+					element={
+						<MainLayout>
+							<UserProfile />
 						</MainLayout>
 					}
 				></Route>
