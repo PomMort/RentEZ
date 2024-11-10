@@ -3,7 +3,6 @@ import Cart from "./component/Cart";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "./navigation/Footer";
 import Home from "./component/Home";
 import LoginPage from "./login/LoginPage";
 import RegisterPage from "./login/RegisterPage";
@@ -18,6 +17,11 @@ import { useEffect } from "react";
 import OrderHandler from "./component/Order/OrderHandler";
 import ActiveAccountPage from "./login/ActiveAccountPage";
 import UserProfile from "./component/Profile/UserProfile";
+import ManageLayout from "./layout/ManageLayout";
+import NavbarAdmin from "./Admin/NavbarAdmin";
+import Dashboard from "./Admin/Dashboard/Dashboard";
+import ManageUsers from "./Admin/Users/ManageUsers";
+import ManageCategories from "./Admin/Categories/ManageCategories";
 
 function App() {
 	const dispatch = useDispatch();
@@ -99,6 +103,32 @@ function App() {
 						</MainLayout>
 					}
 				></Route>
+
+				{/* ADMIN */}
+				<Route
+					path='/admin/dashboard'
+					element={
+						<ManageLayout navbar={<NavbarAdmin />}>
+							<Dashboard />
+						</ManageLayout>
+					}
+				></Route>
+				<Route
+					path='/admin/manage-users'
+					element={
+						<ManageLayout navbar={<NavbarAdmin />}>
+							<ManageUsers />
+						</ManageLayout>
+					}
+				></Route>
+				<Route
+					path='/admin/manage-categories'
+					element={
+						<ManageLayout navbar={<NavbarAdmin />}>
+							<ManageCategories />
+						</ManageLayout>
+					}
+				></Route>
 			</Routes>
 			<ToastContainer
 				position='top-center'
@@ -112,7 +142,6 @@ function App() {
 				pauseOnHover
 				theme='light'
 			/>
-			<Footer />
 		</>
 	);
 }
