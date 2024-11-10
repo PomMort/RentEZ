@@ -22,6 +22,13 @@ import NavbarAdmin from "./Admin/NavbarAdmin";
 import Dashboard from "./Admin/Dashboard/Dashboard";
 import ManageUsers from "./Admin/Users/ManageUsers";
 import ManageCategories from "./Admin/Categories/ManageCategories";
+import ManageVouchers from "./Admin/Vouchers/ManageVouchers";
+import ManageShops from "./Admin/Shops/ManageShops";
+import ManageProducts from "./Shopkeeper/Products/ManageProducts";
+import ManageOrders from "./Shopkeeper/Orders/ManageOrders";
+import ManageVouchersShop from "./Shopkeeper/Vouchers/ManageVouchers";
+import DashboardShop from "./Shopkeeper/Dashboard/Dashboard";
+import NavbarShop from "./Shopkeeper/NavbarShop";
 
 function App() {
 	const dispatch = useDispatch();
@@ -40,7 +47,7 @@ function App() {
 							<Home />
 						</MainLayout>
 					}
-				></Route>
+				/>
 				<Route
 					path='/Blog'
 					element={
@@ -48,7 +55,7 @@ function App() {
 							<Blog />
 						</MainLayout>
 					}
-				></Route>
+				/>
 				<Route
 					path='/Cart'
 					element={
@@ -56,7 +63,7 @@ function App() {
 							<Cart />
 						</MainLayout>
 					}
-				></Route>
+				/>
 				<Route
 					path='/ContactUs'
 					element={
@@ -64,7 +71,7 @@ function App() {
 							<Contactus />
 						</MainLayout>
 					}
-				></Route>
+				/>
 				<Route
 					path='/profile'
 					element={
@@ -72,7 +79,7 @@ function App() {
 							<UserProfile />
 						</MainLayout>
 					}
-				></Route>
+				/>
 				<Route
 					path='/order'
 					element={
@@ -80,7 +87,7 @@ function App() {
 							<Order />
 						</MainLayout>
 					}
-				></Route>
+				/>
 				<Route
 					path='/order-handler'
 					element={
@@ -88,13 +95,13 @@ function App() {
 							<OrderHandler />
 						</MainLayout>
 					}
-				></Route>
-				<Route path='/Login' element={<LoginPage />}></Route>
-				<Route path='/Register' element={<RegisterPage />}></Route>
+				/>
+				<Route path='/Login' element={<LoginPage />} />
+				<Route path='/Register' element={<RegisterPage />} />
 				<Route
 					path='/active-account/:email/:username'
 					element={<ActiveAccountPage />}
-				></Route>
+				/>
 				<Route
 					path='/Detail/:id'
 					element={
@@ -102,9 +109,9 @@ function App() {
 							<ProductDetail />
 						</MainLayout>
 					}
-				></Route>
+				/>
 
-				{/* ADMIN */}
+				{/*=================== ADMIN ===================*/}
 				<Route
 					path='/admin/dashboard'
 					element={
@@ -112,7 +119,7 @@ function App() {
 							<Dashboard />
 						</ManageLayout>
 					}
-				></Route>
+				/>
 				<Route
 					path='/admin/manage-users'
 					element={
@@ -120,7 +127,7 @@ function App() {
 							<ManageUsers />
 						</ManageLayout>
 					}
-				></Route>
+				/>
 				<Route
 					path='/admin/manage-categories'
 					element={
@@ -128,7 +135,57 @@ function App() {
 							<ManageCategories />
 						</ManageLayout>
 					}
-				></Route>
+				/>
+				<Route
+					path='/admin/manage-vouchers'
+					element={
+						<ManageLayout navbar={<NavbarAdmin />}>
+							<ManageVouchers />
+						</ManageLayout>
+					}
+				/>
+				<Route
+					path='/admin/manage-shops'
+					element={
+						<ManageLayout navbar={<NavbarAdmin />}>
+							<ManageShops />
+						</ManageLayout>
+					}
+				/>
+
+				{/*=================== SHOP OWNER ===================*/}
+				<Route
+					path='/shop/dashboard'
+					element={
+						<ManageLayout navbar={<NavbarShop />}>
+							<DashboardShop />
+						</ManageLayout>
+					}
+				/>
+				<Route
+					path='/shop/manage-products'
+					element={
+						<ManageLayout navbar={<NavbarShop />}>
+							<ManageProducts />
+						</ManageLayout>
+					}
+				/>
+				<Route
+					path='/shop/manage-orders'
+					element={
+						<ManageLayout navbar={<NavbarShop />}>
+							<ManageOrders />
+						</ManageLayout>
+					}
+				/>
+				<Route
+					path='/shop/manage-vouchers'
+					element={
+						<ManageLayout navbar={<NavbarShop />}>
+							<ManageVouchersShop />
+						</ManageLayout>
+					}
+				/>
 			</Routes>
 			<ToastContainer
 				position='top-center'
