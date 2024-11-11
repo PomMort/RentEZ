@@ -180,7 +180,7 @@ const Cart = () => {
 															{product?.product?.quantity}
 														</p>
 														<p className='text-gray-500'>
-															Ngày thuê:{" "}
+															Ngày nhận:{" "}
 															{
 																product?.rentDateTime
 																	?.formattedDate
@@ -272,10 +272,10 @@ const Cart = () => {
 						</tbody>
 					</table>
 
-					<div className='mt-6 flex justify-between items-center'>
-						<button className='bg-red-500 text-white px-4 py-2 rounded'>
+					<div className='mt-6 flex flex-row-reverse justify-between items-center'>
+						{/* <button className='bg-red-500 text-white px-4 py-2 rounded'>
 							Xóa sản phẩm không hoạt động
-						</button>
+						</button> */}
 						<div className='flex items-center'>
 							<span className='mr-4 text-xl font-bold'>
 								Tổng thanh toán: {calculateTotal().toLocaleString()}đ

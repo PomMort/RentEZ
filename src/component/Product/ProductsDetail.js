@@ -114,7 +114,7 @@ const ProductDetail = () => {
 					{/* Giá sản phẩm */}
 					<div className='flex items-center mb-4'>
 						<span className='text-red-500 text-2xl font-bold mr-4'>
-							{product?.price}đ
+							{product?.price.toLocaleString()}đ
 						</span>
 					</div>
 
@@ -140,7 +140,7 @@ const ProductDetail = () => {
 					</div>
 
 					<div className='mb-4'>
-						<p className='font-semibold'>Ngày thuê đồ:</p>
+						<p className='font-semibold'>Ngày nhận đồ:</p>
 						<div className='flex items-center gap-3 mt-2'>
 							<Select
 								labelId='demo-simple-select-label'
