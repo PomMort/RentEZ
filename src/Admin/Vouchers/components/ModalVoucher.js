@@ -13,7 +13,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import dayjs from "dayjs";
-
+import axiosInstance from "../../../util/axiosInstance";
+import { toast } from "react-toastify";
 export default function ModalVoucher({
 	openModalAdd,
 	setOpenModalAdd,
@@ -21,7 +22,7 @@ export default function ModalVoucher({
 	_voucher,
 }) {
 	const [voucher, setVoucher] = useState({
-		shopId: null,
+		// shopId: null,
 		code: "",
 		name: "",
 		value: 0,
@@ -38,7 +39,7 @@ export default function ModalVoucher({
 		if (_voucher) {
 			const startDate = dayjs(_voucher?.startDate);
 			const endDate = dayjs(_voucher?.endDate);
-			const type = _voucher?.type === "Ship" ? 1 : 2;
+			const type = _voucher?.type === "Ship" ? 2 : 1;
 			const valueType = _voucher?.valueType === "Percent" ? 1 : 2;
 
 			setVoucher({ ..._voucher, startDate, endDate, type, valueType });
@@ -47,15 +48,38 @@ export default function ModalVoucher({
 
 	const handleSubmit = () => {
 		const data = { ...voucher };
-		data.startDate = data.startDate.format();
-		data.endDate = data.endDate.format();
-
-		console.log(data);
-
+		data.startDate = data?.startDate?.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
+		data.endDate = data?.endDate?.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
+		data.value = +data.value;
 		// EDIT
 		if (_voucher) {
+			axiosInstance
+				.put("/api/vouchers", data)
+				.then((res) => {
+					if (res.statusCode === 200) {
+						toast.success("Cập nhật voucher thành công");
+						setReRender((prev) => !prev);
+						setOpenModalAdd(false);
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					toast.error("Có lỗi xảy ra");
+				});
 		} else {
-			// ADD
+			axiosInstance
+				.post("/api/vouchers", data)
+				.then((res) => {
+					if (res.statusCode === 200) {
+						toast.success("Thêm voucher thành công");
+						setReRender((prev) => !prev);
+						setOpenModalAdd(false);
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					toast.error("Có lỗi xảy ra");
+				});
 		}
 	};
 
@@ -107,8 +131,8 @@ export default function ModalVoucher({
 									setVoucher({ ...voucher, type: e.target.value })
 								}
 							>
-								<MenuItem value={1}>Ship</MenuItem>
-								<MenuItem value={2}>Rent</MenuItem>
+								<MenuItem value={1}>Rent</MenuItem>
+								<MenuItem value={2}>Ship</MenuItem>
 							</Select>
 						</FormControl>
 						<FormControl fullWidth>

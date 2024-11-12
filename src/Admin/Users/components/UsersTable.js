@@ -28,8 +28,8 @@ export default function UsersTable({ users, setReRender }) {
 			headerName: "Hành động",
 			renderCell: (params) => (
 				<div className='text-2xl flex items-center justify-center gap-3 h-full'>
-					<MdOutlineModeEdit className='text-[#418dff] cursor-pointer' />
-					<MdDeleteOutline className='text-red-600 cursor-pointer' />
+					{/* <MdOutlineModeEdit className='text-[#418dff] cursor-pointer' />
+					<MdDeleteOutline className='text-red-600 cursor-pointer' /> */}
 				</div>
 			),
 		},
