@@ -102,9 +102,15 @@ const LoginPage = () => {
 				</form>
 
 				<div className='signup-container'>
-					<span style={{ color: "black" }}>Don't have an account?</span>
-					<Link to='/register' className='signup-link'>
-						Sign Up Here
+					<span style={{ color: "black" }}>Don't have an account ?</span>
+					<Link
+						to='/register'
+						className='signup-link '>
+						User Account
+					</Link>
+					<p>or</p>
+					<Link to='/RegisterShop' className='signup-link'>
+						Shopper Account
 					</Link>
 				</div>
 			</div>

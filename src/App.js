@@ -7,7 +7,6 @@ import Home from "./component/Home";
 import LoginPage from "./login/LoginPage";
 import RegisterPage from "./login/RegisterPage";
 import MainLayout from "./layout/MainLayout";
-import AboutUs from "./component/AboutUs";
 import Blog from "./component/Blog";
 import Contactus from "./component/Contactus";
 import ProductDetail from "./component/Product/ProductsDetail";
@@ -29,6 +28,7 @@ import ManageOrders from "./Shopkeeper/Orders/ManageOrders";
 import ManageVouchersShop from "./Shopkeeper/Vouchers/ManageVouchers";
 import DashboardShop from "./Shopkeeper/Dashboard/Dashboard";
 import NavbarShop from "./Shopkeeper/NavbarShop";
+import RegisterShopper from "./login/RegisterShopper";
 
 function App() {
 	const dispatch = useDispatch();
@@ -98,6 +98,7 @@ function App() {
 				/>
 				<Route path='/Login' element={<LoginPage />} />
 				<Route path='/Register' element={<RegisterPage />} />
+				<Route path='/RegisterShop' element={<RegisterShopper />} />
 				<Route
 					path='/active-account/:email/:username'
 					element={<ActiveAccountPage />}

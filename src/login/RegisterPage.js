@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import "./Register.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../Logo.png";
 import { Button, TextField } from "@mui/material";
 import axiosInstace from "../util/axiosInstance";
 import { toast } from "react-toastify";
 
 const RegisterPage = () => {
+
+	const navigate = useNavigate();
+
 	const [info, setInfo] = useState({
 		userName: "",
 		fullName: "",
@@ -34,6 +37,7 @@ const RegisterPage = () => {
 						confirmPassword: "",
 						address: "",
 					});
+					navigate(`/active-account/${info.email}/${info.userName}`)
 				}
 			})
 			.catch((err) => {
