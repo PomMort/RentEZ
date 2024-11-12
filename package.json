@@ -13,10 +13,7 @@
 		"@mui/material": "^6.1.6",
 		"@mui/x-data-grid": "^7.22.2",
 		"@mui/x-date-pickers": "^7.22.2",
-<<<<<<< HEAD
 		"@mui/x-date-pickers-pro": "^7.22.2",
-=======
->>>>>>> 3f99ad917ebd4c50cd226263f5c26253c1503997
 		"@testing-library/jest-dom": "^5.17.0",
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",
