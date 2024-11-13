@@ -75,6 +75,24 @@ const Navbar = () => {
 										>
 											My Profile
 										</Link>
+										{user?.role.includes("ShopOwner") && (
+											<Link
+												to='/shop/dashboard'
+												className='block px-4 py-2 text-sm hover:bg-gray-200'
+												onClick={() => setIsMenuOpen(false)}
+											>
+												Manage Shop
+											</Link>
+										)}
+										{user?.role.includes("Admin") && (
+											<Link
+												to='/admin/dashboard'
+												className='block px-4 py-2 text-sm hover:bg-gray-200'
+												onClick={() => setIsMenuOpen(false)}
+											>
+												Manage Admin
+											</Link>
+										)}
 										<button
 											onClick={handleLogout}
 											className='block px-4 py-2 text-sm w-full text-left hover:bg-gray-200'

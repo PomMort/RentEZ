@@ -1,5 +1,5 @@
 import { Button, Modal, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axiosInstance from "../../../util/axiosInstance";
 
@@ -7,9 +7,15 @@ export default function ModalCategory({
 	openModalAdd,
 	setOpenModalAdd,
 	setReRender,
+	category,
 }) {
 	const [categoryName, setCategoryName] = useState();
 	const [description, setDescription] = useState();
+
+	useEffect(() => {
+		if (category) {
+		}
+	}, [category]);
 
 	const handleSubmit = () => {
 		if (!categoryName || !description) {
@@ -17,19 +23,23 @@ export default function ModalCategory({
 			return;
 		}
 
-		axiosInstance
-			.post("/api/categories", { categoryName, description })
-			.then((res) => {
-				if (res.statusCode === 200) {
-					toast.success("Thêm mới thành công");
-					setReRender((prev) => !prev);
-					setOpenModalAdd(false);
-				}
-			})
-			.catch((err) => {
-				console.log(err);
-				toast.error(err.Message);
-			});
+		if (!category) {
+			axiosInstance
+				.post("/api/categories", { categoryName, description })
+				.then((res) => {
+					if (res.statusCode === 200) {
+						toast.success("Thêm mới thành công");
+						setReRender((prev) => !prev);
+						setOpenModalAdd(false);
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					toast.error(err.Message);
+				});
+		} else {
+			// EDIT
+		}
 	};
 
 	return (

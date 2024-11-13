@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { domainFE } from "../../util/constant";
+import { saveOrderId } from "../../util/common";
 
 export default function Order() {
 	const dispatch = useDispatch();
@@ -133,6 +134,8 @@ export default function Order() {
 			toast.error("Không thể tạo mã QRCode");
 			return;
 		}
+
+		saveOrderId(orderId);
 
 		window.location.href = responsePayment?.data?.checkoutUrl;
 	};

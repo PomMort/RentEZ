@@ -14,6 +14,14 @@ export const getUser = () => {
 	return JSON.parse(localStorage.getItem("user")) || null;
 };
 
+export const saveOrderId = (orderId) => {
+	localStorage.setItem("order", JSON.stringify(orderId));
+};
+
+export const getOrderId = () => {
+	return JSON.parse(localStorage.getItem("order")) || null;
+};
+
 // dateString: ngày hiện tại
 // numberOfDaysLater: tính toán sau ngày dateString
 // VD: (06/11/2024, 3) => thì sẽ tính toán => trả về 09/11/2024
