@@ -3,9 +3,9 @@ import axiosInstance from "../util/axiosInstance";
 
 //Call API
 const getProducts = async () => {
-	const res = await axiosInstance.get("/api/products/category");
+	const res = await axiosInstance.get("/api/products/category/shop");
 	if (res.statusCode === 200) {
-		return res.data;
+		return res.data.items;
 	} else {
 		return null;
 	}

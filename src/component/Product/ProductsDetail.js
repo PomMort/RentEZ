@@ -34,10 +34,12 @@ const ProductDetail = () => {
 	useEffect(() => {
 		if (product?.categoryId) {
 			axiosInstance
-				.get(`/api/products/category?categoryId=${product?.categoryId}`)
+				.get(
+					`/api/products/category/shop?categoryId=${product?.categoryId}`
+				)
 				.then((res) => {
 					if (res.statusCode === 200) {
-						setRelatedProduct(res.data);
+						setRelatedProduct(res.data.items);
 					} else {
 						console.log(res);
 					}
