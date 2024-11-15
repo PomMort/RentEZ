@@ -3,6 +3,7 @@ import { Box, Tab } from "@mui/material";
 import React from "react";
 import ChangePassword from "./ChangePassword";
 import Profile from "./Profile";
+import OrderHistory from "./OrderHistory/OrderHistory";
 
 export default function UserProfile() {
 	const [tab, setTab] = React.useState("1");
@@ -28,7 +29,9 @@ export default function UserProfile() {
 					<TabPanel value='2'>
 						<ChangePassword></ChangePassword>
 					</TabPanel>
-					<TabPanel value='3'>Item Three</TabPanel>
+					<TabPanel value='3'>
+						<OrderHistory></OrderHistory>
+					</TabPanel>
 				</TabContext>
 			</Box>
 		</div>

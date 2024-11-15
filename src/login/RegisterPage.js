@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import "./Register.css";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../Logo.png";
-import { Button, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import axiosInstace from "../util/axiosInstance";
 import { toast } from "react-toastify";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const RegisterPage = () => {
-
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
 
 	const [info, setInfo] = useState({
 		userName: "",
@@ -21,6 +22,19 @@ const RegisterPage = () => {
 	});
 
 	const handleSubmit = () => {
+		if (
+			info.userName === "" ||
+			info.fullName === "" ||
+			info.email === "" ||
+			info.phoneNumber === "" ||
+			info.password === "" ||
+			info.address === ""
+		) {
+			toast.info("Vui lòng nhập đầy đủ các trường");
+			return;
+		}
+
+		setLoading(true);
 		axiosInstace
 			.post("/api/auth/register", info)
 			.then((res) => {
@@ -37,11 +51,14 @@ const RegisterPage = () => {
 						confirmPassword: "",
 						address: "",
 					});
-					navigate(`/active-account/${info.email}/${info.userName}`)
+					setLoading(false);
+					navigate(`/active-account/${info.email}/${info.userName}`);
 				}
 			})
 			.catch((err) => {
 				console.log(err);
+				setLoading(false);
+				toast.error(err?.Message);
 			});
 	};
 
@@ -133,9 +150,13 @@ const RegisterPage = () => {
 				</div>
 
 				<div className='mt-8'>
-					<Button variant='contained' onClick={handleSubmit}>
+					<LoadingButton
+						loading={loading}
+						variant='contained'
+						onClick={handleSubmit}
+					>
 						Đăng ký
-					</Button>
+					</LoadingButton>
 				</div>
 
 				<div className='signup-container'>

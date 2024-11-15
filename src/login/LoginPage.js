@@ -28,7 +28,7 @@ const LoginPage = () => {
 			toast.success("Login successfully");
 		} catch (error) {
 			console.error("Login error:", error);
-			toast.error("Login failed. Please check your credentials.");
+			toast.error(error?.Message);
 		}
 	};
 
@@ -103,9 +103,7 @@ const LoginPage = () => {
 
 				<div className='signup-container'>
 					<span style={{ color: "black" }}>Don't have an account ?</span>
-					<Link
-						to='/register'
-						className='signup-link '>
+					<Link to='/register' className='signup-link '>
 						User Account
 					</Link>
 					<p>or</p>

@@ -1,7 +1,6 @@
 import { Avatar } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { FaCheck } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
 import React from "react";
 import axiosInstance from "../../../util/axiosInstance";
 import { toast } from "react-toastify";
@@ -37,7 +36,6 @@ export default function ShopTable({ shops, type, setReRender }) {
 							className='text-green-500 cursor-pointer'
 							onClick={() => handleApprove(params?.row?.id)}
 						/>
-						<ImCross className='text-red-500 cursor-pointer' />
 					</div>
 				);
 			},

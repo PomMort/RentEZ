@@ -12,10 +12,10 @@ export default function ManageShops() {
 
 	useEffect(() => {
 		axiosInstance
-			.get("/api/shops")
+			.get("/api/shops?IsVerified=true")
 			.then((res) => {
 				if (res?.statusCode === 200) {
-					setShop(res?.data);
+					setShop(res?.data?.items);
 				}
 			})
 			.catch((err) => {
