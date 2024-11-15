@@ -9,11 +9,16 @@ export default function ModalCategory({
 	setReRender,
 	category,
 }) {
-	const [categoryName, setCategoryName] = useState();
-	const [description, setDescription] = useState();
+	const [categoryName, setCategoryName] = useState("");
+	const [description, setDescription] = useState("");
 
 	useEffect(() => {
 		if (category) {
+			setCategoryName(category?.categoryName);
+			setDescription(category?.description);
+		} else {
+			setCategoryName("");
+			setDescription("");
 		}
 	}, [category]);
 
@@ -36,9 +41,26 @@ export default function ModalCategory({
 				.catch((err) => {
 					console.log(err);
 					toast.error(err.Message);
+					toast.error(err?.errors?.CategoryName?.[0]);
 				});
 		} else {
-			// EDIT
+			axiosInstance
+				.put(`/api/categories/${category?.id}`, {
+					categoryName,
+					description,
+				})
+				.then((res) => {
+					if (res.statusCode === 200) {
+						toast.success("Cập nhật thành công");
+						setReRender((prev) => !prev);
+						setOpenModalAdd(false);
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					toast.error(err.Message);
+					toast.error(err?.errors?.CategoryName?.[0]);
+				});
 		}
 	};
 
@@ -70,7 +92,7 @@ export default function ModalCategory({
 							onChange={(e) => setDescription(e.target.value)}
 						/>
 						<Button variant='contained' onClick={handleSubmit}>
-							Thêm
+							{!category ? "Thêm" : "Cập nhật"}
 						</Button>
 					</div>
 				</div>

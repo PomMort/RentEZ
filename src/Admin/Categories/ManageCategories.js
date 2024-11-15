@@ -15,10 +15,7 @@ export default function ManageCategories() {
 			.get("/api/categories")
 			.then((res) => {
 				if (res.statusCode === 200) {
-					const formatData = res.data.map((c, index) => {
-						return { ...c, id: index + 1 };
-					});
-					setCategories(formatData);
+					setCategories(res?.data);
 				}
 			})
 			.catch((err) => {
