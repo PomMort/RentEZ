@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Register.css";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../Logo.png";
@@ -6,11 +6,12 @@ import { TextField } from "@mui/material";
 import axiosInstace from "../util/axiosInstance";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { useSelector } from "react-redux";
 
 const RegisterPage = () => {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
-
+	const { isLoggedIn } = useSelector((state) => state.productListData);
 	const [info, setInfo] = useState({
 		userName: "",
 		fullName: "",
@@ -20,6 +21,12 @@ const RegisterPage = () => {
 		confirmPassword: "",
 		address: "",
 	});
+
+	useEffect(() => {
+		if (isLoggedIn) {
+			navigate("/");
+		}
+	}, [isLoggedIn, navigate]);
 
 	const handleSubmit = () => {
 		if (

@@ -5,23 +5,35 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-export default function ManageLayout({ children, navbar }) {
+export default function ManageLayout({ children, isAdmin, navbar }) {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const isLoggedIn = useSelector((state) => state.productListData.isLoggedIn);
 	const user = useSelector((state) => state.productListData.user);
 
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 	const handleLogout = () => {
 		dispatch({ type: "LOGOUT" });
 		setIsMenuOpen(false);
 		toast.success("Logout Success");
-		navigate("/");
+		navigate("/Login");
 	};
 
 	const toggleMenu = () => {
 		setIsMenuOpen(!isMenuOpen);
 	};
+
+	if (!user || !user?.role?.includes(isAdmin ? "Admin" : "ShopOwner")) {
+		if (!isLoggedIn) {
+			navigate("/Login");
+		} else if (!user?.role?.includes(isAdmin ? "Admin" : "ShopOwner")) {
+			toast.info("Bạn không có quyền");
+			navigate("/");
+		}
+		return <></>;
+	}
+
 	return (
 		<div>
 			<div className='shadow-lg'>

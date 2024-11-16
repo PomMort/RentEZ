@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faBell,
@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 const Navbar = () => {
 	const location = useLocation();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const isLoggedIn = useSelector((state) => state.productListData.isLoggedIn);
 	const user = useSelector((state) => state.productListData.user);
 
@@ -31,6 +32,7 @@ const Navbar = () => {
 		dispatch({ type: "LOGOUT" });
 		setIsMenuOpen(false);
 		toast.success("Logout Success");
+		navigate("/Login");
 	};
 
 	const toggleMenu = () => {

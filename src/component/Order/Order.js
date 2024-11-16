@@ -114,8 +114,9 @@ export default function Order() {
 			.post("/api/orders", data)
 			.catch((err) => {
 				console.log(err);
+				toast.error(err?.Message);
 			});
-		if (responseCreateOrder.statusCode !== 200) {
+		if (responseCreateOrder?.statusCode !== 200) {
 			toast.error("Thanh toán thất bại");
 			return;
 		}
