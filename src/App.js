@@ -30,6 +30,7 @@ import DashboardShop from "./Shopkeeper/Dashboard/Dashboard";
 import NavbarShop from "./Shopkeeper/NavbarShop";
 import RegisterShopper from "./login/RegisterShopper";
 import RouteForLogin from "./layout/RouteForLogin";
+import ResetPassword from "./login/ResetPassword";
 
 function App() {
 	const dispatch = useDispatch();
@@ -110,6 +111,7 @@ function App() {
 					path='/active-account/:email/:username'
 					element={<ActiveAccountPage />}
 				/>
+				<Route path='/reset-password' element={<ResetPassword />} />
 				<Route
 					path='/Detail/:id'
 					element={

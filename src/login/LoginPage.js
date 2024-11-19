@@ -120,11 +120,14 @@ const LoginPage = () => {
 					<Link to='/register' className='signup-link '>
 						User Account
 					</Link>
-					<p>or</p>
+					{/* <p>or</p>
 					<Link to='/RegisterShop' className='signup-link'>
 						Shopper Account
-					</Link>
+					</Link> */}
 				</div>
+				<Link to='/reset-password' className='signup-link'>
+					Reset Password
+				</Link>
 			</div>
 		</div>
 	);
