@@ -124,7 +124,7 @@ export default function Order() {
 		const orderId = responseCreateOrder.data.split(" ")[1];
 
 		const responsePayment = await axiosInstance.post(
-			"/api/payments/payos/payment-url",
+			"/api/payments/payos/customer/payment-url",
 			{
 				orderId,
 				cancelUrl: domainFE + "/order-handler",

@@ -29,7 +29,7 @@ import ManageVouchersShop from "./Shopkeeper/Vouchers/ManageVouchers";
 import DashboardShop from "./Shopkeeper/Dashboard/Dashboard";
 import NavbarShop from "./Shopkeeper/NavbarShop";
 import RegisterShopper from "./login/RegisterShopper";
-import RouteForLogin from "./layout/RouteForLogin";
+// import RouteForLogin from "./layout/RouteForLogin";
 import ResetPassword from "./login/ResetPassword";
 
 function App() {
@@ -77,31 +77,29 @@ function App() {
 				<Route
 					path='/profile'
 					element={
-						<RouteForLogin>
+						// <RouteForLogin>
 							<MainLayout>
 								<UserProfile />
 							</MainLayout>
-						</RouteForLogin>
+						// </RouteForLogin>
 					}
 				/>
 				<Route
 					path='/order'
 					element={
-						<RouteForLogin>
+						// <RouteForLogin>
 							<MainLayout>
 								<Order />
 							</MainLayout>
-						</RouteForLogin>
+						// </RouteForLogin>
 					}
 				/>
 				<Route
 					path='/order-handler'
 					element={
-						<RouteForLogin>
-							<MainLayout>
-								<OrderHandler />
-							</MainLayout>
-						</RouteForLogin>
+						<MainLayout>
+							<OrderHandler />
+						</MainLayout>
 					}
 				/>
 				<Route path='/Login' element={<LoginPage />} />

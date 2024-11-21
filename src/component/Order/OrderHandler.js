@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import axiosInstance from "../../util/axiosInstance";
 import { getOrderId } from "../../util/common";
 
-//http://localhost:3000/order-handler?code=00&id=0b82afd43198441a97534d72c029337a&cancel=true&status=CANCELLED&orderCode=983345
+//http://localhost:3000/order-handler?code=00&id=0b82afd43198441a97534d72c029337a&cancel=true&status=CANCELLED&orderCode=983345 // link ng dùng cancel trả ra link này
 
-// http://localhost:3000/order-handler?code=00&id=ffef93aa942c445ba7b2230a4ec07b0e&cancel=false&status=PAID&orderCode=369545
+// http://localhost:3000/order-handler?code=00&id=ffef93aa942c445ba7b2230a4ec07b0e&cancel=false&status=PAID&orderCode=369545 // người dùng đã thanh toán trả ra link này
 
 export default function OrderHandler() {
 	const [load, setLoad] = useState(false);
