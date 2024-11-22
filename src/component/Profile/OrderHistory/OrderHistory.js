@@ -7,10 +7,10 @@ export default function OrderHistory() {
 
 	useEffect(() => {
 		axiosInstance
-			.get("/api/orders")
+			.get("/api/orders/order-shops?IsShop=false&PageNumber=1&PageSize=1000")
 			.then((res) => {
 				if (res.statusCode === 200) {
-					setOrders(res?.data?.items);
+					setOrders(res?.data?.items.sort((a, b) => b?.id - a?.id));
 				}
 			})
 			.catch((err) => {

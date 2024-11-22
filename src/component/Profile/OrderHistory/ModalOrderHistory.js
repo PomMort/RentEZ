@@ -1,5 +1,6 @@
 import { Modal } from "@mui/material";
 import React from "react";
+import dayjs from "dayjs";
 
 export default function ModalOrderHistory({ openModal, setOpenModal, order }) {
 	return (
@@ -15,32 +16,53 @@ export default function ModalOrderHistory({ openModal, setOpenModal, order }) {
 						<span className='text-2xl font-bold'>#{order?.id}</span>
 					</div>
 					<div className='p-5 flex flex-col gap-3'>
-						{order?.orderShops?.map((o) => (
-							<div key={o?.id}>
-								<p className='font-bold'>Tên cửa hàng: {o?.shopName}</p>
-								{o?.orderDetails?.map((p, index) => (
-									<div key={index}>
-										<hr className='my-2' />
-										<div className='flex gap-3 mt-2'>
-											<img
-												src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJUiVIR-JA8539wkylRyy3CSblhm12Ewtzxg&s'
-												alt=''
-												className='size-20 rounded-lg border'
-											/>
-											<div className='flex flex-col justify-between text-sm'>
-												<span>Số lượng: 0</span>
-												<span>
-													Giá thuê:{" "}
-													{(p?.subTotalRentPrice).toLocaleString()}
-												</span>
-												<span>
-													Tiền cọc:{" "}
-													{(p?.subTotalDeposit).toLocaleString()}
-												</span>
-											</div>
+						{order?.orderDetails?.map((p, index) => (
+							<div key={index}>
+								<hr className='my-2' />
+								<div className='flex gap-3 mt-2'>
+									<img
+										src={
+											p?.product?.productImage
+												? p?.product?.productImage
+												: "https://png.pngtree.com/png-clipart/20211116/original/pngtree-minimal-loading-icon-graphic-png-image_6944732.png"
+										}
+										alt=''
+										className='size-20 rounded-lg border'
+									/>
+									<div className='flex flex-col gap-1 text-sm'>
+										<p className='font-bold text-lg'>
+											{p?.product?.productName}
+										</p>
+										<div className='flex gap-2'>
+											<span>Số lượng: {p?.rentQuantity}</span>
+											<span>|</span>
+											<span>
+												Giá thuê:{" "}
+												{(p?.subTotalRentPrice).toLocaleString()}
+											</span>
+											<span>|</span>
+											<span>
+												Tiền cọc:{" "}
+												{(p?.subTotalDeposit).toLocaleString()}
+											</span>
+										</div>
+										<div className='flex gap-2'>
+											<span>
+												Ngày thuê:{" "}
+												{dayjs(p?.rentDateTime).format(
+													"DD/MM/YYYY"
+												)}
+											</span>
+											<span>|</span>
+											<span>
+												Ngày trả:{" "}
+												{dayjs(p?.returnDateTime).format(
+													"DD/MM/YYYY"
+												)}
+											</span>
 										</div>
 									</div>
-								))}
+								</div>
 							</div>
 						))}
 					</div>

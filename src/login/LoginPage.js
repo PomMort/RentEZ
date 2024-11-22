@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import logo from "../Logo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -11,15 +11,9 @@ const LoginPage = () => {
 	const [username, setUserName] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
-	const { isLoggedIn } = useSelector((state) => state.productListData);
+
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-
-	useEffect(() => {
-		if (isLoggedIn) {
-			navigate("/");
-		}
-	}, [isLoggedIn, navigate]);
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
@@ -33,6 +27,7 @@ const LoginPage = () => {
 			dispatch({ type: "LOGIN_SUCCESS", payload: userData });
 
 			const isAdmin = userData?.role?.includes("Admin");
+
 			if (isAdmin) {
 				navigate("/admin/dashboard");
 			} else {

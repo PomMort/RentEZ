@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../util/axiosInstance";
 import { getOrderId } from "../../util/common";
+import { toast } from "react-toastify";
 
 //http://localhost:3000/order-handler?code=00&id=0b82afd43198441a97534d72c029337a&cancel=true&status=CANCELLED&orderCode=983345 // link ng dùng cancel trả ra link này
 
@@ -16,7 +17,7 @@ export default function OrderHandler() {
 		const queryString = window.location.search;
 		const urlParams = new URLSearchParams(queryString);
 		const status = urlParams.get("status");
-		const paymentId = urlParams.get("id");
+		const orderCode = urlParams.get("orderCode");
 		const orderId = getOrderId();
 		setIsCancel(JSON.parse(urlParams.get("cancel")));
 		setLoad(true);
@@ -24,7 +25,7 @@ export default function OrderHandler() {
 		if (status === "PAID") {
 			axiosInstance
 				.get(
-					`/api/payments/payos/confirmation?orderId=${orderId}&paymentId=${paymentId}`
+					`/api/payments/payos/customer/confirmation?orderId=${orderId}&orderCode=${orderCode}`
 				)
 				.then((res) => {
 					if (res.statusCode === 200) {
@@ -33,6 +34,7 @@ export default function OrderHandler() {
 				})
 				.catch((err) => {
 					console.log(err);
+					toast?.error(err?.Message);
 				});
 		}
 	}, []);

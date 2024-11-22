@@ -12,7 +12,7 @@ export default function ManageVouchers() {
 
 	useEffect(() => {
 		axiosInstance
-			.get("/api/vouchers")
+			.get(`/api/vouchers`)
 			.then((res) => {
 				if (res?.statusCode === 200) {
 					setVouchers(res?.data?.items);

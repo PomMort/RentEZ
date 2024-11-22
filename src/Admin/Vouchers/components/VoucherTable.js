@@ -4,6 +4,7 @@ import { MdDeleteOutline, MdOutlineModeEdit } from "react-icons/md";
 import axiosInstance from "../../../util/axiosInstance";
 import { toast } from "react-toastify";
 import ModalVoucher from "./ModalVoucher";
+import dayjs from "dayjs";
 
 export default function VoucherShop({ vouchers, setReRender }) {
 	const [voucher, setVoucher] = useState();
@@ -15,8 +16,26 @@ export default function VoucherShop({ vouchers, setReRender }) {
 		{ field: "name", headerName: "Tên voucher", width: 250 },
 		{ field: "type", headerName: "Loại", width: 100 },
 		{ field: "description", headerName: "Mô tả", width: 250 },
-		{ field: "startDate", headerName: "Ngày bắt đầu", width: 120 },
-		{ field: "endDate", headerName: "Ngày kết thúc", width: 120 },
+		{
+			field: "startDate",
+			headerName: "Ngày bắt đầu",
+			width: 120,
+			renderCell: (params) => {
+				return (
+					<div>{dayjs(params?.row?.startDate).format("DD/MM/YYYY")}</div>
+				);
+			},
+		},
+		{
+			field: "endDate",
+			headerName: "Ngày kết thúc",
+			width: 120,
+			renderCell: (params) => {
+				return (
+					<div>{dayjs(params?.row?.endDate).format("DD/MM/YYYY")}</div>
+				);
+			},
+		},
 		{ field: "status", headerName: "Trạng thái", width: 120 },
 		{
 			field: "value",
