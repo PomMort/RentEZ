@@ -73,9 +73,10 @@ export default function ModalProducts({
 	}, [openModalAdd, product]);
 
 	const handleSubmit = () => {
+		const formatData = { ...infoProduct, DepositRate: infoProduct.depositRate / 100 }
 		if (!product) {
 			axiosInstance
-				.post("/api/products", infoProduct)
+				.post("/api/products", formatData)
 				.then((res) => {
 					if (res.statusCode === 200) {
 						toast.success("Thêm mới thành công");
@@ -90,7 +91,7 @@ export default function ModalProducts({
 				});
 		} else {
 			axiosInstance
-				.put(`/api/products/${product?.id}`, infoProduct)
+				.put(`/api/products/${product?.id}`, formatData)
 				.then((res) => {
 					if (res.statusCode === 200) {
 						toast.success("Cập nhật thành công");
@@ -178,6 +179,7 @@ export default function ModalProducts({
 								sx={{ width: "100%" }}
 								size='small'
 								type='number'
+								InputProps={{ inputProps: { min: 1, step: 1 } }}
 								value={infoProduct.quantity}
 								onChange={(e) =>
 									setInfoProduct({
@@ -200,6 +202,7 @@ export default function ModalProducts({
 								sx={{ width: "100%" }}
 								size='small'
 								type='number'
+								InputProps={{ inputProps: { min: 1, step: 1 } }}
 								value={infoProduct.allowRentBeforeDays}
 								onChange={(e) =>
 									setInfoProduct({
@@ -222,6 +225,7 @@ export default function ModalProducts({
 								sx={{ width: "100%" }}
 								size='small'
 								type='number'
+								InputProps={{ inputProps: { min: 1, step: 1 } }}
 								value={infoProduct.size}
 								onChange={(e) =>
 									setInfoProduct({
@@ -244,6 +248,7 @@ export default function ModalProducts({
 								sx={{ width: "100%" }}
 								size='small'
 								type='number'
+								InputProps={{ inputProps: { min: 1, step: 1 } }}
 								value={infoProduct.price}
 								onChange={(e) =>
 									setInfoProduct({
@@ -266,7 +271,9 @@ export default function ModalProducts({
 								sx={{ width: "100%" }}
 								size='small'
 								type='number'
+								InputProps={{ inputProps: { min: 1, step: 1 } }}
 								value={infoProduct.depositRate}
+
 								onChange={(e) =>
 									setInfoProduct({
 										...infoProduct,
@@ -288,6 +295,7 @@ export default function ModalProducts({
 								sx={{ width: "100%" }}
 								size='small'
 								type='number'
+								InputProps={{ inputProps: { min: 1, step: 1 } }}
 								value={infoProduct.mass}
 								onChange={(e) =>
 									setInfoProduct({
@@ -310,6 +318,7 @@ export default function ModalProducts({
 								sx={{ width: "100%" }}
 								size='small'
 								type='number'
+								InputProps={{ inputProps: { min: 1, step: 1 } }}
 								value={infoProduct.long}
 								onChange={(e) =>
 									setInfoProduct({
@@ -332,6 +341,7 @@ export default function ModalProducts({
 								sx={{ width: "100%" }}
 								size='small'
 								type='number'
+								InputProps={{ inputProps: { min: 1, step: 1 } }}
 								value={infoProduct.width}
 								onChange={(e) =>
 									setInfoProduct({
@@ -354,6 +364,7 @@ export default function ModalProducts({
 								sx={{ width: "100%" }}
 								size='small'
 								type='number'
+								InputProps={{ inputProps: { min: 1, step: 1 } }}
 								value={infoProduct.height}
 								onChange={(e) =>
 									setInfoProduct({
@@ -398,6 +409,7 @@ export default function ModalProducts({
 									sx={{ width: "100%" }}
 									size='small'
 									type='number'
+									InputProps={{ inputProps: { min: 1, step: 1 } }}
 									value={infoProduct.rentPrices[index]}
 									onChange={(e) =>
 										setInfoProduct({
