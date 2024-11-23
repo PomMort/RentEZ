@@ -4,13 +4,13 @@ import { Link, useParams } from "react-router-dom";
 import { Grid2, MenuItem, Select } from "@mui/material";
 import axiosInstance from "../../util/axiosInstance";
 import ProductItem from "./ProductItem";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getFutureDate } from "../../util/common";
 import { toast } from "react-toastify";
 
 const ProductDetail = () => {
+	const { user } = useSelector((state) => state.productListData);
 	const [selectedTab, setSelectedTab] = useState("description"); // Quản lý tab hiện tại
-
 	const { id } = useParams();
 	const [product, setProduct] = useState();
 	const [relatedProduct, setRelatedProduct] = useState([]);
@@ -79,6 +79,11 @@ const ProductDetail = () => {
 	};
 
 	const handleAddCart = () => {
+		if (user?.shopId === product?.shopId) {
+			toast.error("Không thể đặt hàng sản phẩm của mình");
+			return;
+		}
+
 		toast.success("Đã thêm sản phẩm vào giỏ hàng");
 		dispatch({
 			type: "ADD_TO_CART",
