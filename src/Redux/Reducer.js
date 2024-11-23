@@ -162,6 +162,16 @@ var Reducer = (state = initProductList, { type, payload }) => {
 				productsSelected: [],
 			};
 		}
+		case "CREATE_SHOP_SUCCESS": {
+			console.log("Hello");
+
+			const role = [...state?.user?.role, "ShopOwner"];
+			console.log(role);
+			return {
+				...state,
+				user: { ...state.user, role },
+			};
+		}
 		case "LOGIN_SUCCESS":
 			saveUser(payload);
 			return {
