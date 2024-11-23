@@ -27,7 +27,7 @@ export default function ModalOrderHistory({ openModal, setOpenModal, order }) {
 												: "https://png.pngtree.com/png-clipart/20211116/original/pngtree-minimal-loading-icon-graphic-png-image_6944732.png"
 										}
 										alt=''
-										className='size-20 rounded-lg border'
+										className='size-20 rounded-lg border object-cover'
 									/>
 									<div className='flex flex-col gap-1 text-sm'>
 										<p className='font-bold text-lg'>

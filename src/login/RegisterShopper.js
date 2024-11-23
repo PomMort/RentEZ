@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Register.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../Logo.png";
-import { Button, TextField } from "@mui/material";
+import {
+	Button,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+	TextField,
+} from "@mui/material";
 import axiosInstace from "../util/axiosInstance";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -15,40 +24,42 @@ dayjs.tz.setDefault("Asia/Ho_Chi_Minh");
 
 const RegisterShopper = () => {
 	const navigate = useNavigate();
+	const [banks, setBanks] = useState([]);
+	const { user } = useSelector((state) => state.productListData);
 	const [info, setInfo] = useState({
-		userName: "",
-		fullName: "",
-		email: "",
-		phoneNumber: "",
-		password: "",
-		confirmPassword: "",
-		address: "",
+		shopEmail: "",
+		shopName: "",
+		bankId: "",
+		accountNo: "",
+		accountName: "",
+		shopAddress: "",
+		shopPhone: "",
+		ownerId: 0,
 	});
 
-	const handleSubmit = () => {
-		console.log(info);
+	useEffect(() => {
+		axios
+			.get("https://api.vietqr.io/v2/banks")
+			.then((res) => res.data)
+			.then((res) => {
+				setBanks(res?.data);
+			});
+	}, []);
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const formatData = { ...info, ownerId: user?.id };
 		axiosInstace
-			.post("/api/auth/register/shopkeeper", info)
+			.post("/api/shops", formatData)
 			.then((res) => {
 				if (res.statusCode === 200) {
-					toast.success(
-						"Đăng ký thành công! Hãy kiểm tra email để kích hoạt"
-					);
-					setInfo({
-						userName: "",
-						fullName: "",
-						email: "",
-						phoneNumber: "",
-						password: "",
-						confirmPassword: "",
-						address: "",
-					});
-
-					navigate(`/active-account/${info.email}/${info.userName}`);
+					toast.success("Đăng ký cửa hàng thành công");
+					navigate("/");
 				}
 			})
 			.catch((err) => {
 				console.log(err);
+				toast.error(err.Message);
 			});
 	};
 
@@ -63,94 +74,130 @@ const RegisterShopper = () => {
 					</h2>
 				</div>
 
-				<div className='grid grid-cols-2 gap-5'>
-					<TextField
-						id='outlined-basic'
-						label='Username'
-						variant='outlined'
-						size='small'
-						value={info.userName}
-						onChange={(e) =>
-							setInfo({ ...info, userName: e.target.value })
-						}
-					/>
-					<TextField
-						id='outlined-basic'
-						label='Full Name'
-						variant='outlined'
-						size='small'
-						value={info.fullName}
-						onChange={(e) =>
-							setInfo({ ...info, fullName: e.target.value })
-						}
-					/>
-					<TextField
-						id='outlined-basic'
-						label='Email'
-						variant='outlined'
-						size='small'
-						value={info.email}
-						onChange={(e) => setInfo({ ...info, email: e.target.value })}
-					/>
-					<TextField
-						id='outlined-basic'
-						label='Phone number'
-						variant='outlined'
-						size='small'
-						value={info.phoneNumber}
-						onChange={(e) =>
-							setInfo({ ...info, phoneNumber: e.target.value })
-						}
-					/>
-					<TextField
-						id='outlined-basic'
-						label='Password'
-						variant='outlined'
-						size='small'
-						type='password'
-						value={info.password}
-						onChange={(e) =>
-							setInfo({ ...info, password: e.target.value })
-						}
-					/>
-					<TextField
-						id='outlined-basic'
-						label='Confirm password'
-						variant='outlined'
-						size='small'
-						type='password'
-						value={info.confirmPassword}
-						onChange={(e) =>
-							setInfo({ ...info, confirmPassword: e.target.value })
-						}
-					/>
-					<div className='col-span-2'>
+				<form onSubmit={(e) => handleSubmit(e)}>
+					<div className='grid grid-cols-2 gap-5'>
 						<TextField
 							id='outlined-basic'
-							label='Address'
+							label='Shop Email'
 							variant='outlined'
 							size='small'
-							value={info.address}
+							required
+							value={info.shopEmail}
 							onChange={(e) =>
-								setInfo({ ...info, address: e.target.value })
+								setInfo({ ...info, shopEmail: e.target.value })
 							}
+						/>
+						<TextField
+							id='outlined-basic'
+							label='Tên cửa hàng'
+							variant='outlined'
+							size='small'
+							required
+							value={info.shopName}
+							onChange={(e) =>
+								setInfo({ ...info, shopName: e.target.value })
+							}
+						/>
+						<TextField
+							id='outlined-basic'
+							label='Địa chỉ cửa hàng'
+							variant='outlined'
+							size='small'
+							required
+							value={info.shopAddress}
+							onChange={(e) =>
+								setInfo({ ...info, shopAddress: e.target.value })
+							}
+						/>
+						<TextField
+							id='outlined-basic'
+							label='Số điện thoại cửa hàng'
+							variant='outlined'
+							size='small'
+							required
+							value={info.shopPhone}
+							onChange={(e) =>
+								setInfo({ ...info, shopPhone: e.target.value })
+							}
+						/>
+						<div className='col-span-2'>
+							<FormControl fullWidth size='small'>
+								<InputLabel id='demo-simple-select-label'>
+									Chọn ngân hàng
+								</InputLabel>
+								<Select
+									labelId='demo-simple-select-label'
+									id='demo-simple-select'
+									value={info?.bankId}
+									size='small'
+									label='Chọn ngân hàng'
+									required
+									onChange={(e) =>
+										setInfo({
+											...info,
+											bankId: e.target.value,
+										})
+									}
+								>
+									{banks.map((bank) => (
+										<MenuItem key={bank?.id} value={bank?.id}>
+											<div className='flex items-center gap-3'>
+												<img
+													src={bank?.logo}
+													alt={bank?.shortName}
+													className='w-[50px] object-cover'
+												/>
+												<span>{bank?.name}</span>
+											</div>
+										</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+						</div>
+						<TextField
+							id='outlined-basic'
+							label='Số tài khoản'
+							variant='outlined'
+							value={info?.accountNo}
+							size='small'
+							required
+							type='number'
+							onChange={(e) =>
+								setInfo({
+									...info,
+									accountNo: e.target.value,
+								})
+							}
+						/>
+						<TextField
+							id='outlined-basic'
+							label='Tên tài khoản'
+							variant='outlined'
+							value={info?.accountName}
+							size='small'
 							sx={{ width: "100%" }}
+							required
+							onChange={(e) => {
+								const input = e.target.value;
+								const normalizedInput = input
+									.normalize("NFD") // Tách dấu từ ký tự
+									.replace(/[\u0300-\u036f]/g, "") // Loại bỏ các dấu
+									.replace(/[^a-zA-Z0-9\s]/g, "") // Loại bỏ các ký tự không hợp lệ
+									.toUpperCase(); // Viết hoa toàn bộ
+								setInfo({
+									...info,
+									accountName: normalizedInput,
+								});
+							}}
 						/>
 					</div>
-				</div>
 
-				<div className='mt-8'>
-					<Button variant='contained' onClick={handleSubmit}>
-						Đăng ký
-					</Button>
-				</div>
-
-				<div className='signup-container'>
-					<span style={{ color: "black" }}>Already have an account?</span>
-					<Link to='/Login' className='signup-link'>
-						Sign In Here
-					</Link>
-				</div>
+					<div className='mt-8'>
+						<Button variant='contained' type='submit'>
+							Đăng ký
+						</Button>
+					</div>
+				</form>
 			</div>
 		</div>
 	);

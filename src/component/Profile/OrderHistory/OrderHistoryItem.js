@@ -2,9 +2,26 @@ import dayjs from "dayjs";
 import React, { useState } from "react";
 import ModalOrderHistory from "./ModalOrderHistory";
 import { Button } from "@mui/material";
+import axiosInstance from "../../../util/axiosInstance";
+import { toast } from "react-toastify";
 
-export default function OrderHistoryItem({ order }) {
+export default function OrderHistoryItem({ order, setReRender }) {
 	const [openModal, setOpenModal] = useState(false);
+
+	const handleUpdateStatus = () => {
+		axiosInstance
+			.put(`/api/orders/order-shops/${order?.id}/status?isShop=false`)
+			.then((res) => {
+				if (res?.statusCode === 200) {
+					toast.success("Cập nhật trạng thái thành công");
+					setReRender((prev) => !prev);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				toast.error(err?.Message);
+			});
+	};
 
 	return (
 		<div
@@ -34,7 +51,9 @@ export default function OrderHistoryItem({ order }) {
 					<div className=' text-sm flex flex-col gap-1'>
 						<div className='flex items-center gap-10'>
 							<p className='font-bold text-base'>Thông tin đơn hàng</p>
-							<p>Trạng thái: {order?.status}</p>
+							<p>
+								Trạng thái: <strong>{order?.status}</strong>
+							</p>
 						</div>
 
 						<div className='flex gap-10'>
@@ -60,8 +79,16 @@ export default function OrderHistoryItem({ order }) {
 			</div>
 
 			<div className='flex flex-row-reverse gap-3 mt-3'>
-				<Button variant='contained'>Đã nhận được hàng</Button>
-				<Button variant='outlined'>Trả hàng</Button>
+				{order?.status === "Shipping" && (
+					<Button variant='contained' onClick={handleUpdateStatus}>
+						Đã nhận được hàng
+					</Button>
+				)}
+				{order?.status === "Received" && (
+					<Button variant='outlined' onClick={handleUpdateStatus}>
+						Trả hàng
+					</Button>
+				)}
 			</div>
 
 			{/* MODAL */}

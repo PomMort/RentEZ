@@ -1,24 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
-import {
-	Button,
-	FormControl,
-	InputLabel,
-	MenuItem,
-	Modal,
-	Select,
-} from "@mui/material";
+import { Button, Modal } from "@mui/material";
 import dayjs from "dayjs";
 import axiosInstance from "../../../util/axiosInstance";
+import { toast } from "react-toastify";
 
 export default function OrderTable({ orders, setReRender }) {
 	const [openModalDetailOrder, setOpenModalDetailOrder] = useState(false);
 	const [openModalStatus, setOpenModalStatus] = useState(false);
 	const [orderSelected, setOrderSelected] = useState();
-	const [statuses, setStatuses] = useState([]);
-	const [statusSelected, setStatusSelected] = useState("");
 
 	const columns = [
 		{ field: "id", headerName: "ID", width: 70 },
@@ -78,28 +70,26 @@ export default function OrderTable({ orders, setReRender }) {
 
 	const handleClickEditStatus = (order) => {
 		setOpenModalStatus(true);
-		setStatusSelected(statuses?.find((s) => s?.status === order?.status)?.id);
+		setOrderSelected(order);
 	};
 
 	const paginationModel = { page: 0, pageSize: 5 };
 
-	useEffect(() => {
-		axiosInstance.get("/api/orders/order-shops/enums").then((res) => {
-			if (res.statusCode === 200) {
-				const listStatusObj = res?.data?.orderShopStatusEnums;
-				const listStatus = [];
-				if (listStatusObj) {
-					for (const [key, value] of Object.entries(listStatusObj)) {
-						listStatus.push({ id: key, status: value });
-					}
+	const handleEdit = () => {
+		axiosInstance
+			.put(`/api/orders/order-shops/${orderSelected?.id}/status?isShop=true`)
+			.then((res) => {
+				if (res?.statusCode === 200) {
+					toast.success("Cập nhật trạng thái thành công");
+					setOpenModalStatus(false);
+					setReRender((prev) => !prev);
 				}
-
-				setStatuses(listStatus);
-			}
-		});
-	}, []);
-
-	const handleEdit = () => {};
+			})
+			.catch((err) => {
+				console.log(err);
+				toast.error(err?.Message);
+			});
+	};
 
 	return (
 		<div className='mt-5'>
@@ -189,31 +179,12 @@ export default function OrderTable({ orders, setReRender }) {
 							Cập nhật trạng thái đơn hàng
 						</div>
 						<hr className='mb-5' />
-						<FormControl fullWidth>
-							<InputLabel id='demo-simple-select-label'>
-								Trạng thái đơn hàng
-							</InputLabel>
-							<Select
-								labelId='demo-simple-select-label'
-								id='demo-simple-select'
-								value={statusSelected}
-								label='Trạng thái đơn hàng'
-								onChange={(e) => {
-									setStatusSelected(e.target.value);
-								}}
-							>
-								{statuses?.map((s) => (
-									<MenuItem key={s?.id} value={s?.id}>
-										<div>
-											<span>{s?.status}</span>
-										</div>
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+						<p className='text-lg'>
+							Trạng thái: <strong>{orderSelected?.status}</strong>
+						</p>
 						<div className='flex flex-row-reverse mt-3'>
 							<Button variant='contained' onClick={handleEdit}>
-								Cập nhật
+								Cập nhật trạng thái
 							</Button>
 						</div>
 					</div>

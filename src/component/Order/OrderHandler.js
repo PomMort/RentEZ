@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 //http://localhost:3000/order-handler?code=00&id=0b82afd43198441a97534d72c029337a&cancel=true&status=CANCELLED&orderCode=983345 // link ng dùng cancel trả ra link này
 
-// http://localhost:3000/order-handler?code=00&id=ffef93aa942c445ba7b2230a4ec07b0e&cancel=false&status=PAID&orderCode=369545 // người dùng đã thanh toán trả ra link này
+// http://localhost:3000/order-handler?code=00&id=fc5cbfb7d1c0436195c3a46ee975a70e&cancel=false&status=PAID&orderCode=27801 // người dùng đã thanh toán trả ra link này
 
 export default function OrderHandler() {
 	const [load, setLoad] = useState(false);
@@ -25,7 +25,7 @@ export default function OrderHandler() {
 		if (status === "PAID") {
 			axiosInstance
 				.get(
-					`/api/payments/payos/customer/confirmation?orderId=${orderId}&orderCode=${orderCode}`
+					`/api/payments/payos/customer/confirmation/${orderId}/${orderCode}`
 				)
 				.then((res) => {
 					if (res.statusCode === 200) {

@@ -4,6 +4,7 @@ import OrderHistoryItem from "./OrderHistoryItem";
 
 export default function OrderHistory() {
 	const [orders, setOrders] = useState([]);
+	const [reRender, setReRender] = useState(false);
 
 	useEffect(() => {
 		axiosInstance
@@ -16,13 +17,17 @@ export default function OrderHistory() {
 			.catch((err) => {
 				console.log(err);
 			});
-	}, []);
+	}, [reRender]);
 
 	return (
 		<div className='w-[1000px] mx-auto'>
 			<div className='flex flex-col gap-5'>
 				{orders.map((o) => (
-					<OrderHistoryItem order={o} />
+					<OrderHistoryItem
+						order={o}
+						setReRender={setReRender}
+						key={o?.id}
+					/>
 				))}
 			</div>
 		</div>

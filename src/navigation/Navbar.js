@@ -95,6 +95,16 @@ const Navbar = () => {
 												Manage Admin
 											</Link>
 										)}
+										{!user?.role.includes("Admin") &&
+											!user?.role.includes("ShopOwner") && (
+												<Link
+													to='/RegisterShop'
+													className='block px-4 py-2 text-sm hover:bg-gray-200'
+													onClick={() => setIsMenuOpen(false)}
+												>
+													Shop Registration
+												</Link>
+											)}
 										<button
 											onClick={handleLogout}
 											className='block px-4 py-2 text-sm w-full text-left hover:bg-gray-200'
