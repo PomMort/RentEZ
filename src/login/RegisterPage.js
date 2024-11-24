@@ -21,6 +21,7 @@ const RegisterPage = () => {
 		confirmPassword: "",
 		address: "",
 	});
+	const [errorsField, setErrorsField] = useState();
 
 	useEffect(() => {
 		if (isLoggedIn) {
@@ -49,15 +50,6 @@ const RegisterPage = () => {
 					toast.success(
 						"Đăng ký thành công! Hãy kiểm tra email để kích hoạt"
 					);
-					setInfo({
-						userName: "",
-						fullName: "",
-						email: "",
-						phoneNumber: "",
-						password: "",
-						confirmPassword: "",
-						address: "",
-					});
 					setLoading(false);
 					navigate(`/active-account/${info.email}/${info.userName}`);
 				}
@@ -65,6 +57,7 @@ const RegisterPage = () => {
 			.catch((err) => {
 				console.log(err);
 				setLoading(false);
+				setErrorsField(err?.errors);
 				toast.error(err?.Message);
 			});
 	};
@@ -81,68 +74,119 @@ const RegisterPage = () => {
 				</div>
 
 				<div className='grid grid-cols-2 gap-5'>
-					<TextField
-						id='outlined-basic'
-						label='Username'
-						variant='outlined'
-						size='small'
-						value={info.userName}
-						onChange={(e) =>
-							setInfo({ ...info, userName: e.target.value })
-						}
-					/>
-					<TextField
-						id='outlined-basic'
-						label='Full Name'
-						variant='outlined'
-						size='small'
-						value={info.fullName}
-						onChange={(e) =>
-							setInfo({ ...info, fullName: e.target.value })
-						}
-					/>
-					<TextField
-						id='outlined-basic'
-						label='Email'
-						variant='outlined'
-						size='small'
-						value={info.email}
-						onChange={(e) => setInfo({ ...info, email: e.target.value })}
-					/>
-					<TextField
-						id='outlined-basic'
-						label='Phone number'
-						variant='outlined'
-						size='small'
-						value={info.phoneNumber}
-						onChange={(e) =>
-							setInfo({ ...info, phoneNumber: e.target.value })
-						}
-					/>
-					<TextField
-						id='outlined-basic'
-						label='Password'
-						variant='outlined'
-						size='small'
-						type='password'
-						value={info.password}
-						onChange={(e) =>
-							setInfo({ ...info, password: e.target.value })
-						}
-					/>
-					<TextField
-						id='outlined-basic'
-						label='Confirm password'
-						variant='outlined'
-						size='small'
-						type='password'
-						value={info.confirmPassword}
-						onChange={(e) =>
-							setInfo({ ...info, confirmPassword: e.target.value })
-						}
-					/>
+					<div>
+						<TextField
+							sx={{ width: "100%" }}
+							id='outlined-basic'
+							label='Username'
+							variant='outlined'
+							size='small'
+							value={info.userName}
+							onChange={(e) =>
+								setInfo({ ...info, userName: e.target.value })
+							}
+						/>
+						{errorsField?.["UserName"] && (
+							<p className='text-sm text-red-700'>
+								{errorsField?.["UserName"][0]}
+							</p>
+						)}
+					</div>
+					<div>
+						<TextField
+							sx={{ width: "100%" }}
+							id='outlined-basic'
+							label='Full Name'
+							variant='outlined'
+							size='small'
+							value={info.fullName}
+							onChange={(e) =>
+								setInfo({ ...info, fullName: e.target.value })
+							}
+						/>
+						{errorsField?.["FullName"] && (
+							<p className='text-sm text-red-700'>
+								{errorsField?.["FullName"][0]}
+							</p>
+						)}
+					</div>
+					<div>
+						<TextField
+							sx={{ width: "100%" }}
+							id='outlined-basic'
+							label='Email'
+							variant='outlined'
+							size='small'
+							value={info.email}
+							onChange={(e) =>
+								setInfo({ ...info, email: e.target.value })
+							}
+						/>
+						{errorsField?.["Email"] && (
+							<p className='text-sm text-red-700'>
+								{errorsField?.["Email"][0]}
+							</p>
+						)}
+					</div>
+					<div>
+						<TextField
+							sx={{ width: "100%" }}
+							id='outlined-basic'
+							label='Phone number'
+							variant='outlined'
+							size='small'
+							value={info.phoneNumber}
+							onChange={(e) =>
+								setInfo({ ...info, phoneNumber: e.target.value })
+							}
+						/>
+						{errorsField?.["PhoneNumber"] && (
+							<p className='text-sm text-red-700'>
+								{errorsField?.["PhoneNumber"][0]}
+							</p>
+						)}
+					</div>
+					<div>
+						<TextField
+							sx={{ width: "100%" }}
+							id='outlined-basic'
+							label='Password'
+							variant='outlined'
+							size='small'
+							type='password'
+							value={info.password}
+							onChange={(e) =>
+								setInfo({ ...info, password: e.target.value })
+							}
+						/>
+						{errorsField?.["Password"] && (
+							<p className='text-sm text-red-700'>
+								{errorsField?.["Password"][0]}
+							</p>
+						)}
+					</div>
+					<div>
+						<TextField
+							sx={{ width: "100%" }}
+							id='outlined-basic'
+							label='Confirm password'
+							variant='outlined'
+							size='small'
+							type='password'
+							value={info.confirmPassword}
+							onChange={(e) =>
+								setInfo({ ...info, confirmPassword: e.target.value })
+							}
+						/>
+						{errorsField?.["ConfirmPassword"] && (
+							<p className='text-sm text-red-700'>
+								{errorsField?.["ConfirmPassword"][0]}
+							</p>
+						)}
+					</div>
 					<div className='col-span-2'>
 						<TextField
+							sx={{ width: "100%" }}
 							id='outlined-basic'
 							label='Address'
 							variant='outlined'
@@ -151,8 +195,12 @@ const RegisterPage = () => {
 							onChange={(e) =>
 								setInfo({ ...info, address: e.target.value })
 							}
-							sx={{ width: "100%" }}
 						/>
+						{errorsField?.["Address"] && (
+							<p className='text-sm text-red-700'>
+								{errorsField?.["Address"][0]}
+							</p>
+						)}
 					</div>
 				</div>
 

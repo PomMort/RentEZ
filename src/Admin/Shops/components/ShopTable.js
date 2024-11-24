@@ -25,7 +25,7 @@ export default function ShopTable({ shops, type, setReRender }) {
 		{ field: "shopName", headerName: "Tên cửa hàng", width: 250 },
 		{ field: "shopEmail", headerName: "Email", width: 250 },
 		{ field: "shopPhone", headerName: "Số điện thoại", width: 120 },
-		{ field: "shopAddress", headerName: "Địa chỉ", width: 400 },
+		{ field: "shopAddress", headerName: "Địa chỉ", width: 250 },
 		type === "pending" && {
 			field: "action",
 			headerName: "Hành động",

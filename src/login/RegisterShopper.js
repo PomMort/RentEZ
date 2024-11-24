@@ -38,17 +38,7 @@ const RegisterShopper = () => {
 		shopAvatar: "",
 		ownerId: 0,
 	});
-	const [errorsField, setErrorsField] = useState({
-		Long: "",
-		Mass: "",
-		Size: "",
-		Price: "",
-		Width: "",
-		Height: "",
-		Quantity: "",
-		DepositRate: "",
-		AllowRentBeforeDays: "",
-	});
+	const [errorsField, setErrorsField] = useState();
 
 	useEffect(() => {
 		axios
@@ -207,7 +197,7 @@ const RegisterShopper = () => {
 									}
 								>
 									{banks.map((bank) => (
-										<MenuItem key={bank?.id} value={bank?.id}>
+										<MenuItem key={bank?.bin} value={bank?.bin}>
 											<div className='flex items-center gap-3'>
 												<img
 													src={bank?.logo}

@@ -4,6 +4,7 @@ import ModalOrderHistory from "./ModalOrderHistory";
 import { Button } from "@mui/material";
 import axiosInstance from "../../../util/axiosInstance";
 import { toast } from "react-toastify";
+import { ORDER_STATUS } from "../../../util/constant";
 
 export default function OrderHistoryItem({ order, setReRender }) {
 	const [openModal, setOpenModal] = useState(false);
@@ -52,7 +53,14 @@ export default function OrderHistoryItem({ order, setReRender }) {
 						<div className='flex items-center gap-10'>
 							<p className='font-bold text-base'>Thông tin đơn hàng</p>
 							<p>
-								Trạng thái: <strong>{order?.status}</strong>
+								Trạng thái:{" "}
+								<strong>
+									{
+										ORDER_STATUS.find(
+											(stt) => stt.status === order?.status
+										)?.status_vi
+									}
+								</strong>
 							</p>
 						</div>
 

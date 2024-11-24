@@ -29,6 +29,7 @@ import ManageVouchersShop from "./Shopkeeper/Vouchers/ManageVouchers";
 import DashboardShop from "./Shopkeeper/Dashboard/Dashboard";
 import NavbarShop from "./Shopkeeper/NavbarShop";
 import RegisterShopper from "./login/RegisterShopper";
+import ManageOrdersAdmin from "./Admin/Order/ManageOrder";
 // import RouteForLogin from "./layout/RouteForLogin";
 import ResetPassword from "./login/ResetPassword";
 
@@ -78,9 +79,9 @@ function App() {
 					path='/profile'
 					element={
 						// <RouteForLogin>
-							<MainLayout>
-								<UserProfile />
-							</MainLayout>
+						<MainLayout>
+							<UserProfile />
+						</MainLayout>
 						// </RouteForLogin>
 					}
 				/>
@@ -88,9 +89,9 @@ function App() {
 					path='/order'
 					element={
 						// <RouteForLogin>
-							<MainLayout>
-								<Order />
-							</MainLayout>
+						<MainLayout>
+							<Order />
+						</MainLayout>
 						// </RouteForLogin>
 					}
 				/>
@@ -157,6 +158,14 @@ function App() {
 					element={
 						<ManageLayout isAdmin={true} navbar={<NavbarAdmin />}>
 							<ManageShops />
+						</ManageLayout>
+					}
+				/>
+				<Route
+					path='/admin/manage-orders'
+					element={
+						<ManageLayout isAdmin={true} navbar={<NavbarAdmin />}>
+							<ManageOrdersAdmin />
 						</ManageLayout>
 					}
 				/>

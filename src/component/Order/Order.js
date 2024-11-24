@@ -27,8 +27,6 @@ export default function Order() {
 	const [note, setNote] = useState("");
 	const [informationUser, setInformationUser] = useState({
 		address: "",
-		fullName: "",
-		phoneNumber: "",
 	});
 
 	// Fetch vouchers
@@ -95,12 +93,8 @@ export default function Order() {
 	}, [voucherShipSelected, voucherRentSelected, productsSelected]);
 
 	const handlePayment = async () => {
-		if (
-			!informationUser.address ||
-			!informationUser.fullName ||
-			!informationUser.phoneNumber
-		) {
-			toast.info("Vui lòng nhập đầy đủ các trường");
+		if (!informationUser.address) {
+			toast.info("Vui lòng nhập địa chỉ");
 			return;
 		}
 
@@ -155,32 +149,6 @@ export default function Order() {
 					</div>
 					<hr className='mt-5' />
 					<div className='grid grid-cols-2 gap-5 mt-5'>
-						<TextField
-							id='standard-basic'
-							label='Họ và tên'
-							variant='standard'
-							required
-							value={informationUser.fullName}
-							onChange={(e) =>
-								setInformationUser({
-									...informationUser,
-									fullName: e.target.value,
-								})
-							}
-						/>
-						<TextField
-							id='standard-basic'
-							label='Số điện thoại'
-							variant='standard'
-							value={informationUser.phoneNumber}
-							required
-							onChange={(e) =>
-								setInformationUser({
-									...informationUser,
-									phoneNumber: e.target.value,
-								})
-							}
-						/>
 						<div className='col-span-2 w-full'>
 							<TextField
 								id='standard-basic'

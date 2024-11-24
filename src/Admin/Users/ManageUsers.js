@@ -12,7 +12,7 @@ export default function ManageUsers() {
 
 	useEffect(() => {
 		axiosInstance
-			.get("/api/auth/admin/users")
+			.get("/api/users")
 			.then((res) => {
 				if (res.statusCode === 200) {
 					setUsers(res.data?.items);

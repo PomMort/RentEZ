@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { MdOutlineModeEdit } from "react-icons/md";
+import { RiRefund2Fill } from "react-icons/ri";
 import { FaEye } from "react-icons/fa";
 import { Button, Modal } from "@mui/material";
 import dayjs from "dayjs";
@@ -12,6 +12,10 @@ export default function OrderTable({ orders, setReRender }) {
 	const [openModalDetailOrder, setOpenModalDetailOrder] = useState(false);
 	const [openModalStatus, setOpenModalStatus] = useState(false);
 	const [orderSelected, setOrderSelected] = useState();
+	const [qrcode, setqrcode] = useState({
+		customerRefundQR: "",
+		shopPaymentQR: "",
+	});
 
 	const columns = [
 		{ field: "id", headerName: "ID", width: 70 },
@@ -65,6 +69,7 @@ export default function OrderTable({ orders, setReRender }) {
 				</div>
 			),
 		},
+
 		{
 			field: "status",
 			headerName: "Trạng thái",
@@ -90,7 +95,7 @@ export default function OrderTable({ orders, setReRender }) {
 						className='text-[#767b7a] cursor-pointer'
 						onClick={() => handleClickView(params?.row)}
 					/>
-					<MdOutlineModeEdit
+					<RiRefund2Fill
 						className='text-[#418dff] cursor-pointer'
 						onClick={() => handleClickEditStatus(params?.row)}
 					/>
@@ -105,27 +110,27 @@ export default function OrderTable({ orders, setReRender }) {
 	};
 
 	const handleClickEditStatus = (order) => {
-		setOpenModalStatus(true);
-		setOrderSelected(order);
-	};
-
-	const paginationModel = { page: 0, pageSize: 5 };
-
-	const handleEdit = () => {
+		const data = {
+			orderShopId: order?.id,
+			userId: order?.order?.customer?.id,
+		};
 		axiosInstance
-			.put(`/api/orders/order-shops/${orderSelected?.id}/status?isShop=true`)
+			.post("/api/payments/refund", data)
 			.then((res) => {
-				if (res?.statusCode === 200) {
-					toast.success("Cập nhật trạng thái thành công");
-					setOpenModalStatus(false);
-					setReRender((prev) => !prev);
-				}
+				setqrcode({
+					customerRefundQR: res?.customerRefundQR,
+					shopPaymentQR: res?.shopPaymentQR,
+				});
+				setOpenModalStatus(true);
+				setReRender((prev) => !prev);
 			})
 			.catch((err) => {
 				console.log(err);
-				toast.error(err?.Message);
+				toast.error("Lỗi không tạo được QR CODE");
 			});
 	};
+
+	const paginationModel = { page: 0, pageSize: 5 };
 
 	return (
 		<div className='mt-5'>
@@ -208,26 +213,50 @@ export default function OrderTable({ orders, setReRender }) {
 				open={openModalStatus}
 				onClose={() => setOpenModalStatus(false)}
 				keepMounted
+				disableEscapeKeyDown
+				BackdropProps={{
+					onClick: (event) => event.stopPropagation(),
+				}}
 			>
-				<div className='min-w-[500px] bg-white absolute top-[20%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl'>
+				<div className='min-w-[500px] bg-white absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl'>
 					<div className='my-5 px-5'>
 						<div className='mt-5 mb-2 text-lg flex justify-between items-center'>
-							Cập nhật trạng thái đơn hàng
+							Hoàn tiền
 						</div>
 						<hr className='mb-5' />
-						<p className='text-lg'>
-							Trạng thái:{" "}
-							<strong>
-								{
-									ORDER_STATUS.find(
-										(stt) => stt.status === orderSelected?.status
-									)?.status_vi
-								}
-							</strong>
-						</p>
-						<div className='flex flex-row-reverse mt-3'>
-							<Button variant='contained' onClick={handleEdit}>
-								Cập nhật trạng thái
+						<div className='flex justify-between items-center gap-5'>
+							{qrcode?.customerRefundQR && (
+								<div>
+									<p className='text-center'>
+										Hoàn tiền cọc cho khách hàng
+									</p>
+									<img
+										src={qrcode?.customerRefundQR}
+										alt=''
+										className='w-52 object-cover'
+									/>
+								</div>
+							)}
+							{qrcode?.shopPaymentQR && (
+								<div>
+									<p className='text-center'>Hoàn tiền cho shop</p>
+									<img
+										src={qrcode?.shopPaymentQR}
+										alt=''
+										className='w-52 object-cover'
+									/>
+								</div>
+							)}
+						</div>
+						<div className='flex flex-row-reverse mt-5'>
+							<Button
+								variant='contained'
+								onClick={() => {
+									setOpenModalStatus(false);
+									toast.success("Cập nhật thành công");
+								}}
+							>
+								Đã chuyển
 							</Button>
 						</div>
 					</div>

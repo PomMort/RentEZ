@@ -1,5 +1,5 @@
 import React from "react";
-import { FaRegChartBar } from "react-icons/fa";
+import { FaMoneyBillWave, FaRegChartBar } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6";
 import { MdDashboard } from "react-icons/md";
 import { NavLink } from "react-router-dom";
@@ -31,6 +31,11 @@ const NAVBAR_LIST = [
 		title: "Manage Shops",
 		icon: <FaShop />,
 		path: "/manage-shops",
+	},
+	{
+		title: "Manage Orders",
+		icon: <FaMoneyBillWave />,
+		path: "/manage-orders",
 	},
 ];
 
