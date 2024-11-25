@@ -4,8 +4,10 @@ import React from "react";
 import ChangePassword from "./ChangePassword";
 import Profile from "./Profile";
 import OrderHistory from "./OrderHistory/OrderHistory";
+import { useNavigate } from "react-router-dom";
 
 export default function UserProfile() {
+
   const [tab, setTab] = React.useState("1");
   const theme = useTheme();
   const isMobile = useMediaQuery('(max-width:768px)');
@@ -91,3 +93,4 @@ export default function UserProfile() {
     </div>
   );
 }
+
