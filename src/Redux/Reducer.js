@@ -171,6 +171,15 @@ var Reducer = (state = initProductList, { type, payload }) => {
 			saveUser(newState?.user);
 			return newState;
 		}
+		case "UPDATE_USER": {
+			const data = { ...state?.user, ...payload };
+			saveUser(data);
+			return {
+				...state,
+				isLoggedIn: true,
+				user: data,
+			};
+		}
 		case "LOGIN_SUCCESS":
 			saveUser(payload);
 			return {

@@ -23,8 +23,8 @@ const ProductDetail = () => {
 
 	useEffect(() => {
 		axiosInstance.get(`/api/products/${id}`).then((res) => {
-			if (res.statusCode === 200) {
-				setProduct(res.data);
+			if (res?.statusCode === 200) {
+				setProduct(res?.data);
 			} else {
 				console.log(res);
 			}
@@ -171,13 +171,11 @@ const ProductDetail = () => {
 								onChange={(e) => setDayRent(e.target.value)}
 								size='small'
 							>
-								{Array(7)
-									.fill()
-									.map((_, index) => (
-										<MenuItem value={index + 1}>
-											{index + 1} ngày
-										</MenuItem>
-									))}
+								{product?.rentPrices?.map((_, index) => (
+									<MenuItem value={index + 1}>
+										{index + 1} ngày
+									</MenuItem>
+								))}
 							</Select>
 						</div>
 					</div>

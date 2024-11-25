@@ -22,7 +22,7 @@ const initProduct = {
 	allowRentBeforeDays: 0,
 	size: 0,
 	price: 0,
-	rentPrices: [0, 0, 0, 0, 0, 0, 0],
+	rentPrices: [0],
 	depositRate: 0,
 	description: "",
 	image: "",
@@ -72,15 +72,22 @@ export default function ModalProducts({
 				return prev;
 			}, 0);
 			setRentDayCount(count);
-			setInfoProduct(product);
+			const formatData = {
+				...product,
+				depositRate: product?.depositRate * 100,
+			};
+			setInfoProduct(formatData);
 		}
 	}, [openModalAdd, product]);
 
 	const handleSubmit = () => {
+		const formatRentPrices = infoProduct?.rentPrices?.slice(0, rentDayCount);
 		let formatData = {
 			...infoProduct,
 			depositRate: infoProduct.depositRate / 100,
+			rentPrices: formatRentPrices,
 		};
+
 		if (!product) {
 			axiosInstance
 				.post("/api/products", formatData)
@@ -514,7 +521,7 @@ export default function ModalProducts({
 									<TextField
 										key={index}
 										id={`outlined-basic-${index}`}
-										label={`Giá ngày ${index + 1}`}
+										label={`Giá thuê ngày ${index + 1}`}
 										variant='outlined'
 										sx={{ width: "100%" }}
 										size='small'

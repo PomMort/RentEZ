@@ -8,7 +8,7 @@ import {
 	useMediaQuery,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import axiosIntance from "../../util/axiosInstance";
 import { toast } from "react-toastify";
@@ -17,8 +17,9 @@ export default function Profile() {
 	const { user } = useSelector((state) => state.productListData);
 	const [banks, setBanks] = useState([]);
 	const [userInfo, setUserInfo] = useState(null);
-	const [bankIdUser, setBankIdUser] = useState("");
+	const [bankIdUser, setBankIdUser] = useState(0);
 	const isMobile = useMediaQuery("(max-width:768px)");
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		axios
@@ -44,7 +45,7 @@ export default function Profile() {
 							fullName: res?.data?.fullName,
 							address: res?.data?.address,
 						});
-						setBankIdUser(res?.data?.bankId + "");
+						setBankIdUser(res?.data?.bankId);
 					}
 				})
 				.catch((err) => {
@@ -54,16 +55,18 @@ export default function Profile() {
 		}
 	}, [user]);
 
-	const handleUpdateUser = () => {
+	const handleUpdateUser = async () => {
 		const data = {
 			...userInfo,
 			bankId: bankIdUser,
 		};
-		axiosIntance
+
+		const res = await axiosIntance
 			.put("/api/users", data)
 			.then((res) => {
 				if (res.statusCode === 200) {
 					toast.success("Cập nhật thành công");
+					return res;
 				}
 			})
 			.catch((err) => {
@@ -71,6 +74,20 @@ export default function Profile() {
 				toast.error(err?.Message);
 				toast.error(err?.errors?.FullName?.[0]);
 			});
+
+		if (res?.statusCode === 200) {
+			axiosIntance
+				.get(`/api/users/${user?.id}`)
+				.then((res) => {
+					if (res.statusCode === 200) {
+						dispatch({ type: "UPDATE_USER", payload: res?.data });
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					toast.error(err?.Message);
+				});
+		}
 	};
 
 	if (!userInfo) {
@@ -146,11 +163,13 @@ export default function Profile() {
 						labelId='demo-simple-select-label'
 						id='demo-simple-select'
 						value={bankIdUser}
+						defaultValue={0}
 						label='Chọn ngân hàng'
 						onChange={(e) => {
 							setBankIdUser(e.target.value);
 						}}
 					>
+						<MenuItem value={0}>Chọn ngân hàng</MenuItem>
 						{banks.map((bank) => (
 							<MenuItem key={bank?.bin} value={bank?.bin}>
 								<div className='flex items-center gap-3'>

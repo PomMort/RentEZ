@@ -98,13 +98,16 @@ const Navbar = () => {
 										>
 											Thông tin cá nhân
 										</Link>
-										<Link
-											to='/profile?t=3'
-											className='block px-4 py-2 text-sm hover:bg-gray-200'
-											onClick={() => setIsMenuOpen(false)}
-										>
-											Lịch sử đơn hàng
-										</Link>
+
+										{!user?.role.includes("Admin") && (
+											<Link
+												to='/profile?t=3'
+												className='block px-4 py-2 text-sm hover:bg-gray-200'
+												onClick={() => setIsMenuOpen(false)}
+											>
+												Lịch sử đơn hàng
+											</Link>
+										)}
 										{user?.role.includes("ShopOwner") && (
 											<Link
 												to='/shop/dashboard'
