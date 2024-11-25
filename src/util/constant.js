@@ -1,6 +1,7 @@
-export const domainFE = "http://localhost:3000";
+// export const domainFE = "http://localhost:3000";
 // export const domainBE = "https://localhost:7085";
 export const domainBE = "https://rentezapi-latest.onrender.com";
+export const domainFE = "https://rent-ez-79vd-etr90h1i5-pommorts-projects.vercel.app/"
 
 export const ORDER_STATUS = [
 	{
