@@ -5,6 +5,7 @@ import axiosInstance from "../../../util/axiosInstance";
 import { toast } from "react-toastify";
 import ModalVoucher from "./ModalVoucher";
 import dayjs from "dayjs";
+import { VOUCHER_STATUS, VOUCHER_TYPES } from "../../../util/constant";
 
 export default function VoucherShop({ vouchers, setReRender }) {
 	const [voucher, setVoucher] = useState();
@@ -14,7 +15,21 @@ export default function VoucherShop({ vouchers, setReRender }) {
 		{ field: "id", headerName: "ID", width: 70 },
 		{ field: "code", headerName: "CODE", width: 120 },
 		{ field: "name", headerName: "Tên voucher", width: 250 },
-		{ field: "type", headerName: "Loại", width: 100 },
+		{
+			field: "type",
+			headerName: "Loại",
+			width: 100,
+			renderCell: (params) => {
+				return (
+					<div>
+						{
+							VOUCHER_TYPES.find((t) => t.type === params?.row?.type)
+								.type_vi
+						}
+					</div>
+				);
+			},
+		},
 		{ field: "description", headerName: "Mô tả", width: 250 },
 		{
 			field: "startDate",
@@ -22,7 +37,11 @@ export default function VoucherShop({ vouchers, setReRender }) {
 			width: 120,
 			renderCell: (params) => {
 				return (
-					<div>{dayjs(params?.row?.startDate).format("DD/MM/YYYY")}</div>
+					<div>
+						{dayjs(params?.row?.startDate).isValid()
+							? dayjs(params?.row?.startDate).format("DD/MM/YYYY")
+							: ""}
+					</div>
 				);
 			},
 		},
@@ -32,11 +51,30 @@ export default function VoucherShop({ vouchers, setReRender }) {
 			width: 120,
 			renderCell: (params) => {
 				return (
-					<div>{dayjs(params?.row?.endDate).format("DD/MM/YYYY")}</div>
+					<div>
+						{dayjs(params?.row?.endDate).isValid()
+							? dayjs(params?.row?.endDate).format("DD/MM/YYYY")
+							: ""}
+					</div>
 				);
 			},
 		},
-		{ field: "status", headerName: "Trạng thái", width: 120 },
+		{
+			field: "status",
+			headerName: "Trạng thái",
+			width: 120,
+			renderCell: (params) => {
+				return (
+					<div>
+						{
+							VOUCHER_STATUS.find(
+								(t) => t.status === params?.row?.status
+							).status_vi
+						}
+					</div>
+				);
+			},
+		},
 		{
 			field: "value",
 			headerName: "Giảm",

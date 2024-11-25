@@ -71,11 +71,18 @@ const Navbar = () => {
 								{isLoggedIn ? (
 									<>
 										<Link
-											to='/profile'
+											to='/profile?t=1'
 											className='block px-4 py-2 text-sm hover:bg-gray-200'
 											onClick={() => setIsMenuOpen(false)}
 										>
-											My Profile
+											Thông tin cá nhân
+										</Link>
+										<Link
+											to='/profile?t=3'
+											className='block px-4 py-2 text-sm hover:bg-gray-200'
+											onClick={() => setIsMenuOpen(false)}
+										>
+											Lịch sử đơn hàng
 										</Link>
 										{user?.role.includes("ShopOwner") && (
 											<Link
@@ -83,7 +90,7 @@ const Navbar = () => {
 												className='block px-4 py-2 text-sm hover:bg-gray-200'
 												onClick={() => setIsMenuOpen(false)}
 											>
-												Manage Shop
+												Quản lý cửa hàng
 											</Link>
 										)}
 										{user?.role.includes("Admin") && (
@@ -92,7 +99,7 @@ const Navbar = () => {
 												className='block px-4 py-2 text-sm hover:bg-gray-200'
 												onClick={() => setIsMenuOpen(false)}
 											>
-												Manage Admin
+												Trang quản trị
 											</Link>
 										)}
 										{!user?.role.includes("Admin") &&
@@ -102,14 +109,14 @@ const Navbar = () => {
 													className='block px-4 py-2 text-sm hover:bg-gray-200'
 													onClick={() => setIsMenuOpen(false)}
 												>
-													Shop Registration
+													Tạo cửa hàng
 												</Link>
 											)}
 										<button
 											onClick={handleLogout}
 											className='block px-4 py-2 text-sm w-full text-left hover:bg-gray-200'
 										>
-											Logout
+											Đăng xuất
 										</button>
 									</>
 								) : (
@@ -119,14 +126,14 @@ const Navbar = () => {
 											className='block px-4 py-2 text-sm hover:bg-gray-200'
 											onClick={() => setIsMenuOpen(false)}
 										>
-											Login
+											Đăng nhập
 										</Link>
 										<Link
 											to='/Register'
 											className='block px-4 py-2 text-sm hover:bg-gray-200'
 											onClick={() => setIsMenuOpen(false)}
 										>
-											Register
+											Đăng ký
 										</Link>
 									</>
 								)}

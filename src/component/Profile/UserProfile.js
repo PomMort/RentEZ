@@ -1,16 +1,25 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import ChangePassword from "./ChangePassword";
 import Profile from "./Profile";
 import OrderHistory from "./OrderHistory/OrderHistory";
+import { useNavigate } from "react-router-dom";
 
 export default function UserProfile() {
 	const [tab, setTab] = React.useState("1");
+	const navigate = useNavigate();
+	const queryParams = new URLSearchParams(window.location.search);
+	const t = queryParams.get("t");
 
 	const handleChange = (event, newTab) => {
 		setTab(newTab);
+		navigate(`?t=${newTab}`);
 	};
+
+	useEffect(() => {
+		setTab(t);
+	}, [t]);
 
 	return (
 		<div className='my-10 w-[1200px] mx-auto'>

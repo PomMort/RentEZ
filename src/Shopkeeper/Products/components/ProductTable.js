@@ -26,6 +26,16 @@ export default function ProductTable({ products, setReRender }) {
 			},
 		},
 		{
+			field: "productName",
+			headerName: "Tên sản phẩm",
+			width: 150,
+		},
+		{
+			field: "categoryName",
+			headerName: "Loại sản phẩm",
+			width: 150,
+		},
+		{
 			field: "price",
 			headerName: "Giá",
 			width: 150,
