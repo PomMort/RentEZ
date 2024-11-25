@@ -4,7 +4,7 @@ import { FaTruckMoving } from "react-icons/fa6";
 
 export default function ProductItem({ product }) {
 	return (
-		<div className='min-h-[350px] mx-4 rounded-lg shadow hover:shadow-lg mb-10 shadow-gray-500'>
+		<div className='min-h-[350px] mx-4 '>
 			<div className='flex justify-center'>
 				<img
 					className=' mt-4 bg-center min-h-[400px] object-cover'

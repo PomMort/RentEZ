@@ -26,7 +26,7 @@ export default function ProductList() {
 				{productList?.map((product) => (
 					<div
 						key={product?.id}
-						className='rounded-lg shadow-md hover:shadow-lg transition-shadow bg-white overflow-hidden'
+						className="rounded-lg shadow-md hover:shadow-lg mb-10 shadow-gray-500 transition-shadow overflow-hidden"
 					>
 						<Link to={`/Detail/${product.id}`}>
 							<ProductItem product={product} />
