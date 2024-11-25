@@ -63,160 +63,170 @@ const RegisterPage = () => {
 	};
 
 	return (
-		<div className='login-container'>
-			<div className='login-box'>
-				<div className='Logo-center'>
-					<h1>Welcome To</h1>
-					<img src={logo} alt='Logo' className='logo size-20' />
-					<h2 style={{ fontFamily: "cursive", fontWeight: "bold" }}>
+		<div className="login-container flex justify-center items-center min-h-screen bg-gray-50 px-4 sm:px-6 lg:px-8">
+			<div className="login-box bg-white rounded-lg shadow-lg p-6 w-full max-w-md sm:max-w-lg">
+				<div className="Logo-center text-center mb-6">
+					<h1 className="text-xl font-bold md:text-2xl">Welcome To</h1>
+					<img
+						src={logo}
+						alt="Logo"
+						className="logo mx-auto w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 mb-2"
+					/>
+					<h2
+						className="text-lg font-semibold font-logo"
+					>
 						RentEZ
 					</h2>
 				</div>
 
-				<div className='grid grid-cols-2 gap-5'>
+				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 					<div>
 						<TextField
-							sx={{ width: "100%" }}
-							id='outlined-basic'
-							label='Username'
-							variant='outlined'
-							size='small'
+							fullWidth
+							id="outlined-basic"
+							label="Username"
+							variant="outlined"
+							size="small"
 							value={info.userName}
 							onChange={(e) =>
 								setInfo({ ...info, userName: e.target.value })
 							}
 						/>
 						{errorsField?.["UserName"] && (
-							<p className='text-sm text-red-700'>
+							<p className="text-sm text-red-700">
 								{errorsField?.["UserName"][0]}
 							</p>
 						)}
 					</div>
 					<div>
 						<TextField
-							sx={{ width: "100%" }}
-							id='outlined-basic'
-							label='Full Name'
-							variant='outlined'
-							size='small'
+							fullWidth
+							id="outlined-basic"
+							label="Full Name"
+							variant="outlined"
+							size="small"
 							value={info.fullName}
 							onChange={(e) =>
 								setInfo({ ...info, fullName: e.target.value })
 							}
 						/>
 						{errorsField?.["FullName"] && (
-							<p className='text-sm text-red-700'>
+							<p className="text-sm text-red-700">
 								{errorsField?.["FullName"][0]}
 							</p>
 						)}
 					</div>
 					<div>
 						<TextField
-							sx={{ width: "100%" }}
-							id='outlined-basic'
-							label='Email'
-							variant='outlined'
-							size='small'
+							fullWidth
+							id="outlined-basic"
+							label="Email"
+							variant="outlined"
+							size="small"
 							value={info.email}
 							onChange={(e) =>
 								setInfo({ ...info, email: e.target.value })
 							}
 						/>
 						{errorsField?.["Email"] && (
-							<p className='text-sm text-red-700'>
+							<p className="text-sm text-red-700">
 								{errorsField?.["Email"][0]}
 							</p>
 						)}
 					</div>
 					<div>
 						<TextField
-							sx={{ width: "100%" }}
-							id='outlined-basic'
-							label='Phone number'
-							variant='outlined'
-							size='small'
+							fullWidth
+							id="outlined-basic"
+							label="Phone number"
+							variant="outlined"
+							size="small"
 							value={info.phoneNumber}
 							onChange={(e) =>
 								setInfo({ ...info, phoneNumber: e.target.value })
 							}
 						/>
 						{errorsField?.["PhoneNumber"] && (
-							<p className='text-sm text-red-700'>
+							<p className="text-sm text-red-700">
 								{errorsField?.["PhoneNumber"][0]}
 							</p>
 						)}
 					</div>
 					<div>
 						<TextField
-							sx={{ width: "100%" }}
-							id='outlined-basic'
-							label='Password'
-							variant='outlined'
-							size='small'
-							type='password'
+							fullWidth
+							id="outlined-basic"
+							label="Password"
+							variant="outlined"
+							size="small"
+							type="password"
 							value={info.password}
 							onChange={(e) =>
 								setInfo({ ...info, password: e.target.value })
 							}
 						/>
 						{errorsField?.["Password"] && (
-							<p className='text-sm text-red-700'>
+							<p className="text-sm text-red-700">
 								{errorsField?.["Password"][0]}
 							</p>
 						)}
 					</div>
 					<div>
 						<TextField
-							sx={{ width: "100%" }}
-							id='outlined-basic'
-							label='Confirm password'
-							variant='outlined'
-							size='small'
-							type='password'
+							fullWidth
+							id="outlined-basic"
+							label="Confirm password"
+							variant="outlined"
+							size="small"
+							type="password"
 							value={info.confirmPassword}
 							onChange={(e) =>
 								setInfo({ ...info, confirmPassword: e.target.value })
 							}
 						/>
 						{errorsField?.["ConfirmPassword"] && (
-							<p className='text-sm text-red-700'>
+							<p className="text-sm text-red-700">
 								{errorsField?.["ConfirmPassword"][0]}
 							</p>
 						)}
 					</div>
-					<div className='col-span-2'>
+					<div className="col-span-1 sm:col-span-2">
 						<TextField
-							sx={{ width: "100%" }}
-							id='outlined-basic'
-							label='Address'
-							variant='outlined'
-							size='small'
+							fullWidth
+							id="outlined-basic"
+							label="Address"
+							variant="outlined"
+							size="small"
 							value={info.address}
 							onChange={(e) =>
 								setInfo({ ...info, address: e.target.value })
 							}
 						/>
 						{errorsField?.["Address"] && (
-							<p className='text-sm text-red-700'>
+							<p className="text-sm text-red-700">
 								{errorsField?.["Address"][0]}
 							</p>
 						)}
 					</div>
 				</div>
 
-				<div className='mt-8'>
+				<div className="mt-6">
 					<LoadingButton
 						loading={loading}
-						variant='contained'
+						variant="contained"
+						className="w-full"
 						onClick={handleSubmit}
 					>
 						Đăng ký
 					</LoadingButton>
 				</div>
 
-				<div className='signup-container'>
-					<span style={{ color: "black" }}>Already have an account?</span>
-					<Link to='/Login' className='signup-link'>
+				<div className="signup-container text-center mt-4">
+					<span className="text-gray-600">Already have an account?</span>
+					<Link
+						to="/Login"
+						className="signup-link text-blue-600 font-semibold ml-1"
+					>
 						Sign In Here
 					</Link>
 				</div>
