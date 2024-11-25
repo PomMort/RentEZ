@@ -1,10 +1,12 @@
 import {
 	Button,
 	FormControl,
+	InputAdornment,
 	InputLabel,
 	MenuItem,
 	Modal,
 	Select,
+	TextareaAutosize,
 	TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -66,7 +68,7 @@ export default function ModalProducts({
 	const handleSubmit = () => {
 		const formatData = {
 			...infoProduct,
-			DepositRate: infoProduct.depositRate / 100,
+			depositRate: infoProduct.depositRate / 100,
 		};
 		if (!product) {
 			axiosInstance
@@ -112,7 +114,7 @@ export default function ModalProducts({
 					<div className='mt-5 px-5 text-lg'>Thêm sản phẩm</div>
 					<hr />
 					<div className='px-5 my-5 grid grid-cols-3 gap-5'>
-						<div>
+						<div className='col-span-3'>
 							<TextField
 								id='outlined-basic'
 								label='Tên sản phẩm'
@@ -220,6 +222,15 @@ export default function ModalProducts({
 								size='small'
 								type='number'
 								InputProps={{ inputProps: { min: 1, step: 1 } }}
+								slotProps={{
+									input: {
+										endAdornment: (
+											<InputAdornment position='end'>
+												cm
+											</InputAdornment>
+										),
+									},
+								}}
 								value={infoProduct.size}
 								onChange={(e) =>
 									setInfoProduct({
@@ -237,12 +248,21 @@ export default function ModalProducts({
 						<div>
 							<TextField
 								id='outlined-basic'
-								label='Giá'
+								label='Giá trị sản phẩm'
 								variant='outlined'
 								sx={{ width: "100%" }}
 								size='small'
 								type='number'
 								InputProps={{ inputProps: { min: 1, step: 1 } }}
+								slotProps={{
+									input: {
+										endAdornment: (
+											<InputAdornment position='end'>
+												VNĐ
+											</InputAdornment>
+										),
+									},
+								}}
 								value={infoProduct.price}
 								onChange={(e) =>
 									setInfoProduct({
@@ -266,6 +286,15 @@ export default function ModalProducts({
 								size='small'
 								type='number'
 								InputProps={{ inputProps: { min: 1, step: 1 } }}
+								slotProps={{
+									input: {
+										endAdornment: (
+											<InputAdornment position='end'>
+												%
+											</InputAdornment>
+										),
+									},
+								}}
 								value={infoProduct.depositRate}
 								onChange={(e) =>
 									setInfoProduct({
@@ -289,6 +318,15 @@ export default function ModalProducts({
 								size='small'
 								type='number'
 								InputProps={{ inputProps: { min: 1, step: 1 } }}
+								slotProps={{
+									input: {
+										endAdornment: (
+											<InputAdornment position='end'>
+												gram
+											</InputAdornment>
+										),
+									},
+								}}
 								value={infoProduct.mass}
 								onChange={(e) =>
 									setInfoProduct({
@@ -312,6 +350,15 @@ export default function ModalProducts({
 								size='small'
 								type='number'
 								InputProps={{ inputProps: { min: 1, step: 1 } }}
+								slotProps={{
+									input: {
+										endAdornment: (
+											<InputAdornment position='end'>
+												cm
+											</InputAdornment>
+										),
+									},
+								}}
 								value={infoProduct.long}
 								onChange={(e) =>
 									setInfoProduct({
@@ -335,6 +382,15 @@ export default function ModalProducts({
 								size='small'
 								type='number'
 								InputProps={{ inputProps: { min: 1, step: 1 } }}
+								slotProps={{
+									input: {
+										endAdornment: (
+											<InputAdornment position='end'>
+												cm
+											</InputAdornment>
+										),
+									},
+								}}
 								value={infoProduct.width}
 								onChange={(e) =>
 									setInfoProduct({
@@ -358,6 +414,15 @@ export default function ModalProducts({
 								size='small'
 								type='number'
 								InputProps={{ inputProps: { min: 1, step: 1 } }}
+								slotProps={{
+									input: {
+										endAdornment: (
+											<InputAdornment position='end'>
+												cm
+											</InputAdornment>
+										),
+									},
+								}}
 								value={infoProduct.height}
 								onChange={(e) =>
 									setInfoProduct({
@@ -396,13 +461,13 @@ export default function ModalProducts({
 						<div>
 							<FormControl fullWidth>
 								<InputLabel id='demo-simple-select-label'>
-									Số ngày
+									Số ngày (Chỉnh giá thuê theo ngày)
 								</InputLabel>
 								<Select
 									labelId='demo-simple-select-label'
 									id='demo-simple-select'
 									value={rentDayCount}
-									label='Số ngày'
+									label='Số ngày (Chỉnh giá thuê theo ngày)'
 									size='small'
 									onChange={(e) => setRentDayCount(e.target.value)}
 								>
@@ -416,7 +481,7 @@ export default function ModalProducts({
 								</Select>
 							</FormControl>
 						</div>
-						<div className='col-span-3 grid grid-cols-7 gap-5'>
+						<div className='col-span-3 grid grid-cols-3 gap-5'>
 							{Array(rentDayCount)
 								.fill()
 								.map((_, index) => (
@@ -428,6 +493,15 @@ export default function ModalProducts({
 										size='small'
 										type='number'
 										InputProps={{ inputProps: { min: 1, step: 1 } }}
+										slotProps={{
+											input: {
+												endAdornment: (
+													<InputAdornment position='end'>
+														VNĐ
+													</InputAdornment>
+												),
+											},
+										}}
 										value={infoProduct.rentPrices[index]}
 										onChange={(e) =>
 											setInfoProduct({
@@ -443,12 +517,12 @@ export default function ModalProducts({
 						</div>
 
 						<div className='col-span-3'>
-							<TextField
-								id='outlined-basic'
-								label='Mô tả'
-								variant='outlined'
-								sx={{ width: "100%" }}
-								size='small'
+							<TextareaAutosize
+								className='w-full border border-gray-400 rounded-sm p-2'
+								aria-label='minimum height'
+								minRows={3}
+								maxRows={3}
+								placeholder='Mô tả'
 								value={infoProduct.description}
 								onChange={(e) =>
 									setInfoProduct({
