@@ -52,3 +52,37 @@ export const ORDER_STATUS = [
 		status: "Cancelled",
 	},
 ];
+
+export const VOUCHER_TYPES = [
+	{
+		type: "Rent",
+		type_vi: "Thuê",
+	},
+	{
+		type: "Ship",
+		type_vi: "Vận chuyển",
+	},
+];
+
+export const VOUCHER_STATUS = [
+	{
+		status: "Preparing",
+		status_vi: "Sắp ra mắt",
+	},
+	{
+		status: "Active",
+		status_vi: "Đang hoạt động",
+	},
+	{
+		status: "Expired",
+		status_vi: "Đax hết hạn",
+	},
+	{
+		status: "Limited",
+		status_vi: "Giới hạn",
+	},
+	{
+		status: "Used",
+		status_vi: "Đã sử dụng",
+	},
+];

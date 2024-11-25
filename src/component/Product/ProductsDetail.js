@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaCartPlus, FaHeart } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
-import { Grid2, MenuItem, Select } from "@mui/material";
+import { Grid2, MenuItem, Rating, Select } from "@mui/material";
 import axiosInstance from "../../util/axiosInstance";
 import ProductItem from "./ProductItem";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,12 +66,48 @@ const ProductDetail = () => {
 					</div>
 				);
 			case "reviews":
-				return <p>Hiển thị 20 đánh giá về sản phẩm...</p>;
+				return (
+					<div className='flex items-center gap-5 ml-5'>
+						<img
+							src='https://cly.1cdn.vn/2022/05/10/anh-nen-avatar-dep_021652403.jpg'
+							alt=''
+							className='size-10 object-cover rounded-full'
+						/>
+						<div className='flex flex-col gap-1'>
+							<div className='flex items-center gap-3'>
+								<p>
+									<strong>HuyNguyen</strong>
+								</p>
+								<Rating
+									name='read-only'
+									value={4}
+									readOnly
+									size='small'
+								/>
+							</div>
+							<p>
+								Sản phẩm rất đẹp, các bạn nên thuê thử nhé. Giá còn học
+								sinh, sinh viên nữa chứ
+							</p>
+						</div>
+					</div>
+				);
 			case "shop-info":
 				return (
-					<p>
-						Tên shop: <strong>{product?.shopName}</strong>
-					</p>
+					<div className='flex gap-5'>
+						<img
+							src={product?.shopAvatar}
+							alt=''
+							className='size-20 object-cover'
+						/>
+						<div className='flex flex-col justify-between'>
+							<p>
+								Tên shop: <strong>{product?.shopName}</strong>
+							</p>
+							<p>Email: {product?.shopEmail}</p>
+							<p>Địa chỉ: {product?.shopAddress}</p>
+						</div>
+					</div>
 				);
 			default:
 				return null;
@@ -206,7 +242,7 @@ const ProductDetail = () => {
 					className={`px-4 py-2 ${selectedTab === "reviews" ? "text-blue-600 border-b-2 border-blue-600" : ""}`}
 					onClick={() => setSelectedTab("reviews")}
 				>
-					Đánh Giá (20)
+					Đánh Giá (1)
 				</button>
 				<button
 					className={`px-4 py-2 ${selectedTab === "shop-info" ? "text-blue-600 border-b-2 border-blue-600" : ""}`}

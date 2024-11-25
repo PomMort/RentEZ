@@ -35,18 +35,9 @@ export default function ModalProducts({
 	product,
 }) {
 	const [infoProduct, setInfoProduct] = useState(initProduct);
+	const [rentDayCount, setRentDayCount] = useState(1);
 
-	const [errorsField, setErrorsField] = useState({
-		Long: "",
-		Mass: "",
-		Size: "",
-		Price: "",
-		Width: "",
-		Height: "",
-		Quantity: "",
-		DepositRate: "",
-		AllowRentBeforeDays: "",
-	});
+	const [errorsField, setErrorsField] = useState();
 
 	const [categories, setCategories] = useState([]);
 
@@ -73,7 +64,10 @@ export default function ModalProducts({
 	}, [openModalAdd, product]);
 
 	const handleSubmit = () => {
-		const formatData = { ...infoProduct, DepositRate: infoProduct.depositRate / 100 }
+		const formatData = {
+			...infoProduct,
+			DepositRate: infoProduct.depositRate / 100,
+		};
 		if (!product) {
 			axiosInstance
 				.post("/api/products", formatData)
@@ -273,7 +267,6 @@ export default function ModalProducts({
 								type='number'
 								InputProps={{ inputProps: { min: 1, step: 1 } }}
 								value={infoProduct.depositRate}
-
 								onChange={(e) =>
 									setInfoProduct({
 										...infoProduct,
@@ -400,29 +393,55 @@ export default function ModalProducts({
 								</p>
 							)}
 						</div>
-						<div className='col-span-3 grid grid-cols-7 gap-5'>
-							{infoProduct?.rentPrices?.map((_, index) => (
-								<TextField
-									id={`outlined-basic-${index}`}
-									label={`Giá ngày ${index + 1}`}
-									variant='outlined'
-									sx={{ width: "100%" }}
+						<div>
+							<FormControl fullWidth>
+								<InputLabel id='demo-simple-select-label'>
+									Số ngày
+								</InputLabel>
+								<Select
+									labelId='demo-simple-select-label'
+									id='demo-simple-select'
+									value={rentDayCount}
+									label='Số ngày'
 									size='small'
-									type='number'
-									InputProps={{ inputProps: { min: 1, step: 1 } }}
-									value={infoProduct.rentPrices[index]}
-									onChange={(e) =>
-										setInfoProduct({
-											...infoProduct,
-											rentPrices: infoProduct?.rentPrices?.map(
-												(price, i) =>
-													i === index ? +e.target.value : price
-											),
-										})
-									}
-								/>
-							))}
+									onChange={(e) => setRentDayCount(e.target.value)}
+								>
+									{Array(7)
+										.fill()
+										.map((_, index) => (
+											<MenuItem value={index + 1}>
+												{index + 1}
+											</MenuItem>
+										))}
+								</Select>
+							</FormControl>
 						</div>
+						<div className='col-span-3 grid grid-cols-7 gap-5'>
+							{Array(rentDayCount)
+								.fill()
+								.map((_, index) => (
+									<TextField
+										id={`outlined-basic-${index}`}
+										label={`Giá ngày ${index + 1}`}
+										variant='outlined'
+										sx={{ width: "100%" }}
+										size='small'
+										type='number'
+										InputProps={{ inputProps: { min: 1, step: 1 } }}
+										value={infoProduct.rentPrices[index]}
+										onChange={(e) =>
+											setInfoProduct({
+												...infoProduct,
+												rentPrices: infoProduct?.rentPrices?.map(
+													(price, i) =>
+														i === index ? +e.target.value : price
+												),
+											})
+										}
+									/>
+								))}
+						</div>
+
 						<div className='col-span-3'>
 							<TextField
 								id='outlined-basic'

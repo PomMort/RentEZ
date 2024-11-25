@@ -26,7 +26,7 @@ export default function OrderHistoryItem({ order, setReRender }) {
 
 	return (
 		<div
-			className='p-8 rounded-xl '
+			className='p-8 rounded-xl'
 			style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
 		>
 			<div className='flex items-center justify-between'>
@@ -96,6 +96,12 @@ export default function OrderHistoryItem({ order, setReRender }) {
 					<Button variant='outlined' onClick={handleUpdateStatus}>
 						Trả hàng
 					</Button>
+				)}
+				{order?.status === "WaitForPayment" && (
+					<>
+						<Button variant='contained'>Thanh toán</Button>
+						<Button variant='outlined'>Huỷ thanh toán</Button>
+					</>
 				)}
 			</div>
 

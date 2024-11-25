@@ -18,17 +18,17 @@ export default function ModalUser({
 	});
 	const handleSubmit = () => {
 		if (
-			!user.userName ||
-			!user.fullName ||
-			!user.email ||
-			!user.phoneNumber ||
-			!user.password
+			!user?.userName ||
+			!user?.fullName ||
+			!user?.email ||
+			!user?.phoneNumber ||
+			!user?.password
 		) {
 			toast.info("Cần nhập đầy đủ các trường");
 			return;
 		}
 
-		if (user.password !== user.confirmPassword) {
+		if (user?.password !== user?.confirmPassword) {
 			toast.info("Mật khẩu không trùng khớp");
 			return;
 		}
@@ -44,11 +44,9 @@ export default function ModalUser({
 			})
 			.catch((err) => {
 				console.log(err);
-				if (err?.errors) {
-					toast.error(err?.errors?.FullName[0]);
-					toast.error(err?.errors?.Email[0]);
-					toast.error(err?.errors?.PhoneNumber[0]);
-				}
+				toast.error(err?.errors?.FullName?.[0]);
+				toast.error(err?.errors?.Email?.[0]);
+				toast.error(err?.errors?.PhoneNumber?.[0]);
 			});
 	};
 
@@ -68,7 +66,7 @@ export default function ModalUser({
 							label='Username'
 							variant='outlined'
 							sx={{ width: "100%" }}
-							value={user.userName}
+							value={user?.userName}
 							onChange={(e) =>
 								setUser({ ...user, userName: e.target.value })
 							}
@@ -78,7 +76,7 @@ export default function ModalUser({
 							label='Họ và tên'
 							variant='outlined'
 							sx={{ width: "100%" }}
-							value={user.fullName}
+							value={user?.fullName}
 							onChange={(e) =>
 								setUser({ ...user, fullName: e.target.value })
 							}
@@ -88,7 +86,7 @@ export default function ModalUser({
 							label='Email'
 							variant='outlined'
 							sx={{ width: "100%" }}
-							value={user.email}
+							value={user?.email}
 							onChange={(e) =>
 								setUser({ ...user, email: e.target.value })
 							}
@@ -98,7 +96,7 @@ export default function ModalUser({
 							label='Số điện thoại'
 							variant='outlined'
 							sx={{ width: "100%" }}
-							value={user.phoneNumber}
+							value={user?.phoneNumber}
 							onChange={(e) =>
 								setUser({ ...user, phoneNumber: e.target.value })
 							}
@@ -108,7 +106,7 @@ export default function ModalUser({
 							label='Mật khẩu'
 							variant='outlined'
 							sx={{ width: "100%" }}
-							value={user.password}
+							value={user?.password}
 							type='password'
 							onChange={(e) =>
 								setUser({ ...user, password: e.target.value })
@@ -120,7 +118,7 @@ export default function ModalUser({
 							variant='outlined'
 							sx={{ width: "100%" }}
 							type='password'
-							value={user.confirmPassword}
+							value={user?.confirmPassword}
 							onChange={(e) =>
 								setUser({ ...user, confirmPassword: e.target.value })
 							}

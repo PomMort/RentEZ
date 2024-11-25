@@ -1,6 +1,5 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { MdDeleteOutline, MdOutlineModeEdit } from "react-icons/md";
 import { Avatar } from "@mui/material";
 
 export default function UsersTable({ users, setReRender }) {
@@ -20,19 +19,20 @@ export default function UsersTable({ users, setReRender }) {
 				);
 			},
 		},
-		{ field: "userName", headerName: "Username", width: 300 },
-		{ field: "phoneNumber", headerName: "SĐT", width: 150 },
-		{ field: "address", headerName: "Địa chỉ", width: 500 },
-		{
-			field: "action",
-			headerName: "Hành động",
-			renderCell: (params) => (
-				<div className='text-2xl flex items-center justify-center gap-3 h-full'>
-					{/* <MdOutlineModeEdit className='text-[#418dff] cursor-pointer' />
-					<MdDeleteOutline className='text-red-600 cursor-pointer' /> */}
-				</div>
-			),
-		},
+		{ field: "userName", headerName: "Username", width: 150 },
+		{ field: "email", headerName: "Email", width: 150 },
+		{ field: "phoneNumber", headerName: "SĐT", width: 200 },
+		{ field: "address", headerName: "Địa chỉ", width: 400 },
+		// {
+		// 	field: "action",
+		// 	headerName: "Hành động",
+		// 	renderCell: (params) => (
+		// 		<div className='text-2xl flex items-center justify-center gap-3 h-full'>
+		// 			{/* <MdOutlineModeEdit className='text-[#418dff] cursor-pointer' />
+		// 			<MdDeleteOutline className='text-red-600 cursor-pointer' /> */}
+		// 		</div>
+		// 	),
+		// },
 	];
 
 	const paginationModel = { page: 0, pageSize: 5 };

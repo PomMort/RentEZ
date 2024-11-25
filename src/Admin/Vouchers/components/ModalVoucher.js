@@ -22,23 +22,26 @@ export default function ModalVoucher({
 	_voucher,
 }) {
 	const [voucher, setVoucher] = useState({
-		// shopId: null,
 		code: "",
 		name: "",
-		value: 0,
+		value: "",
 		minRentValue: 0,
 		maxDiscountValue: 0,
 		type: 1,
 		valueType: 1,
 		startDate: null,
 		endDate: null,
-		description: "string",
+		description: "",
 	});
 
 	useEffect(() => {
 		if (_voucher) {
-			const startDate = dayjs(_voucher?.startDate);
-			const endDate = dayjs(_voucher?.endDate);
+			const startDate = dayjs(_voucher?.startDate).isValid()
+				? dayjs(_voucher?.startDate)
+				: null;
+			const endDate = dayjs(_voucher?.endDate).isValid()
+				? dayjs(_voucher?.endDate)
+				: null;
 			const type = _voucher?.type === "Ship" ? 2 : 1;
 			const valueType = _voucher?.valueType === "Percent" ? 1 : 2;
 
@@ -50,7 +53,8 @@ export default function ModalVoucher({
 		const data = { ...voucher };
 		data.startDate = data?.startDate?.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
 		data.endDate = data?.endDate?.format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
-		data.value = +data.value;
+		// eslint-disable-next-line eqeqeq
+		data.value = data?.valueType == 1 ? +data?.value / 100 : data?.value;
 		// EDIT
 		if (_voucher) {
 			axiosInstance
@@ -60,11 +64,24 @@ export default function ModalVoucher({
 						toast.success("Cập nhật voucher thành công");
 						setReRender((prev) => !prev);
 						setOpenModalAdd(false);
+						setVoucher({
+							code: "",
+							name: "",
+							value: "",
+							minRentValue: 0,
+							maxDiscountValue: 0,
+							type: 1,
+							valueType: 1,
+							startDate: null,
+							endDate: null,
+							description: "string",
+						});
 					}
 				})
 				.catch((err) => {
 					console.log(err);
 					toast.error("Có lỗi xảy ra");
+					toast.error(err?.Message);
 				});
 		} else {
 			axiosInstance
@@ -74,11 +91,24 @@ export default function ModalVoucher({
 						toast.success("Thêm voucher thành công");
 						setReRender((prev) => !prev);
 						setOpenModalAdd(false);
+						setVoucher({
+							code: "",
+							name: "",
+							value: "",
+							minRentValue: 0,
+							maxDiscountValue: 0,
+							type: 1,
+							valueType: 1,
+							startDate: null,
+							endDate: null,
+							description: "string",
+						});
 					}
 				})
 				.catch((err) => {
 					console.log(err);
 					toast.error("Có lỗi xảy ra");
+					toast.error(err?.Message);
 				});
 		}
 	};
@@ -101,9 +131,15 @@ export default function ModalVoucher({
 							size='small'
 							sx={{ width: "100%" }}
 							value={voucher.code}
-							onChange={(e) =>
-								setVoucher({ ...voucher, code: e.target.value })
-							}
+							onChange={(e) => {
+								const input = e.target.value;
+								const normalizedInput = input
+									.normalize("NFD") // Tách dấu từ ký tự
+									.replace(/[\u0300-\u036f]/g, "") // Loại bỏ các dấu
+									.replace(/[^a-zA-Z0-9]/g, "") // Loại bỏ các ký tự không hợp lệ (bao gồm khoảng cách)
+									.toUpperCase(); // Viết hoa toàn bộ
+								setVoucher({ ...voucher, code: normalizedInput });
+							}}
 						/>
 
 						<TextField
@@ -131,8 +167,8 @@ export default function ModalVoucher({
 									setVoucher({ ...voucher, type: e.target.value })
 								}
 							>
-								<MenuItem value={1}>Rent</MenuItem>
-								<MenuItem value={2}>Ship</MenuItem>
+								<MenuItem value={1}>Thuê</MenuItem>
+								<MenuItem value={2}>Vận chuyển</MenuItem>
 							</Select>
 						</FormControl>
 						<FormControl fullWidth>
@@ -149,8 +185,8 @@ export default function ModalVoucher({
 									setVoucher({ ...voucher, valueType: e.target.value })
 								}
 							>
-								<MenuItem value={1}>Percent</MenuItem>
-								<MenuItem value={2}>Amount</MenuItem>
+								<MenuItem value={1}>Phần trăm (%)</MenuItem>
+								<MenuItem value={2}>Giá (VNĐ)</MenuItem>
 							</Select>
 						</FormControl>
 						{/* <TextField
@@ -178,20 +214,26 @@ export default function ModalVoucher({
 								})
 							}
 						/> */}
-						<TextField
-							id='outlined-basic'
-							label='Giảm'
-							variant='outlined'
-							size='small'
-							sx={{ width: "100%" }}
-							value={voucher.value}
-							onChange={(e) =>
-								setVoucher({
-									...voucher,
-									value: e.target.value,
-								})
-							}
-						/>
+						<div>
+							<TextField
+								id='outlined-basic'
+								label='Giá trị voucher (Giảm)'
+								variant='outlined'
+								size='small'
+								sx={{ width: "100%" }}
+								value={voucher.value}
+								onChange={(e) =>
+									setVoucher({
+										...voucher,
+										value: e.target.value,
+									})
+								}
+							/>
+							<div className='text-xs text-gray-500 italic font-bold flex flex-col gap-1 mt-2 ml-3'>
+								<p>Nếu loại voucher là (%). Đầu vào: 50</p>
+								<p>Nếu loại voucher là (VNĐ). Đầu vào: 50000</p>
+							</div>
+						</div>
 						<TextField
 							id='outlined-basic'
 							label='Mô tả'
