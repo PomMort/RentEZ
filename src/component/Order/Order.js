@@ -148,7 +148,7 @@ export default function Order() {
 						<FaMapMarkerAlt /> Thông tin cá nhân
 					</div>
 					<hr className='mt-5' />
-					<div className='grid grid-cols-1 md:grid-cols-2 gap-5 mt-5'>
+					<div className='grid lg:grid-cols-1 md:grid-cols-2 gap-5 mt-5'>
 						<div className='col-span-1 w-full'>
 							<TextField
 								id='standard-basic'
@@ -379,7 +379,78 @@ export default function Order() {
 					</div>
 				</div>
 			</div>
+			{/* =================== MODAL SELECT VOUCHER =================== */}
+			<Modal
+				open={openModalVoucher}
+				onClose={() => setOpenModalVoucher(false)}
+				keepMounted
+			>
+				<div className='min-w-[500px] bg-white absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'>
+					<div className='mt-5 px-5 text-lg'>Chọn Voucher</div>
+					<hr />
+					<div className='px-8 mt-5'>
+						<div className='bg-gray-100 p-3 flex items-center justify-around'>
+							<span className='text-sm text-gray-600'>Mã Voucher</span>
+							<TextField
+								id='outlined-basic'
+								label='Mã Voucher'
+								variant='outlined'
+								size='small'
+								color='warning'
+							/>
+							<Button variant='outlined' color='warning' disabled>
+								ÁP DỤNG
+							</Button>
+						</div>
+						<div className='mt-5 pr-3 flex flex-col max-h-[460px] overflow-y-auto gap-3 pb-5'>
+							{vouchers.map((voucher) => (
+								<div key={voucher?.id}>
+									<input
+										type='radio'
+										id={voucher?.id}
+										name={voucher?.type === "Ship" ? "Ship" : "Rent"}
+										value={voucher?.code}
+										onChange={() =>
+											voucher?.type === "Ship"
+												? setVoucherShipSelected(voucher)
+												: setVoucherRentSelected(voucher)
+										}
+										className='hidden peer'
+									/>
+									<label
+										htmlFor={voucher?.id}
+										className={`flex max-h-[116px] min-w-[500px] gap-3 bg-slate-50 rounded-lg overflow-hidden border-2 shadow-lg transition-colors  cursor-pointer hover:opacity-90 w-fit h-fit ${voucher?.type === "Ship" ? " peer-checked:border-green-500 peer-checked:bg-[#3be52f4f] " : " peer-checked:border-yellow-500 peer-checked:bg-[#deb7364f] "}`}
+									>
+										<img
+											src={
+												voucher?.type === "Ship"
+													? "https://img.pikbest.com/png-images/20210627/free-ship-free-nationwide_6010376.png!bw700"
+													: "https://cdn2.vectorstock.com/i/1000x1000/32/81/voucher-icon-coupon-and-gift-offer-discount-vector-7403281.jpg"
+											}
+											alt=''
+											className='size-28 object-cover'
+										/>
+										<div className='flex flex-col justify-between flex-1 p-3'>
+											<p className='text-wrap font-bold text-lg'>
+												{voucher?.name}
+											</p>
+											<p className='text-wrap text-sm mt-1 max-w-[300px] text-[#6a6a6a]'>
+												{voucher?.description}
+											</p>
+											<p className='text-[#ffa200] text-[14px] font-bold underline'>
+												<span>Giảm: </span>
+												{Number.isInteger(voucher?.value)
+													? (voucher?.value).toLocaleString() + "đ"
+													: voucher?.value * 100 + "%"}
+											</p>
+										</div>
+									</label>
+								</div>
+							))}
+						</div>
+					</div>
+				</div>
+			</Modal>
 		</div>
 	);
-	
 }

@@ -1,10 +1,12 @@
 import {
 	Button,
 	FormControl,
+	IconButton,
 	InputAdornment,
 	InputLabel,
 	MenuItem,
 	Modal,
+	OutlinedInput,
 	Select,
 	TextareaAutosize,
 	TextField,
@@ -12,7 +14,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axiosInstance from "../../../util/axiosInstance";
-
+import { FaRegImages } from "react-icons/fa6";
 const initProduct = {
 	productName: "",
 	categoryId: 0,
@@ -38,6 +40,7 @@ export default function ModalProducts({
 }) {
 	const [infoProduct, setInfoProduct] = useState(initProduct);
 	const [rentDayCount, setRentDayCount] = useState(1);
+	const [openModalViewImg, setOpenModalViewImg] = useState(false);
 
 	const [errorsField, setErrorsField] = useState();
 
@@ -60,13 +63,21 @@ export default function ModalProducts({
 	useEffect(() => {
 		setErrorsField({});
 		setInfoProduct(initProduct);
+
 		if (product) {
+			const count = product?.rentPrices?.reduce((prev, curr) => {
+				if (curr > 0) {
+					return prev + 1;
+				}
+				return prev;
+			}, 0);
+			setRentDayCount(count);
 			setInfoProduct(product);
 		}
 	}, [openModalAdd, product]);
 
 	const handleSubmit = () => {
-		const formatData = {
+		let formatData = {
 			...infoProduct,
 			depositRate: infoProduct.depositRate / 100,
 		};
@@ -86,6 +97,10 @@ export default function ModalProducts({
 					toast.error(err.Message);
 				});
 		} else {
+			const formatRentPrices = formatData?.rentPrices?.map((price, index) =>
+				index < rentDayCount ? price : 0
+			);
+			formatData = { ...formatData, rentPrices: formatRentPrices };
 			axiosInstance
 				.put(`/api/products/${product?.id}`, formatData)
 				.then((res) => {
@@ -438,12 +453,23 @@ export default function ModalProducts({
 							)}
 						</div>
 						<div>
-							<TextField
+							<OutlinedInput
 								id='outlined-basic'
-								label='URL Ảnh'
+								placeholder='URL Ảnh'
 								variant='outlined'
 								sx={{ width: "100%" }}
 								size='small'
+								endAdornment={
+									<InputAdornment position='end'>
+										<IconButton
+											aria-label={"Xem trước ảnh"}
+											onClick={() => setOpenModalViewImg(true)}
+											edge='end'
+										>
+											<FaRegImages />
+										</IconButton>
+									</InputAdornment>
+								}
 								value={infoProduct.image}
 								onChange={(e) =>
 									setInfoProduct({
@@ -474,7 +500,7 @@ export default function ModalProducts({
 									{Array(7)
 										.fill()
 										.map((_, index) => (
-											<MenuItem value={index + 1}>
+											<MenuItem key={index} value={index + 1}>
 												{index + 1}
 											</MenuItem>
 										))}
@@ -486,6 +512,7 @@ export default function ModalProducts({
 								.fill()
 								.map((_, index) => (
 									<TextField
+										key={index}
 										id={`outlined-basic-${index}`}
 										label={`Giá ngày ${index + 1}`}
 										variant='outlined'
@@ -544,6 +571,24 @@ export default function ModalProducts({
 							</Button>
 						</div>
 					</div>
+				</div>
+			</Modal>
+			{/* MODAL VIEW IMAGE */}
+			<Modal
+				open={openModalViewImg}
+				onClose={() => setOpenModalViewImg(false)}
+				keepMounted
+			>
+				<div className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] p-5'>
+					<img
+						src={infoProduct?.image}
+						alt=''
+						className='rounded-md object-cover'
+						onError={(e) => {
+							e.target.src =
+								"https://lh4.googleusercontent.com/proxy/0rCwwypfFxmFEtvRQoQ83lwTs1T_Y9qsJSp7sMKQ5LXHi89tYhAiRXbHOyoqljagJCmsvpHx7wmLGHS2rhJzPxpN6Wu00Mtk9POTrz0QysbBkdX9FJsk"; // Đường dẫn ảnh thay thế
+						}}
+					/>
 				</div>
 			</Modal>
 		</div>

@@ -1,6 +1,5 @@
-import { Avatar } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { FaCheck } from "react-icons/fa";
 import React from "react";
 import axiosInstance from "../../../util/axiosInstance";
 import { toast } from "react-toastify";
@@ -32,10 +31,12 @@ export default function ShopTable({ shops, type, setReRender }) {
 			renderCell: (params) => {
 				return (
 					<div className='flex items-center justify-center gap-5 h-full'>
-						<FaCheck
-							className='text-green-500 cursor-pointer'
+						<Button
+							variant='contained'
 							onClick={() => handleApprove(params?.row?.id)}
-						/>
+						>
+							DUYỆT
+						</Button>
 					</div>
 				);
 			},

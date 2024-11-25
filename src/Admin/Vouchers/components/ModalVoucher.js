@@ -1,6 +1,7 @@
 import {
 	Button,
 	FormControl,
+	InputAdornment,
 	InputLabel,
 	MenuItem,
 	Modal,
@@ -44,8 +45,19 @@ export default function ModalVoucher({
 				: null;
 			const type = _voucher?.type === "Ship" ? 2 : 1;
 			const valueType = _voucher?.valueType === "Percent" ? 1 : 2;
+			const value =
+				_voucher?.valueType === "Percent"
+					? _voucher?.value * 100
+					: _voucher?.value;
 
-			setVoucher({ ..._voucher, startDate, endDate, type, valueType });
+			setVoucher({
+				..._voucher,
+				startDate,
+				endDate,
+				type,
+				valueType,
+				value,
+			});
 		}
 	}, [_voucher]);
 
@@ -228,6 +240,15 @@ export default function ModalVoucher({
 										value: e.target.value,
 									})
 								}
+								slotProps={{
+									input: {
+										endAdornment: (
+											<InputAdornment position='end'>
+												{voucher?.valueType === 1 ? "%" : "VNĐ"}
+											</InputAdornment>
+										),
+									},
+								}}
 							/>
 							<div className='text-xs text-gray-500 italic font-bold flex flex-col gap-1 mt-2 ml-3'>
 								<p>Nếu loại voucher là (%). Đầu vào: 50</p>
