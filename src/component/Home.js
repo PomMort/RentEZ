@@ -26,85 +26,70 @@ export default function Home() {
 		return (
 			<>
 				<div
-					className='bg-cover bg-bottom min-w-[900px] min-h-[300px]'
-					style={{
-						backgroundImage: `url('image/anh_nen_1.jpg')`,
-						padding: "30px",
-					}}
-				>
-					<div className='min-w-[200px] min-h-[300px]'>
-						<p className='font-bold text-4xl font-text text-neutral-50 mb-10 pt-24 ml-52'>
-							NEW COLLECTION
-						</p>
-						<p className='font-bold text-3xl font-text text-neutral-50 ml-52 pb-20'>
-							FIND THE PERFECT STYLE FOR YOU
-						</p>
-						<div style={{ marginTop: "-30px", paddingBottom: "40px" }}>
-							<button
-								className='text-xl rounded-full font-text text-neutral-50 bg-yellow-300 shadow-lg shadow-yellow-200/60 ml-56 hover:bg-yellow-400'
-								style={{ padding: "10px 40px 10px 40px" }}
-							>
-								RENT NOW
-							</button>
-						</div>
-					</div>
-				</div>
+        className="bg-cover bg-bottom min-h-[200px] sm:min-h-[300px] flex flex-col justify-center items-center px-4"
+        style={{
+          backgroundImage: `url('image/anh_nen_1.jpg')`,
+        }}
+      >
+        <p className="font-bold text-2xl sm:text-4xl font-text text-neutral-50 mb-4">
+          NEW COLLECTION
+        </p>
+        <p className="font-bold text-lg sm:text-3xl font-text text-neutral-50 mb-6">
+          FIND THE PERFECT STYLE FOR YOU
+        </p>
+        <button
+          className="text-base sm:text-xl rounded-full font-text text-neutral-50 bg-yellow-300 shadow-lg shadow-yellow-200/60 hover:bg-yellow-400 px-6 sm:px-10 py-2"
+        >
+          RENT NOW
+        </button>
+      </div>
 
-				<div className='md:container md:mx-auto grid-cols-2 grid px-5 my-12'>
-					<div
-						className='bg-cover bg-center min-w-[400px] min-h-[300px]'
-						style={{
-							backgroundImage: `url('image/anh_nen_2.1.jpg')`,
-							padding: "30px",
-						}}
-					>
-						<div className='flex justify-between mt-60'>
-							<p className='font-bold font-text text-2xl mt-2 text-neutral-50'>
-								MEN
-							</p>
-							<FaAngleRight
-								style={{ fontSize: "40px", color: "white" }}
-							/>
-						</div>
-					</div>
+      {/* MEN and WOMEN Categories */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-4 my-8">
+        <div
+          className="bg-cover bg-center h-[200px] sm:h-[300px] flex justify-between items-end p-4"
+          style={{
+            backgroundImage: `url('image/anh_nen_2.1.jpg')`,
+          }}
+        >
+          <p className="font-bold font-text text-lg sm:text-2xl text-neutral-50">
+            MEN
+          </p>
+          <FaAngleRight className="text-white text-3xl sm:text-4xl" />
+        </div>
 
-					<div
-						className='bg-cover bg-center min-w-[400px] min-h-[300px]'
-						style={{
-							backgroundImage: `url('image/anh_nen_2.jpg')`,
-							padding: "30px",
-						}}
-					>
-						<div className='flex justify-between mt-60'>
-							<p className='font-bold font-text text-2xl mt-2 text-neutral-50'>
-								WOMEN
-							</p>
-							<FaAngleRight
-								style={{ fontSize: "40px", color: "white" }}
-							/>
-						</div>
-					</div>
-				</div>
+        <div
+          className="bg-cover bg-center h-[200px] sm:h-[300px] flex justify-between items-end p-4"
+          style={{
+            backgroundImage: `url('image/anh_nen_2.jpg')`,
+          }}
+        >
+          <p className="font-bold font-text text-lg sm:text-2xl text-neutral-50">
+            WOMEN
+          </p>
+          <FaAngleRight className="text-white text-3xl sm:text-4xl" />
+        </div>
+      </div>
 
-				<div className='flex justify-center'>
-					<div style={{ paddingBottom: "40px" }}>
-						<button
-							className='text-4xl font-bold rounded-lg font-text text-black bg-yellow-300 shadow-lg shadow-yellow-200/60 hover:bg-yellow-400'
-							style={{ padding: "10px 150px 10px 150px" }}
-						>
-							Item For Sale
-						</button>
-					</div>
-				</div>
+      {/* Item For Sale Section */}
+      <div className="flex justify-center px-4">
+        <button
+          className="text-lg sm:text-4xl font-bold rounded-lg font-text text-black bg-yellow-300 shadow-lg shadow-yellow-200/60 hover:bg-yellow-400 px-8 sm:px-20 py-2 sm:py-4"
+        >
+          Item For Sale
+        </button>
+      </div>
 
-				<div
-					className='bg-cover bg-center min-w-[400px] min-h-[750px] flex flex-1 mb-8 mt-2'
-					style={{ backgroundImage: `url('image/anh_nen_3.jpg')` }}
-				></div>
+      {/* Fullscreen Image Section */}
+      <div
+        className="bg-cover bg-center h-[400px] sm:h-[750px] flex flex-1 mb-8 mt-2"
+        style={{ backgroundImage: `url('image/anh_nen_3.jpg')` }}
+      ></div>
 
-				<div className='my-20'>
-					<ProductList />
-				</div>
+      {/* Product List */}
+      <div className="my-10 px-4">
+        <ProductList />
+      </div>
 			</>
 		);
 	}
