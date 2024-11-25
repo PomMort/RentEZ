@@ -67,6 +67,7 @@ export default function Profile() {
 			.catch((err) => {
 				console.log(err);
 				toast.error(err?.Message);
+				toast.error(err?.errors?.FullName?.[0]);
 			});
 	};
 

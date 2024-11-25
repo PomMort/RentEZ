@@ -126,6 +126,7 @@ export default function OrderTable({ orders, setReRender }) {
 			})
 			.catch((err) => {
 				console.log(err);
+				toast.error(err?.Message)
 				toast.error("Lỗi không tạo được QR CODE");
 			});
 	};

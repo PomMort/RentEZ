@@ -7,7 +7,7 @@ export default function ProductItem({ product }) {
 		<div className='min-h-[350px] mx-4'>
 			<div className='flex justify-center'>
 				<img
-					className=' mt-4 bg-center max-h-[400px] object-cover'
+					className=' mt-4 bg-center min-h-[400px] object-cover'
 					style={{ width: "80%" }}
 					src={product?.image}
 					alt='anh_cuoi'
@@ -17,7 +17,7 @@ export default function ProductItem({ product }) {
 				<div className='max-h-[350px] my-3'>
 					<Tooltip title={product?.productName}>
 						<p
-							className='font-text text-xl overflow-hidden truncate'
+							className='font-text text-2xl overflow-hidden truncate'
 							style={{ whiteSpace: "nowrap" }}
 						>
 							{product?.productName}
@@ -35,7 +35,7 @@ export default function ProductItem({ product }) {
 								fontSize: "20px",
 							}}
 						>
-							{product?.price}đ
+							{product?.price.toLocaleString()}đ
 						</p>
 						<FaTruckMoving
 							style={{

@@ -34,6 +34,13 @@ export default function ManageLayout({ children, isAdmin, navbar }) {
 		return <></>;
 	}
 
+	const handleBackToHomePage = () => {
+		if (!user?.role?.includes(isAdmin ? "Admin" : null)) {
+			navigate("/");
+		}
+	}
+
+
 	return (
 		<div>
 			<div className='shadow-lg'>
@@ -43,6 +50,8 @@ export default function ManageLayout({ children, isAdmin, navbar }) {
 							src='/image/Logo.png'
 							alt='RentEZ'
 							className='w-[2rem] h-[2rem] mr-[62px]'
+							style={{ cursor: 'pointer' }}
+							onClick={() => handleBackToHomePage()}
 						/>
 						<span className='font-bold uppercase'>trang quản lý</span>
 					</div>
