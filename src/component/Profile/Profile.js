@@ -71,7 +71,7 @@ export default function Profile() {
 		};
 		let accountName = "";
 
-		if (data?.bankId && data?.accountName && data?.accountNo) {
+		if (data?.bankId && data?.accountNo) {
 			try {
 				const res = await axios.post(
 					"https://api.httzip.com/api/bank/id-lookup-prod",
