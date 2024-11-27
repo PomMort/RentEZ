@@ -12,7 +12,14 @@ export default function VoucherShop({ vouchers, setReRender }) {
 	const [openModalAdd, setOpenModalAdd] = useState(false);
 
 	const columns = [
-		{ field: "id", headerName: "ID", width: 70 },
+		{
+			field: "index",
+			headerName: "STT",
+			width: 70,
+			renderCell: (params) => {
+				return <p>{params?.row?.index}</p>;
+			},
+		},
 		{ field: "code", headerName: "CODE", width: 120 },
 		{ field: "name", headerName: "Tên voucher", width: 250 },
 		{
@@ -146,7 +153,9 @@ export default function VoucherShop({ vouchers, setReRender }) {
 	return (
 		<div className='mt-5'>
 			<DataGrid
-				rows={vouchers}
+				rows={vouchers?.map((v, index) => {
+					return { ...v, index: index + 1 };
+				})}
 				columns={columns}
 				initialState={{ pagination: { paginationModel } }}
 				pageSizeOptions={[5, 10]}

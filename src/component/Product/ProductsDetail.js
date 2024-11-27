@@ -16,7 +16,7 @@ const ProductDetail = () => {
 	const [relatedProduct, setRelatedProduct] = useState([]);
 	const [datesRent, setDatesRent] = useState([]); // render ra ngày cần thuê
 
-	const [dayRent, setDayRent] = useState(3); // số ngày thuê
+	const [dayRent, setDayRent] = useState(1); // số ngày thuê
 	const [dateRent, setDateRent] = useState(); // chọn này thuê
 
 	const dispatch = useDispatch();
@@ -49,12 +49,18 @@ const ProductDetail = () => {
 
 	useEffect(() => {
 		const dates = [];
-		[3, 4, 5].forEach((d) => {
-			dates.push(getFutureDate(new Date().toDateString(), d));
-		});
+		Array(14)
+			.fill()
+			.map((_, index) => {
+				return index + 1;
+			})
+			.slice(product?.allowRentBeforeDays)
+			.forEach((d) => {
+				dates.push(getFutureDate(new Date().toDateString(), d));
+			});
 		setDatesRent(dates);
 		setDateRent(dates[0]);
-	}, []);
+	}, [product]);
 
 	// Hàm để chuyển tab nội dung
 	const renderContent = () => {
@@ -69,9 +75,13 @@ const ProductDetail = () => {
 				return (
 					<div className='flex items-center gap-5 ml-5'>
 						<img
-							src='https://cly.1cdn.vn/2022/05/10/anh-nen-avatar-dep_021652403.jpg'
+							src={product?.image}
 							alt=''
 							className='size-10 object-cover rounded-full'
+							onError={(e) => {
+								e.target.src =
+									"https://cly.1cdn.vn/2022/05/10/anh-nen-avatar-dep_021652403.jpg";
+							}}
 						/>
 						<div className='flex flex-col gap-1'>
 							<div className='flex items-center gap-3'>
@@ -206,8 +216,14 @@ const ProductDetail = () => {
 
 					{/* Ngày dự kiến */}
 					<div className='mb-4'>
-						<p className='font-semibold'>
-							Ngày giao hàng dự kiến: 3-5 ngày
+						<p className='font-semibold flex items-center gap-1'>
+							Đánh giá:{" "}
+							<Rating
+								name='read-only'
+								value={product?.rating}
+								readOnly
+							/>
+							({product?.ratingCount})
 						</p>
 					</div>
 
@@ -240,7 +256,7 @@ const ProductDetail = () => {
 					className={`px-4 py-2 ${selectedTab === "reviews" ? "text-blue-600 border-b-2 border-blue-600" : ""}`}
 					onClick={() => setSelectedTab("reviews")}
 				>
-					Đánh Giá (1)
+					Đánh Giá ({product?.ratingCount})
 				</button>
 				<button
 					className={`px-4 py-2 ${selectedTab === "shop-info" ? "text-blue-600 border-b-2 border-blue-600" : ""}`}

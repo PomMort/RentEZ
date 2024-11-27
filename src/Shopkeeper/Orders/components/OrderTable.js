@@ -14,7 +14,14 @@ export default function OrderTable({ orders, setReRender }) {
 	const [orderSelected, setOrderSelected] = useState();
 
 	const columns = [
-		{ field: "id", headerName: "ID", width: 70 },
+		{
+			field: "index",
+			headerName: "STT",
+			width: 70,
+			renderCell: (params) => {
+				return <p>{params?.row?.index}</p>;
+			},
+		},
 		{
 			field: "fullName",
 			headerName: "Tên khách hàng",
@@ -130,7 +137,9 @@ export default function OrderTable({ orders, setReRender }) {
 	return (
 		<div className='mt-5'>
 			<DataGrid
-				rows={orders}
+				rows={orders?.map((o, index) => {
+					return { ...o, index: index + 1 };
+				})}
 				columns={columns}
 				initialState={{ pagination: { paginationModel } }}
 				pageSizeOptions={[5, 10]}
