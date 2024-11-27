@@ -211,7 +211,7 @@ export default function Order() {
 										</td>
 										<td>
 											{(product?.product?.rentPrices?.[
-												product?.dayRent
+												product?.dayRent - 1
 											]).toLocaleString()}
 											đ
 										</td>
@@ -223,7 +223,7 @@ export default function Order() {
 										<td className='font-bold text-red-500'>
 											{(
 												product?.product?.rentPrices?.[
-													product?.dayRent
+													product?.dayRent - 1
 												] * product?.quantity
 											).toLocaleString()}
 											đ
