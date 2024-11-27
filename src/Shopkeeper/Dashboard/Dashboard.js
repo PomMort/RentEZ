@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -10,7 +10,7 @@ import {
 	Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-
+import axiosInstance from "../../util/axiosInstance";
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
@@ -20,6 +20,7 @@ ChartJS.register(
 	Tooltip,
 	Legend
 );
+
 
 export const options = {
 	responsive: true,
@@ -37,6 +38,7 @@ export const options = {
 		},
 	},
 };
+
 
 const labels = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']
 
@@ -59,30 +61,39 @@ export const data = {
 };
 
 export default function Dashboard() {
+
+	const [dashboard, setDashboard] = useState();
+
+	useEffect(() => {
+		axiosInstance
+			.get("/api/stats/revenue")
+			.then((res) => {
+				if (res.statusCode === 200) {
+					setDashboard(res?.data);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
+
 	return (
 		<div className="container mx-auto">
-			<div className="grid gap-2 md:grid-cols-4 sm:grid-cols-2">
-				<div className="py-16 bg-yellow-100 rounded-lg max-w-[400px] max-h-[300px]">
+
+			<div className="grid md:grid-cols-2 sm:grid-cols-1">
+				<div className="py-16 bg-yellow-100 rounded-lg max-w-[400px] max-h-[300px] ml-44">
 					<div className="flex flex-row justify-center items-center">
-						<p>Tổng doanh thu 1 năm: 20.000.000đ</p>
+						<p>Tổng doanh thu: {dashboard?.totalRevenue}đ</p>
 					</div>
 				</div>
-				<div className="py-16 bg-yellow-100 rounded-lg max-w-[400px] max-h-[300px]">
+				<div className="py-16 bg-yellow-100 rounded-lg max-w-[400px] max-h-[300px] ml-44">
 					<div className="flex flex-row justify-center items-center">
-						<p>Tổng doanh thu 1 tháng: 500.000đ</p>
-					</div>
-				</div>
-				<div className="py-16 bg-yellow-100 rounded-lg max-w-[400px] max-h-[300px]">
-					<div className="flex flex-row justify-center items-center">
-						<p>Tổng doanh thu 1 tuần: 100.000đ</p>
-					</div>
-				</div>
-				<div className="py-16 bg-yellow-100 rounded-lg max-w-[400px] max-h-[300px]">
-					<div className="flex flex-row justify-center items-center">
-						<p>Tổng số lượng sản phẩm: 200 SP</p>
+						<p>Tổng số lượng sản phẩm: {dashboard?.totalOrderShop} SP</p>
 					</div>
 				</div>
 			</div>
+
+
 			<div className="py-7 px-4">
 				<Line options={options} data={data} />
 			</div>

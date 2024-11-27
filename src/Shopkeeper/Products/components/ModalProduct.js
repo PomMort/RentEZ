@@ -245,13 +245,13 @@ export default function ModalProducts({
 								type='number'
 								InputProps={{ inputProps: { min: 1, step: 1 } }}
 								slotProps={{
-									input: {
-										endAdornment: (
-											<InputAdornment position='end'>
-												cm
-											</InputAdornment>
-										),
-									},
+									// input: {
+									// 	endAdornment: (
+									// 		<InputAdornment position='end'>
+									// 			cm
+									// 		</InputAdornment>
+									// 	),
+									// },
 								}}
 								value={infoProduct.size}
 								onChange={(e) =>
