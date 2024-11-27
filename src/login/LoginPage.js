@@ -34,7 +34,7 @@ const LoginPage = () => {
 				navigate("/");
 			}
 
-			toast.success("Login successfully");
+			toast.success("Đăng nhập thành công");
 		} catch (error) {
 			console.error("Login error:", error);
 			toast.error(error?.Message);

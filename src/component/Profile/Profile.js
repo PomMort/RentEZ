@@ -12,13 +12,32 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import axiosIntance from "../../util/axiosInstance";
 import { toast } from "react-toastify";
+import { MdOutlineFileUpload } from "react-icons/md";
+import { styled } from "@mui/material/styles";
+import { domainBE } from "../../util/constant";
+import LoadingButton from "@mui/lab/LoadingButton";
+
+const VisuallyHiddenInput = styled("input")({
+	clip: "rect(0 0 0 0)",
+	clipPath: "inset(50%)",
+	height: 1,
+	overflow: "hidden",
+	position: "absolute",
+	bottom: 0,
+	left: 0,
+	whiteSpace: "nowrap",
+	width: 1,
+});
 
 export default function Profile() {
 	const { user } = useSelector((state) => state.productListData);
+	const [imageUrlInit, setImageUrlInit] = useState(null);
 	const [banks, setBanks] = useState([]);
 	const [userInfo, setUserInfo] = useState(null);
 	const [bankIdUser, setBankIdUser] = useState(0);
 	const [bankCode, setBankCode] = useState("");
+	const [fileAvatar, setFileAvatar] = useState(null);
+	const [loading, setLoading] = useState(false);
 	const isMobile = useMediaQuery("(max-width:768px)");
 	const dispatch = useDispatch();
 
@@ -45,8 +64,10 @@ export default function Profile() {
 							userName: res?.data?.userName,
 							fullName: res?.data?.fullName,
 							address: res?.data?.address,
+							avatar: res?.data?.avatar,
 						});
 						setBankIdUser(res?.data?.bankId);
+						setImageUrlInit(res?.data?.avatar);
 					}
 				})
 				.catch((err) => {
@@ -54,6 +75,7 @@ export default function Profile() {
 					toast.error(err?.Message);
 				});
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user]);
 
 	useEffect(() => {
@@ -65,11 +87,39 @@ export default function Profile() {
 
 	const handleUpdateUser = async (e) => {
 		e.preventDefault();
-		const data = {
+		setLoading(true);
+		let data = {
 			...userInfo,
 			bankId: bankIdUser,
 		};
 		let accountName = "";
+
+		if (fileAvatar) {
+			const formData = new FormData();
+			formData.append("file", fileAvatar);
+
+			const res = await axios
+				.post(domainBE + "/api/media/image", formData, {
+					headers: {
+						accept: "*/*",
+						"Content-Type": "multipart/form-data",
+						Authorization: "Bearer " + user?.token,
+					},
+				})
+				.catch((err) => {
+					console.log(err);
+					toast.error(err?.response?.data?.Message);
+				});
+
+			if (res?.data?.statusCode === 200) {
+				data = { ...data, avatar: res?.data?.data };
+			} else {
+				console.log(res);
+				toast.error("Không thể upload được ảnh");
+				setLoading(false);
+				return;
+			}
+		}
 
 		if (data?.bankId && data?.accountNo) {
 			try {
@@ -99,7 +149,8 @@ export default function Profile() {
 						? "Hết số lần check STK"
 						: "STK không hợp lệ"
 				);
-				return; // Dừng thực thi khi lỗi
+				setLoading(false);
+				return;
 			}
 		}
 
@@ -115,10 +166,11 @@ export default function Profile() {
 				console.log(err);
 				toast.error(err?.Message);
 				toast.error(err?.errors?.FullName?.[0]);
+				setLoading(false);
 			});
 
 		if (res?.statusCode === 200) {
-			axiosIntance
+			const res = await axiosIntance
 				.get(`/api/users/${user?.id}`)
 				.then((res) => {
 					if (res.statusCode === 200) {
@@ -129,6 +181,26 @@ export default function Profile() {
 					console.log(err);
 					toast.error(err?.Message);
 				});
+
+			if (userInfo?.avatar !== res?.data?.avatar && imageUrlInit) {
+				await axios
+					.delete(domainBE + `/api/media/image?imageUrl=${imageUrlInit}`)
+					.catch((err) => {
+						console.log(err);
+					});
+			}
+		}
+		setLoading(false);
+	};
+
+	const onChangeFileAvatar = async (e) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			const imageUrl = URL.createObjectURL(file);
+			setFileAvatar(file);
+			setUserInfo({ ...userInfo, avatar: imageUrl });
+		} else {
+			toast.error("Tải ảnh thất bại");
 		}
 	};
 
@@ -195,6 +267,33 @@ export default function Profile() {
 							size={isMobile ? "small" : "medium"}
 						/>
 					</div>
+				</div>
+				<hr className='my-5' />
+				<p className='text-lg font-bold mb-5'>Ảnh cá nhân</p>
+				<div className='flex items-center gap-10'>
+					<Button
+						component='label'
+						role={undefined}
+						variant='contained'
+						tabIndex={-1}
+						startIcon={<MdOutlineFileUpload />}
+					>
+						Upload files
+						<VisuallyHiddenInput
+							type='file'
+							accept='image/*'
+							onChange={(event) => onChangeFileAvatar(event)}
+						/>
+					</Button>
+					<img
+						src={userInfo?.avatar || ""}
+						alt=''
+						className='size-40 rounded-md object-cover'
+						onError={(e) => {
+							e.target.src =
+								"https://lh4.googleusercontent.com/proxy/0rCwwypfFxmFEtvRQoQ83lwTs1T_Y9qsJSp7sMKQ5LXHi89tYhAiRXbHOyoqljagJCmsvpHx7wmLGHS2rhJzPxpN6Wu00Mtk9POTrz0QysbBkdX9FJsk";
+						}}
+					/>
 				</div>
 
 				<hr className='my-5' />
@@ -279,13 +378,14 @@ export default function Profile() {
 				</div>
 
 				<div className='mt-5 flex flex-row-reverse'>
-					<Button
+					<LoadingButton
 						variant='contained'
 						type='submit'
+						loading={loading}
 						size={isMobile ? "small" : "medium"}
 					>
 						Cập nhật
-					</Button>
+					</LoadingButton>
 				</div>
 			</form>
 		</div>

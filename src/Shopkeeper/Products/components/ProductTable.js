@@ -10,7 +10,14 @@ export default function ProductTable({ products, setReRender }) {
 	const [openModalAdd, setOpenModalAdd] = useState(false);
 	const [product, setProduct] = useState();
 	const columns = [
-		{ field: "id", headerName: "STT", width: 70 },
+		{
+			field: "index",
+			headerName: "STT",
+			width: 70,
+			renderCell: (params) => {
+				return <p>{params?.row?.index}</p>;
+			},
+		},
 		{
 			field: "image",
 			headerName: "Ảnh",
@@ -112,7 +119,9 @@ export default function ProductTable({ products, setReRender }) {
 	return (
 		<div className='mt-5'>
 			<DataGrid
-				rows={products}
+				rows={products?.map((p, index) => {
+					return { ...p, index: index + 1 };
+				})}
 				columns={columns}
 				initialState={{ pagination: { paginationModel } }}
 				pageSizeOptions={[5, 10]}

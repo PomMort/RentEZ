@@ -4,7 +4,14 @@ import { Avatar } from "@mui/material";
 
 export default function UsersTable({ users, setReRender }) {
 	const columns = [
-		{ field: "id", headerName: "STT", width: 70 },
+		{
+			field: "index",
+			headerName: "STT",
+			width: 70,
+			renderCell: (params) => {
+				return <p>{params?.row?.index}</p>;
+			},
+		},
 		{
 			field: "avatar",
 			headerName: "Ảnh",
@@ -40,7 +47,9 @@ export default function UsersTable({ users, setReRender }) {
 	return (
 		<div className='mt-5'>
 			<DataGrid
-				rows={users}
+				rows={users?.map((u, index) => {
+					return { ...u, index: index + 1 };
+				})}
 				columns={columns}
 				initialState={{ pagination: { paginationModel } }}
 				pageSizeOptions={[5, 10]}

@@ -6,7 +6,14 @@ import { toast } from "react-toastify";
 
 export default function ShopTable({ shops, type, setReRender }) {
 	const columns = [
-		{ field: "id", headerName: "ID", width: 70 },
+		{
+			field: "index",
+			headerName: "STT",
+			width: 70,
+			renderCell: (params) => {
+				return <p>{params?.row?.index}</p>;
+			},
+		},
 		{
 			field: "shopAvatar",
 			headerName: "Ảnh",
@@ -63,7 +70,9 @@ export default function ShopTable({ shops, type, setReRender }) {
 	return (
 		<div className='mt-5'>
 			<DataGrid
-				rows={shops}
+				rows={shops?.map((s, index) => {
+					return { ...s, index: index + 1 };
+				})}
 				columns={columns}
 				initialState={{ pagination: { paginationModel } }}
 				pageSizeOptions={[5, 10]}

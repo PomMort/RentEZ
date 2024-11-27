@@ -26,7 +26,7 @@ export default function OrderHistoryItem({ order, setReRender }) {
 
 	return (
 		<div
-			className='p-8 rounded-xl'
+			className='p-8 rounded-xl my-5'
 			style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
 		>
 			<div className='flex items-center justify-between'>
@@ -109,6 +109,7 @@ export default function OrderHistoryItem({ order, setReRender }) {
 			<ModalOrderHistory
 				openModal={openModal}
 				setOpenModal={setOpenModal}
+				setReRender={setReRender}
 				order={order}
 			/>
 		</div>

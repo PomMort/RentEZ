@@ -10,7 +10,14 @@ export default function CategoriesTable({ categories, setReRender }) {
 	const [category, setCategory] = useState();
 
 	const columns = [
-		{ field: "id", headerName: "STT", width: 70 },
+		{
+			field: "index",
+			headerName: "STT",
+			width: 70,
+			renderCell: (params) => {
+				return <p>{params?.row?.index}</p>;
+			},
+		},
 		{ field: "categoryName", headerName: "Tên danh mục", width: 300 },
 		{ field: "description", headerName: "Mô tả", width: 300 },
 		{
@@ -68,7 +75,9 @@ export default function CategoriesTable({ categories, setReRender }) {
 	return (
 		<div className='mt-5'>
 			<DataGrid
-				rows={categories}
+				rows={categories?.map((c, index) => {
+					return { ...c, index: index + 1 };
+				})}
 				columns={columns}
 				initialState={{ pagination: { paginationModel } }}
 				pageSizeOptions={[5, 10]}

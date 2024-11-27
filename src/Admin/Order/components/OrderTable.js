@@ -18,16 +18,25 @@ export default function OrderTable({ orders, setReRender }) {
 	});
 
 	const columns = [
-		{ field: "id", headerName: "ID", width: 70 },
+		{
+			field: "index",
+			headerName: "STT",
+			width: 70,
+			renderCell: (params) => {
+				return <p>{params?.row?.index}</p>;
+			},
+		},
 		{
 			field: "fullName",
 			headerName: "Tên khách hàng",
 			width: 150,
-			renderCell: (params) => (
-				<div>
-					<span>{params?.row?.order?.customer?.fullName}</span>
-				</div>
-			),
+			renderCell: (params) => {
+				return (
+					<div>
+						<span>{params?.row?.order?.customer?.fullName}</span>
+					</div>
+				);
+			},
 		},
 		{
 			field: "phoneNumber",
@@ -126,7 +135,7 @@ export default function OrderTable({ orders, setReRender }) {
 			})
 			.catch((err) => {
 				console.log(err);
-				toast.error(err?.Message)
+				toast.error(err?.Message);
 				toast.error("Lỗi không tạo được QR CODE");
 			});
 	};
@@ -136,7 +145,9 @@ export default function OrderTable({ orders, setReRender }) {
 	return (
 		<div className='mt-5'>
 			<DataGrid
-				rows={orders}
+				rows={orders?.map((o, index) => {
+					return { ...o, index: index + 1 };
+				})}
 				columns={columns}
 				initialState={{ pagination: { paginationModel } }}
 				pageSizeOptions={[5, 10]}
