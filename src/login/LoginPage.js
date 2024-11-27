@@ -45,7 +45,7 @@ const LoginPage = () => {
 		<div className='login-container'>
 			<div className='login-box'>
 				<div className='Logo-center'>
-					<h1>Welcome To</h1>
+					<h1>Chào mừng đã đến với</h1>
 					<img src={logo} alt='Logo' className='logo' />
 					<h2 className='font-logo'>RentEZ</h2>
 				</div>
@@ -60,11 +60,11 @@ const LoginPage = () => {
 							color: "black",
 						}}
 					>
-						User name:
+						Tên tài khoản:
 					</p>
 					<input
 						type='text'
-						placeholder='username'
+						placeholder='Tên tài khoản'
 						value={username}
 						onChange={(e) => setUserName(e.target.value)}
 						required
@@ -81,12 +81,12 @@ const LoginPage = () => {
 							marginTop: "20px",
 						}}
 					>
-						Password:
+						Mật khẩu:
 					</p>
 					<div className='password-input-container'>
 						<input
 							type={showPassword ? "text" : "password"}
-							placeholder='password'
+							placeholder='Mật khẩu'
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							required
@@ -106,14 +106,14 @@ const LoginPage = () => {
 						className='login-button'
 						style={{ marginTop: "30px" }}
 					>
-						Login
+						Đăng nhập
 					</button>
 				</form>
 
 				<div className='signup-container'>
 					<span style={{ color: "black" }}>Don't have an account ?</span>
 					<Link to='/register' className='signup-link '>
-						User Account
+						Tài khoản khách hàng
 					</Link>
 					{/* <p>or</p>
 					<Link to='/RegisterShop' className='signup-link'>
@@ -121,7 +121,7 @@ const LoginPage = () => {
 					</Link> */}
 				</div>
 				<Link to='/reset-password' className='signup-link'>
-					Reset Password
+					Đặt lại mật khẩu
 				</Link>
 			</div>
 		</div>

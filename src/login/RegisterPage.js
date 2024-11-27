@@ -66,14 +66,14 @@ const RegisterPage = () => {
 		<div className="login-container flex justify-center items-center min-h-screen bg-gray-50 px-4 sm:px-6 lg:px-8">
 			<div className="login-box bg-white rounded-lg shadow-lg p-6 w-full max-w-md sm:max-w-lg">
 				<div className="Logo-center text-center mb-6">
-					<h1 className="text-xl font-bold md:text-2xl">Welcome To</h1>
+					<h1 className="text-xl md:text-2xl">Chào mừng đã đến với</h1>
 					<img
 						src={logo}
 						alt="Logo"
 						className="logo mx-auto w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 mb-2"
 					/>
 					<h2
-						className="text-lg font-semibold font-logo"
+						className="text-2lg font-semibold font-logo"
 					>
 						RentEZ
 					</h2>
@@ -84,7 +84,7 @@ const RegisterPage = () => {
 						<TextField
 							fullWidth
 							id="outlined-basic"
-							label="Username"
+							label="Tên tài khoản"
 							variant="outlined"
 							size="small"
 							value={info.userName}
@@ -102,7 +102,7 @@ const RegisterPage = () => {
 						<TextField
 							fullWidth
 							id="outlined-basic"
-							label="Full Name"
+							label="Tên đầy đủ"
 							variant="outlined"
 							size="small"
 							value={info.fullName}
@@ -138,7 +138,7 @@ const RegisterPage = () => {
 						<TextField
 							fullWidth
 							id="outlined-basic"
-							label="Phone number"
+							label="Số điện thoại"
 							variant="outlined"
 							size="small"
 							value={info.phoneNumber}
@@ -156,7 +156,7 @@ const RegisterPage = () => {
 						<TextField
 							fullWidth
 							id="outlined-basic"
-							label="Password"
+							label="Mật khẩu"
 							variant="outlined"
 							size="small"
 							type="password"
@@ -175,7 +175,7 @@ const RegisterPage = () => {
 						<TextField
 							fullWidth
 							id="outlined-basic"
-							label="Confirm password"
+							label="Nhập lại mật khẩu"
 							variant="outlined"
 							size="small"
 							type="password"
@@ -194,7 +194,7 @@ const RegisterPage = () => {
 						<TextField
 							fullWidth
 							id="outlined-basic"
-							label="Address"
+							label="Địa chỉ"
 							variant="outlined"
 							size="small"
 							value={info.address}
@@ -227,7 +227,7 @@ const RegisterPage = () => {
 						to="/Login"
 						className="signup-link text-blue-600 font-semibold ml-1"
 					>
-						Sign In Here
+						Đăng nhập ở đây
 					</Link>
 				</div>
 			</div>

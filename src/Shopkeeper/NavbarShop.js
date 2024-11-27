@@ -7,22 +7,22 @@ import { MdDashboard } from "react-icons/md";
 
 const NAVBAR_LIST = [
 	{
-		title: "Dashboard",
+		title: "Thống kê",
 		icon: <MdDashboard />,
 		path: "/dashboard",
 	},
 	{
-		title: "Manage Products",
+		title: "Quản lý sản phẩm",
 		icon: <IoShirt />,
 		path: "/manage-products",
 	},
 	{
-		title: "Manage Orders",
+		title: "Quản lý đơn hàng",
 		icon: <FaMoneyBillWave />,
 		path: "/manage-orders",
 	},
 	{
-		title: "Manage Vouchers",
+		title: "Quản lý Vouchers",
 		icon: <BiSolidDiscount />,
 		path: "/manage-vouchers",
 	},

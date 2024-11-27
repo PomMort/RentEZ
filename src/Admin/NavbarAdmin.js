@@ -8,32 +8,32 @@ import { FaShop } from "react-icons/fa6";
 
 const NAVBAR_LIST = [
 	{
-		title: "Dashboard",
+		title: "Thống kê",
 		icon: <MdDashboard />,
 		path: "/dashboard",
 	},
 	{
-		title: "Manage Users",
+		title: "Quản lý khách hàng",
 		icon: <FaUserGroup />,
 		path: "/manage-users",
 	},
 	{
-		title: "Manage Categories",
+		title: "Quản lý kho",
 		icon: <FaRegChartBar />,
 		path: "/manage-categories",
 	},
 	{
-		title: "Manage Vouchers",
+		title: "Quản lý Vouchers",
 		icon: <BiSolidDiscount />,
 		path: "/manage-vouchers",
 	},
 	{
-		title: "Manage Shops",
+		title: "Quản lí cửa hàng",
 		icon: <FaShop />,
 		path: "/manage-shops",
 	},
 	{
-		title: "Manage Orders",
+		title: "Quản lý đơn hàng",
 		icon: <FaMoneyBillWave />,
 		path: "/manage-orders",
 	},

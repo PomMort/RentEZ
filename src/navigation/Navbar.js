@@ -84,7 +84,7 @@ const Navbar = () => {
 						>
 							<FontAwesomeIcon icon={faUser} className='text-black' />
 							<span className='font-text ml-2 hidden md:inline'>
-								{isLoggedIn && user ? user.fullName : "My Account"}
+								{isLoggedIn && user ? user.fullName : "Tài khoản của tôi"}
 							</span>
 						</div>
 						{isMenuOpen && (
@@ -179,19 +179,19 @@ const Navbar = () => {
 						to='/'
 						className={`${getActiveClass("/")} hover:text-gray-400 font-text`}
 					>
-						Home
+						Trang chủ
 					</Link>
 					<Link
 						to='/Blog'
 						className={`${getActiveClass("/Blog")} hover:text-gray-400 font-text`}
 					>
-						Blog
+						Nhật ký
 					</Link>
 					<Link
 						to='/ContactUs'
 						className={`${getActiveClass("/ContactUs")} hover:text-gray-400 font-text`}
 					>
-						Contact us
+						Liên hệ 
 					</Link>
 				</div>
 
@@ -264,21 +264,21 @@ const Navbar = () => {
 							className={`${getActiveClass("/")} block hover:text-gray-400 font-text py-2`}
 							onClick={() => setIsMobileMenuOpen(false)}
 						>
-							Home
+							Trang chủ
 						</Link>
 						<Link
 							to='/Blog'
 							className={`${getActiveClass("/Blog")} block hover:text-gray-400 font-text py-2`}
 							onClick={() => setIsMobileMenuOpen(false)}
 						>
-							Blog
+							Nhật ký
 						</Link>
 						<Link
 							to='/ContactUs'
 							className={`${getActiveClass("/ContactUs")} block hover:text-gray-400 font-text py-2`}
 							onClick={() => setIsMobileMenuOpen(false)}
 						>
-							Contact us
+							Liên hệ
 						</Link>
 						<div className='pt-4 border-t border-gray-700'>
 							<div className='flex items-center space-x-2 text-sm py-2'>
