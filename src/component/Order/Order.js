@@ -204,7 +204,10 @@ export default function Order() {
 											</div>
 										</td>
 										<td>
-											{(product?.product?.price).toLocaleString()}đ
+											{(product?.product?.rentPrices?.[
+												product?.dayRent
+											]).toLocaleString()}
+											đ
 										</td>
 										<td>
 											<span className='px-4'>
@@ -213,7 +216,9 @@ export default function Order() {
 										</td>
 										<td className='font-bold text-red-500'>
 											{(
-												product?.product?.price * product?.quantity
+												product?.product?.rentPrices?.[
+													product?.dayRent
+												] * product?.quantity
 											).toLocaleString()}
 											đ
 										</td>

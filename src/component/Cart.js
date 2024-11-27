@@ -68,7 +68,9 @@ const Cart = () => {
 				total +
 				c.products.reduce((_total, product) => {
 					return product.selected
-						? _total + product?.product?.price * product.quantity
+						? _total +
+								product?.product?.rentPrices?.[product?.dayRent] *
+									product.quantity
 						: _total;
 				}, 0)
 			);
@@ -205,7 +207,9 @@ const Cart = () => {
 													</div>
 												</td>
 												<td className='hidden sm:table-cell'>
-													{product?.product?.price.toLocaleString()}
+													{product?.product?.rentPrices?.[
+														product?.dayRent
+													].toLocaleString()}
 													đ
 												</td>
 												<td>
@@ -246,8 +250,9 @@ const Cart = () => {
 												</td>
 												<td className='hidden sm:table-cell font-bold text-red-500'>
 													{(
-														product?.product?.price *
-														product?.quantity
+														product?.product?.rentPrices?.[
+															product?.dayRent
+														] * product?.quantity
 													).toLocaleString()}
 													đ
 												</td>
