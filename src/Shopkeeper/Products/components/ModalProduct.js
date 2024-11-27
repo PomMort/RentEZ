@@ -84,12 +84,6 @@ export default function ModalProducts({
 		setInfoProduct(initProduct);
 
 		if (product) {
-			// const count = product?.rentPrices?.reduce((prev, curr) => {
-			// 	if (curr > 0) {
-			// 		return prev + 1;
-			// 	}
-			// 	return prev;
-			// }, 0);
 			setRentDayCount(product?.rentPrices?.length);
 			const formatData = {
 				...product,
@@ -364,15 +358,6 @@ export default function ModalProducts({
 										}
 									}}
 									InputProps={{ inputProps: { min: 1, step: 1 } }}
-									slotProps={{
-										input: {
-											endAdornment: (
-												<InputAdornment position='end'>
-													cm
-												</InputAdornment>
-											),
-										},
-									}}
 									value={infoProduct.size}
 									onChange={(e) =>
 										setInfoProduct({
@@ -458,7 +443,10 @@ export default function ModalProducts({
 									}
 								/>
 								<p className='text-xs text-gray-500 font-semibold mt-1'>
-									Tiền cọc = tỉ lệ cọc * giá{" "}
+									Ví dụ: 20%
+								</p>
+								<p className='text-xs text-gray-500 font-semibold mt-1'>
+									Tiền cọc = tỉ lệ cọc * giá
 								</p>
 								{errorsField?.["DepositRate"] && (
 									<p className='text-sm text-red-700'>

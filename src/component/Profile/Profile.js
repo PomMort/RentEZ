@@ -358,7 +358,7 @@ export default function Profile() {
 						id='outlined-basic'
 						label='Tên tài khoản'
 						variant='outlined'
-						value={userInfo?.accountName}
+						value={userInfo?.accountName || ""}
 						disabled
 						onChange={(e) => {
 							const input = e.target.value;
