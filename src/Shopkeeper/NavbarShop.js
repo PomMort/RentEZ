@@ -27,7 +27,7 @@ const NAVBAR_LIST = [
 		path: "/manage-vouchers",
 	},
 	{
-		title: "Manage Feedbacks",
+		title: "Quản lý đánh giá",
 		icon: <MdFeedback />,
 		path: "/manage-feedbacks",
 	},

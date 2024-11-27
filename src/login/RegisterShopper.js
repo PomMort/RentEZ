@@ -17,10 +17,26 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { MdOutlineFileUpload } from "react-icons/md";
+import { styled } from "@mui/material/styles";
+import { domainBE } from "../util/constant";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Ho_Chi_Minh");
+
+const VisuallyHiddenInput = styled("input")({
+	clip: "rect(0 0 0 0)",
+	clipPath: "inset(50%)",
+	height: 1,
+	overflow: "hidden",
+	position: "absolute",
+	bottom: 0,
+	left: 0,
+	whiteSpace: "nowrap",
+	width: 1,
+});
 
 const RegisterShopper = () => {
 	const navigate = useNavigate();
@@ -38,6 +54,8 @@ const RegisterShopper = () => {
 		shopAvatar: "",
 		ownerId: 0,
 	});
+	const [fileAvatar, setFileAvatar] = useState(null);
+	const [loading, setLoading] = useState(false);
 	const [errorsField, setErrorsField] = useState();
 
 	useEffect(() => {
@@ -49,23 +67,63 @@ const RegisterShopper = () => {
 			});
 	}, []);
 
-	const handleSubmit = (e) => {
+	const onChangeFileAvatar = async (e) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			const imageUrl = URL.createObjectURL(file);
+			setFileAvatar(file);
+			setInfo({ ...info, shopAvatar: imageUrl });
+		} else {
+			toast.error("Tải ảnh thất bại");
+		}
+	};
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const formatData = { ...info, ownerId: user?.id };
-		axiosInstace
-			.post("/api/shops", formatData)
-			.then((res) => {
-				if (res.statusCode === 200) {
-					toast.success("Đăng ký cửa hàng thành công");
-					dispatch({ type: "CREATE_SHOP_SUCCESS" });
-					navigate("/shop/dashboard");
+		setLoading(true);
+
+		let formatData = { ...info, ownerId: user?.id };
+
+		try {
+			// Upload ảnh nếu có
+			if (fileAvatar) {
+				const formData = new FormData();
+				formData.append("file", fileAvatar);
+
+				const res = await axios.post(
+					domainBE + "/api/media/image",
+					formData,
+					{
+						headers: {
+							accept: "*/*",
+							"Content-Type": "multipart/form-data",
+							Authorization: "Bearer " + user?.token,
+						},
+					}
+				);
+
+				if (res?.statusCode === 200) {
+					formatData = { ...formatData, shopAvatar: res?.data?.data };
+				} else {
+					toast.error("Không thể upload được ảnh");
+					return;
 				}
-			})
-			.catch((err) => {
-				console.log(err);
-				setErrorsField(err?.errors);
-				toast.error(err.Message);
-			});
+			}
+
+			// Đăng ký cửa hàng
+			const shopRes = await axiosInstace.post("/api/shops", formatData);
+			if (shopRes?.statusCode === 200) {
+				toast.success("Đăng ký cửa hàng thành công");
+				dispatch({ type: "CREATE_SHOP_SUCCESS" });
+				navigate("/shop/dashboard");
+			}
+		} catch (err) {
+			console.error(err);
+			setErrorsField(err?.response?.data?.errors || {});
+			toast.error(err?.response?.data?.Message || "Đã xảy ra lỗi");
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -159,18 +217,32 @@ const RegisterShopper = () => {
 							)}
 						</div>
 						<div className='col-span-2'>
-							<TextField
-								id='outlined-basic'
-								label='URL Avatar'
-								variant='outlined'
-								size='small'
-								sx={{ width: "100%" }}
-								required
-								value={info.shopAvatar}
-								onChange={(e) =>
-									setInfo({ ...info, shopAvatar: e.target.value })
-								}
-							/>
+							<div className='flex items-center gap-10'>
+								<p className='text-lg font-bold'>Ảnh shop:</p>
+								<Button
+									component='label'
+									role={undefined}
+									variant='contained'
+									tabIndex={-1}
+									startIcon={<MdOutlineFileUpload />}
+								>
+									Upload files
+									<VisuallyHiddenInput
+										type='file'
+										accept='image/*'
+										onChange={(event) => onChangeFileAvatar(event)}
+									/>
+								</Button>
+								<img
+									src={info?.shopAvatar || ""}
+									alt=''
+									className='size-20 rounded-md object-cover'
+									onError={(e) => {
+										e.target.src =
+											"https://lh4.googleusercontent.com/proxy/0rCwwypfFxmFEtvRQoQ83lwTs1T_Y9qsJSp7sMKQ5LXHi89tYhAiRXbHOyoqljagJCmsvpHx7wmLGHS2rhJzPxpN6Wu00Mtk9POTrz0QysbBkdX9FJsk";
+									}}
+								/>
+							</div>
 							{errorsField?.["ShopAvatar"] && (
 								<p className='text-sm text-red-700'>
 									{errorsField?.["ShopAvatar"][0]}
@@ -270,9 +342,13 @@ const RegisterShopper = () => {
 					</div>
 
 					<div className='mt-8'>
-						<Button variant='contained' type='submit'>
-							Đăng ký
-						</Button>
+						<LoadingButton
+							variant='contained'
+							type='submit'
+							loading={loading}
+						>
+							Tạo cửa hàng
+						</LoadingButton>
 					</div>
 				</form>
 			</div>

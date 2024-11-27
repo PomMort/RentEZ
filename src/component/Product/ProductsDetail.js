@@ -98,7 +98,7 @@ const ProductDetail = () => {
 					return <p>Chưa có đánh giá nào</p>;
 				}
 				return (
-					<>
+					<div className='flex flex-col gap-3'>
 						{feedbacks?.map((feedback) => (
 							<div className='flex gap-5 ml-5'>
 								<img
@@ -131,7 +131,7 @@ const ProductDetail = () => {
 								</div>
 							</div>
 						))}
-					</>
+					</div>
 				);
 			case "shop-info":
 				return (
