@@ -32,6 +32,7 @@ import RegisterShopper from "./login/RegisterShopper";
 import ManageOrdersAdmin from "./Admin/Order/ManageOrder";
 // import RouteForLogin from "./layout/RouteForLogin";
 import ResetPassword from "./login/ResetPassword";
+import ManageFeedbacks from "./Shopkeeper/Feedbacks/ManageFeedbacks";
 
 function App() {
 	const dispatch = useDispatch();
@@ -200,6 +201,14 @@ function App() {
 					element={
 						<ManageLayout isAdmin={false} navbar={<NavbarShop />}>
 							<ManageVouchersShop />
+						</ManageLayout>
+					}
+				/>
+				<Route
+					path='/shop/manage-feedbacks'
+					element={
+						<ManageLayout isAdmin={false} navbar={<NavbarShop />}>
+							<ManageFeedbacks />
 						</ManageLayout>
 					}
 				/>

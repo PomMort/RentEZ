@@ -3,7 +3,7 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import { IoShirt } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import { BiSolidDiscount } from "react-icons/bi";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdFeedback } from "react-icons/md";
 
 const NAVBAR_LIST = [
 	{
@@ -25,6 +25,11 @@ const NAVBAR_LIST = [
 		title: "Manage Vouchers",
 		icon: <BiSolidDiscount />,
 		path: "/manage-vouchers",
+	},
+	{
+		title: "Manage Feedbacks",
+		icon: <MdFeedback />,
+		path: "/manage-feedbacks",
 	},
 ];
 
