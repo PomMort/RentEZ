@@ -91,16 +91,25 @@ export default function OrderTable({ orders, setReRender }) {
 		{
 			field: "action",
 			headerName: "Hành động",
+			width: 200,
 			renderCell: (params) => (
-				<div className='text-2xl flex items-center justify-center gap-3 h-full'>
+				<div className='flex items-center gap-5 h-full'>
 					<FaEye
-						className='text-[#767b7a] cursor-pointer'
+						className='text-2xl text-[#767b7a] cursor-pointer'
 						onClick={() => handleClickView(params?.row)}
 					/>
-					<MdOutlineModeEdit
-						className='text-[#418dff] cursor-pointer'
+					<Button
+						variant='contained'
+						size='small'
 						onClick={() => handleClickEditStatus(params?.row)}
-					/>
+						disabled={params?.row?.status !== "WaitingForRefund"}
+					>
+						{
+							ORDER_STATUS.find(
+								(stt) => stt.status === params?.row?.status
+							)?.status_vi
+						}
+					</Button>
 				</div>
 			),
 		},

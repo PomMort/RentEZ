@@ -14,7 +14,9 @@ import { saveOrderId } from "../../util/common";
 export default function Order() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { productsSelected } = useSelector((state) => state.productListData);
+	const { productsSelected, user } = useSelector(
+		(state) => state.productListData
+	);
 
 	const [openModalVoucher, setOpenModalVoucher] = useState(false);
 	const [vouchers, setVouchers] = useState([]);
@@ -43,6 +45,10 @@ export default function Order() {
 			}
 		});
 	}, []);
+
+	useEffect(() => {
+		setInformationUser({ address: user?.address || "" });
+	}, [user]);
 
 	// Get product selected
 	useEffect(() => {
