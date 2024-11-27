@@ -9,6 +9,7 @@ export default function Home() {
 				className='bg-cover bg-bottom min-h-[200px] sm:min-h-[300px] flex flex-col justify-center items-center px-4'
 				style={{
 					backgroundImage: `url('image/anh_nen_1.jpg')`,
+					textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
 				}}
 			>
 				<p className='font-bold text-2xl sm:text-4xl font-text text-neutral-50 mb-4'>
@@ -17,9 +18,19 @@ export default function Home() {
 				<p className='font-bold text-lg sm:text-3xl font-text text-neutral-50 mb-6'>
 					FIND THE PERFECT STYLE FOR YOU
 				</p>
-				<button className='text-base sm:text-xl rounded-full font-text text-neutral-50 bg-yellow-300 shadow-lg shadow-yellow-200/60 hover:bg-yellow-400 px-6 sm:px-10 py-2'>
+				<a
+					href='#productList'
+					className='text-base sm:text-xl rounded-full font-text text-neutral-50 bg-yellow-300 shadow-lg shadow-yellow-200/60 hover:bg-yellow-400 px-6 sm:px-10 py-2'
+					onClick={(e) => {
+						e.preventDefault(); // Ngăn hành vi mặc định
+						document.querySelector("#productList").scrollIntoView({
+							behavior: "smooth",
+							block: "start",
+						});
+					}}
+				>
 					RENT NOW
-				</button>
+				</a>
 			</div>
 
 			{/* MEN and WOMEN Categories */}
@@ -63,7 +74,7 @@ export default function Home() {
 			></div>
 
 			{/* Product List */}
-			<div className='my-10 px-4'>
+			<div className='my-10 px-4' id='productList'>
 				<ProductList />
 			</div>
 		</>
