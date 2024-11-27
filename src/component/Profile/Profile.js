@@ -98,26 +98,31 @@ export default function Profile() {
 			const formData = new FormData();
 			formData.append("file", fileAvatar);
 
-			const res = await axios
-				.post(domainBE + "/api/media/image", formData, {
-					headers: {
-						accept: "*/*",
-						"Content-Type": "multipart/form-data",
-						Authorization: "Bearer " + user?.token,
-					},
-				})
-				.catch((err) => {
-					console.log(err);
-					toast.error(err?.response?.data?.Message);
-				});
+			try {
+				const res = await axios
+					.post(domainBE + "/api/media/image", formData, {
+						headers: {
+							accept: "*/*",
+							"Content-Type": "multipart/form-data",
+							Authorization: "Bearer " + user?.token,
+						},
+					})
+					.catch((err) => {
+						console.log(err);
+						toast.error(err?.response?.data?.Message);
+					});
 
-			if (res?.data?.statusCode === 200) {
-				data = { ...data, avatar: res?.data?.data };
-			} else {
-				console.log(res);
-				toast.error("Không thể upload được ảnh");
+				if (res?.data?.statusCode === 200) {
+					data = { ...data, avatar: res?.data?.data };
+				} else {
+					console.log(res);
+					toast.error("Không thể upload được ảnh");
+					setLoading(false);
+					return;
+				}
+			} catch (error) {
+				console.log(error);
 				setLoading(false);
-				return;
 			}
 		}
 

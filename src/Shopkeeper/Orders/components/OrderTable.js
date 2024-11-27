@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { MdOutlineModeEdit } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
 import { Button, Modal } from "@mui/material";
 import dayjs from "dayjs";
@@ -102,13 +101,16 @@ export default function OrderTable({ orders, setReRender }) {
 						variant='contained'
 						size='small'
 						onClick={() => handleClickEditStatus(params?.row)}
-						disabled={params?.row?.status !== "WaitingForRefund"}
-					>
-						{
-							ORDER_STATUS.find(
-								(stt) => stt.status === params?.row?.status
-							)?.status_vi
+						disabled={
+							params?.row?.status === "WaitingForRefund" ||
+							params?.row?.status === "Completed"
 						}
+					>
+						{ORDER_STATUS?.[
+							ORDER_STATUS.findIndex(
+								(stt) => stt.status === params?.row?.status
+							) + 1
+						]?.status_vi || "Hoàn thành"}
 					</Button>
 				</div>
 			),

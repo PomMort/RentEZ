@@ -34,8 +34,6 @@ var Reducer = (state = initProductList, { type, payload }) => {
 			}
 			return state;
 		case "ADD_TO_CART": {
-			console.log(payload);
-
 			const updatedCartList = [...state.cartList];
 			const existingShopIndex = updatedCartList.findIndex(
 				(shop) => shop.shopId === payload.product?.shopId
