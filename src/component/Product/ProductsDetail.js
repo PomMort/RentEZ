@@ -7,14 +7,17 @@ import ProductItem from "./ProductItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getFutureDate } from "../../util/common";
 import { toast } from "react-toastify";
+import dayjs from "dayjs";
 
 const ProductDetail = () => {
 	const { user } = useSelector((state) => state.productListData);
 	const [selectedTab, setSelectedTab] = useState("description"); // Quản lý tab hiện tại
 	const { id } = useParams();
 	const [product, setProduct] = useState();
+	const [rating, setRating] = useState(0);
 	const [relatedProduct, setRelatedProduct] = useState([]);
 	const [datesRent, setDatesRent] = useState([]); // render ra ngày cần thuê
+	const [feedbacks, setFeedbacks] = useState([]);
 
 	const [dayRent, setDayRent] = useState(1); // số ngày thuê
 	const [dateRent, setDateRent] = useState(); // chọn này thuê
@@ -22,13 +25,32 @@ const ProductDetail = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		axiosInstance.get(`/api/products/${id}`).then((res) => {
-			if (res?.statusCode === 200) {
-				setProduct(res?.data);
-			} else {
-				console.log(res);
-			}
-		});
+		axiosInstance
+			.get(`/api/products/${id}`)
+			.then((res) => {
+				if (res?.statusCode === 200) {
+					setRating(res?.data?.rating);
+					setProduct(res?.data);
+				} else {
+					console.log(res);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, [id]);
+
+	useEffect(() => {
+		axiosInstance
+			.get(`/api/feedbacks?ProductId=${id}`)
+			.then((res) => {
+				if (res?.statusCode === 200) {
+					setFeedbacks(res?.data?.items);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}, [id]);
 
 	useEffect(() => {
@@ -72,35 +94,44 @@ const ProductDetail = () => {
 					</div>
 				);
 			case "reviews":
+				if (feedbacks?.length === 0) {
+					return <p>Chưa có đánh giá nào</p>;
+				}
 				return (
-					<div className='flex items-center gap-5 ml-5'>
-						<img
-							src={product?.image}
-							alt=''
-							className='size-10 object-cover rounded-full'
-							onError={(e) => {
-								e.target.src =
-									"https://cly.1cdn.vn/2022/05/10/anh-nen-avatar-dep_021652403.jpg";
-							}}
-						/>
-						<div className='flex flex-col gap-1'>
-							<div className='flex items-center gap-3'>
-								<p>
-									<strong>HuyNguyen</strong>
-								</p>
-								<Rating
-									name='read-only'
-									value={4}
-									readOnly
-									size='small'
+					<>
+						{feedbacks?.map((feedback) => (
+							<div className='flex gap-5 ml-5'>
+								<img
+									src={feedback?.avatar}
+									alt=''
+									className='size-10 object-cover rounded-full'
+									onError={(e) => {
+										e.target.src =
+											"https://lh4.googleusercontent.com/proxy/0rCwwypfFxmFEtvRQoQ83lwTs1T_Y9qsJSp7sMKQ5LXHi89tYhAiRXbHOyoqljagJCmsvpHx7wmLGHS2rhJzPxpN6Wu00Mtk9POTrz0QysbBkdX9FJsk"; // Đường dẫn ảnh thay thế
+									}}
 								/>
+								<div className='flex flex-col gap-1'>
+									<div className='flex items-center gap-3'>
+										<p>
+											<strong>{feedback?.customerName}</strong>
+										</p>
+										<Rating
+											name='read-only'
+											value={feedback?.rating}
+											readOnly
+											size='small'
+										/>
+										<span className='text-xs font-bold text-gray-500'>
+											{dayjs(feedback?.feedbackCreatedTime).format(
+												"DD/MM/YYYY HH:mm:ss"
+											)}
+										</span>
+									</div>
+									<p>{feedback?.reviewContent}</p>
+								</div>
 							</div>
-							<p>
-								Sản phẩm rất đẹp, các bạn nên thuê thử nhé. Giá còn học
-								sinh, sinh viên nữa chứ
-							</p>
-						</div>
-					</div>
+						))}
+					</>
 				);
 			case "shop-info":
 				return (
@@ -218,12 +249,8 @@ const ProductDetail = () => {
 					<div className='mb-4'>
 						<p className='font-semibold flex items-center gap-1'>
 							Đánh giá:{" "}
-							<Rating
-								name='read-only'
-								value={product?.rating}
-								readOnly
-							/>
-							({product?.ratingCount})
+							<Rating name='read-only' value={rating} readOnly />(
+							{product?.ratingCount})
 						</p>
 					</div>
 

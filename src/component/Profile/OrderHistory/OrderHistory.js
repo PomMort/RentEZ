@@ -62,7 +62,7 @@ export default function OrderHistory() {
 	}
 	return (
 		<div className='w-[1000px] mx-auto'>
-			<div className='flex flex-col gap-5'>
+			<div className='flex flex-col'>
 				<InfiniteScroll
 					dataLength={orders.length}
 					next={fetchMoreData}

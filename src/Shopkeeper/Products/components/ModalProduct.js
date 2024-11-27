@@ -121,6 +121,12 @@ export default function ModalProducts({
 			delete formatData?.long;
 		}
 
+		if (formatData?.allowRentBeforeDays > 14) {
+			toast.error("Chỉ được phép tối đa cho thuê trước 14 ngày");
+			setLoading(false);
+			return;
+		}
+
 		if (!formatData?.image) {
 			toast.error("Hãy thêm ảnh cho sản phẩm");
 			setLoading(false);
