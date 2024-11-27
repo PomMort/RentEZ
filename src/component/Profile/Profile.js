@@ -214,7 +214,7 @@ export default function Profile() {
 				<div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5'>
 					<TextField
 						id='outlined-basic'
-						label='Username'
+						label='Tên tài khoản'
 						variant='outlined'
 						disabled
 						value={userInfo?.userName}

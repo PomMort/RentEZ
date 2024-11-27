@@ -35,9 +35,9 @@ export default function ActiveAccountPage() {
 		<div>
 			<div className='w-[500px] mx-auto p-10 shadow-2xl h-fit my-10 rounded-2xl'>
 				<div className='text-center'>
-					<p className='font-bold text-xl'>Verify Code</p>
+					<p className='font-bold text-xl'>Xác thực Code</p>
 					<p className='text-wrap text-gray-400 mt-3 mb-2'>
-						Please enter verify code that we've sent to your email.
+						Hãy nhập mã xác thực mà đã được chúng tôi gửi tới email của bạn.
 					</p>
 					<p className='font-bold'>{email}</p>
 				</div>

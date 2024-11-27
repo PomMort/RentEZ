@@ -72,7 +72,7 @@ export default function ManageLayout({ children, isAdmin, navbar }) {
 										onClick={handleLogout}
 										className='block px-4 py-2 text-sm w-full text-left hover:bg-gray-200'
 									>
-										Logout
+										Đăng xuất
 									</button>
 								</div>
 							)}
