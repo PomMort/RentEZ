@@ -209,7 +209,7 @@ const Cart = () => {
 												<td className='hidden sm:table-cell'>
 													{product?.product?.rentPrices?.[
 														product?.dayRent
-													].toLocaleString()}
+													]?.toLocaleString()}
 													đ
 												</td>
 												<td>
@@ -253,7 +253,7 @@ const Cart = () => {
 														product?.product?.rentPrices?.[
 															product?.dayRent
 														] * product?.quantity
-													).toLocaleString()}
+													)?.toLocaleString()}
 													đ
 												</td>
 												<td>
@@ -290,7 +290,7 @@ const Cart = () => {
 					<div className='mt-6 flex flex-col sm:flex-row-reverse justify-between items-center'>
 						<div className='flex items-center mb-4 sm:mb-0'>
 							<span className='mr-4 text-lg sm:text-xl font-bold'>
-								Tổng: {calculateTotal().toLocaleString()}đ
+								Tổng: {calculateTotal()?.toLocaleString()}đ
 							</span>
 							<button
 								className='bg-yellow-400 text-white px-4 sm:px-6 py-2 sm:py-3 rounded hover:bg-yellow-500'
