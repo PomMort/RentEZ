@@ -23,6 +23,8 @@ export default function ManageOrders() {
 	}, [reRender]);
 	return (
 		<div className='mt-5'>
+			<p className='text-2xl font-bold uppercase'>Đơn hàng cần hoàn tiền</p>
+			<hr className='mt-3' />
 			<OrderTable orders={orders} setReRender={setReRender} />
 		</div>
 	);

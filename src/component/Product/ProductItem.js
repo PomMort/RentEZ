@@ -35,7 +35,7 @@ export default function ProductItem({ product }) {
 								fontSize: "20px",
 							}}
 						>
-							{product?.price.toLocaleString()}đ
+							{product?.rentPrices?.[0].toLocaleString()}đ
 						</p>
 						<FaTruckMoving
 							style={{

@@ -27,7 +27,7 @@ const initProduct = {
 	allowRentBeforeDays: 0,
 	size: 0,
 	price: 0,
-	rentPrices: [0],
+	rentPrices: [0, 0, 0, 0, 0, 0, 0],
 	depositRate: 0,
 	description: "",
 	image: "",
@@ -84,16 +84,19 @@ export default function ModalProducts({
 		setInfoProduct(initProduct);
 
 		if (product) {
-			const count = product?.rentPrices?.reduce((prev, curr) => {
-				if (curr > 0) {
-					return prev + 1;
-				}
-				return prev;
-			}, 0);
-			setRentDayCount(count);
+			// const count = product?.rentPrices?.reduce((prev, curr) => {
+			// 	if (curr > 0) {
+			// 		return prev + 1;
+			// 	}
+			// 	return prev;
+			// }, 0);
+			setRentDayCount(product?.rentPrices?.length);
 			const formatData = {
 				...product,
 				depositRate: product?.depositRate * 100,
+				rentPrices: product?.rentPrices?.concat(
+					Array(7 - product?.rentPrices?.length).fill(0)
+				),
 			};
 			setInfoProduct(formatData);
 		}
@@ -105,6 +108,7 @@ export default function ModalProducts({
 		setLoading(true);
 
 		const formatRentPrices = infoProduct?.rentPrices?.slice(0, rentDayCount);
+
 		let formatData = {
 			...infoProduct,
 			depositRate: infoProduct.depositRate / 100,
@@ -295,7 +299,12 @@ export default function ModalProducts({
 									sx={{ width: "100%" }}
 									size='small'
 									required
-									type='number'
+									onInput={(e) => {
+										const value = e.target.value;
+										if (!/^\d*$/.test(value)) {
+											e.target.value = value.replace(/\D/g, "");
+										}
+									}}
 									InputProps={{ inputProps: { min: 1, step: 1 } }}
 									value={infoProduct.quantity}
 									onChange={(e) =>
@@ -319,7 +328,12 @@ export default function ModalProducts({
 									sx={{ width: "100%" }}
 									size='small'
 									required
-									type='number'
+									onInput={(e) => {
+										const value = e.target.value;
+										if (!/^\d*$/.test(value)) {
+											e.target.value = value.replace(/\D/g, "");
+										}
+									}}
 									InputProps={{ inputProps: { min: 1, step: 1 } }}
 									value={infoProduct.allowRentBeforeDays}
 									onChange={(e) =>
@@ -343,7 +357,12 @@ export default function ModalProducts({
 									sx={{ width: "100%" }}
 									required
 									size='small'
-									type='number'
+									onInput={(e) => {
+										const value = e.target.value;
+										if (!/^\d*$/.test(value)) {
+											e.target.value = value.replace(/\D/g, "");
+										}
+									}}
 									InputProps={{ inputProps: { min: 1, step: 1 } }}
 									slotProps={{
 										input: {
@@ -376,7 +395,12 @@ export default function ModalProducts({
 									sx={{ width: "100%" }}
 									size='small'
 									required
-									type='number'
+									onInput={(e) => {
+										const value = e.target.value;
+										if (!/^\d*$/.test(value)) {
+											e.target.value = value.replace(/\D/g, "");
+										}
+									}}
 									InputProps={{ inputProps: { min: 1, step: 1 } }}
 									slotProps={{
 										input: {
@@ -409,7 +433,12 @@ export default function ModalProducts({
 									sx={{ width: "100%" }}
 									size='small'
 									required
-									type='number'
+									onInput={(e) => {
+										const value = e.target.value;
+										if (!/^\d*$/.test(value)) {
+											e.target.value = value.replace(/\D/g, "");
+										}
+									}}
 									InputProps={{ inputProps: { min: 1, step: 1 } }}
 									slotProps={{
 										input: {
@@ -445,7 +474,12 @@ export default function ModalProducts({
 									sx={{ width: "100%" }}
 									required
 									size='small'
-									type='number'
+									onInput={(e) => {
+										const value = e.target.value;
+										if (!/^\d*$/.test(value)) {
+											e.target.value = value.replace(/\D/g, "");
+										}
+									}}
 									InputProps={{ inputProps: { min: 1, step: 1 } }}
 									slotProps={{
 										input: {
@@ -477,9 +511,14 @@ export default function ModalProducts({
 									variant='outlined'
 									sx={{ width: "100%" }}
 									size='small'
-									type='number'
+									onInput={(e) => {
+										const value = e.target.value;
+										if (!/^\d*$/.test(value)) {
+											e.target.value = value.replace(/\D/g, "");
+										}
+									}}
 									InputProps={{ inputProps: { min: 0, step: 1 } }}
-									value={infoProduct.long}
+									value={infoProduct.long || ""}
 									onChange={(e) =>
 										setInfoProduct({
 											...infoProduct,
@@ -500,9 +539,14 @@ export default function ModalProducts({
 									variant='outlined'
 									sx={{ width: "100%" }}
 									size='small'
-									type='number'
+									onInput={(e) => {
+										const value = e.target.value;
+										if (!/^\d*$/.test(value)) {
+											e.target.value = value.replace(/\D/g, "");
+										}
+									}}
 									InputProps={{ inputProps: { min: 0, step: 1 } }}
-									value={infoProduct.width}
+									value={infoProduct.width || ""}
 									onChange={(e) =>
 										setInfoProduct({
 											...infoProduct,
@@ -523,9 +567,14 @@ export default function ModalProducts({
 									variant='outlined'
 									sx={{ width: "100%" }}
 									size='small'
-									type='number'
+									onInput={(e) => {
+										const value = e.target.value;
+										if (!/^\d*$/.test(value)) {
+											e.target.value = value.replace(/\D/g, "");
+										}
+									}}
 									InputProps={{ inputProps: { min: 0, step: 1 } }}
-									value={infoProduct.height}
+									value={infoProduct.height || ""}
 									onChange={(e) =>
 										setInfoProduct({
 											...infoProduct,
@@ -588,7 +637,9 @@ export default function ModalProducts({
 										size='small'
 										defaultValue={0}
 										required
-										onChange={(e) => setRentDayCount(e.target.value)}
+										onChange={(e) => {
+											setRentDayCount(e.target.value);
+										}}
 									>
 										<MenuItem value={0}>
 											Chọn ngày tối đa cho thuê
@@ -615,7 +666,15 @@ export default function ModalProducts({
 												variant='outlined'
 												sx={{ width: "100%" }}
 												size='small'
-												type='number'
+												onInput={(e) => {
+													const value = e.target.value;
+													if (!/^\d*$/.test(value)) {
+														e.target.value = value.replace(
+															/\D/g,
+															""
+														);
+													}
+												}}
 												InputProps={{
 													inputProps: { min: 1, step: 1 },
 												}}

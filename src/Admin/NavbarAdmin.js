@@ -50,7 +50,7 @@ export default function NavbarAdmin() {
 				>
 					<div className='flex items-center gap-[10px]'>
 						{nav.icon}
-						<p className='text-base'>{nav.title}</p>
+						<p className='text-base text-nowrap'>{nav.title}</p>
 					</div>
 				</NavLink>
 			))}

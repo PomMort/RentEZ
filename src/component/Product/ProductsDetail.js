@@ -198,7 +198,7 @@ const ProductDetail = () => {
 					{/* Giá sản phẩm */}
 					<div className='flex items-center mb-4'>
 						<span className='text-red-500 text-2xl font-bold mr-4'>
-							{product?.price.toLocaleString()}đ
+							{product?.rentPrices[dayRent - 1].toLocaleString()}đ
 						</span>
 					</div>
 
