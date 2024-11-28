@@ -270,6 +270,15 @@ export default function Order() {
 											: voucherShipSelected?.value * 100 + "%"}
 									</p>
 								</div>
+								<div className='flex flex-col justify-center mx-5'>
+									<Button
+										variant='contained'
+										color='warning'
+										onClick={() => setVoucherShipSelected(null)}
+									>
+										Xoá
+									</Button>
+								</div>
 							</div>
 						)}
 						{voucherRentSelected && (
@@ -293,6 +302,15 @@ export default function Order() {
 												"đ"
 											: voucherRentSelected?.value * 100 + "%"}
 									</p>
+								</div>
+								<div className='flex flex-col justify-center mx-5'>
+									<Button
+										variant='contained'
+										color='warning'
+										onClick={() => setVoucherRentSelected(null)}
+									>
+										Xoá
+									</Button>
 								</div>
 							</div>
 						)}
@@ -353,7 +371,7 @@ export default function Order() {
 							/>
 						</div>
 						<div className='grid grid-cols-2 gap-3 text-sm md:text-lg w-full'>
-							<div>Tổng tiền hàng: </div>
+							<div>Tổng tiền thuê đồ: </div>
 							<div className='text-right'>
 								<strong>
 									{orderInfo?.totalRentPrice?.toLocaleString()}đ
@@ -371,6 +389,16 @@ export default function Order() {
 									{orderInfo?.totalShipFee?.toLocaleString()}đ
 								</strong>
 							</div>
+							{!(orderInfo?.shipSupportFee === 0.0) && (
+								<div>Giảm tiền Ship: </div>
+							)}
+							{!(orderInfo?.shipSupportFee === 0.0) && (
+								<div className='text-right'>
+									<strong>
+										-{orderInfo?.shipSupportFee?.toLocaleString()}đ
+									</strong>
+								</div>
+							)}
 							<div>Tổng thanh toán: </div>
 							<div className='text-right text-[#ffb916] font-medium text-base md:text-2xl'>
 								<strong>{orderInfo?.total?.toLocaleString()}đ</strong>
@@ -421,6 +449,10 @@ export default function Order() {
 										id={voucher?.id}
 										name={voucher?.type === "Ship" ? "Ship" : "Rent"}
 										value={voucher?.code}
+										checked={
+											voucher?.id === voucherRentSelected?.id ||
+											voucher?.id === voucherShipSelected?.id
+										}
 										onChange={() =>
 											voucher?.type === "Ship"
 												? setVoucherShipSelected(voucher)

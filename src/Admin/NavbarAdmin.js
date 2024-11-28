@@ -13,12 +13,12 @@ const NAVBAR_LIST = [
 		path: "/dashboard",
 	},
 	{
-		title: "Quản lý khách hàng",
+		title: "Quản lý người dùng",
 		icon: <FaUserGroup />,
 		path: "/manage-users",
 	},
 	{
-		title: "Quản lý kho",
+		title: "Quản lý danh mục",
 		icon: <FaRegChartBar />,
 		path: "/manage-categories",
 	},
