@@ -30,7 +30,7 @@ export const options = {
 		},
 		title: {
 			display: true,
-			text: 'Biểu đồ của SHOP',
+			text: 'Bảng thống kê của SHOP',
 			font: {
 				size: 30,
 				weight: 'bold'
