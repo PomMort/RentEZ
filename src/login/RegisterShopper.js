@@ -130,10 +130,10 @@ const RegisterShopper = () => {
 		<div className='login-container'>
 			<div className='login-box'>
 				<div className='flex-col justify-items-center'>
-					<h1>Welcome To</h1>
-					<img src={logo} alt='Logo' className='logo size-20 ' />
+					<h1 className="font-bold">Chào mừng đến với</h1>
+					<img src={logo} alt='Logo' className='logo size-20 mr-20' />
 					<h2 style={{ fontFamily: "cursive", fontWeight: "bold" }}>
-						RentEZ Shopper
+						Tạo cửa hàng với RentEZ
 					</h2>
 				</div>
 

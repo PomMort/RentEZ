@@ -4,6 +4,8 @@ import { IoShirt } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import { BiSolidDiscount } from "react-icons/bi";
 import { MdDashboard, MdFeedback } from "react-icons/md";
+import { IoInformationCircle } from "react-icons/io5";
+
 
 const NAVBAR_LIST = [
 	{
@@ -30,6 +32,11 @@ const NAVBAR_LIST = [
 		title: "Quản lý đánh giá",
 		icon: <MdFeedback />,
 		path: "/manage-feedbacks",
+	},
+	{
+		title: "Thông tin cửa hàng",
+		icon: <IoInformationCircle />,
+		path: "/manage-profile",
 	},
 ];
 

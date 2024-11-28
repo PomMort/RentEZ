@@ -20,6 +20,8 @@ export default function ManageLayout({ children, isAdmin, navbar }) {
 		navigate("/Login");
 	};
 
+
+
 	const toggleMenu = () => {
 		setIsMenuOpen(!isMenuOpen);
 	};
@@ -67,7 +69,9 @@ export default function ManageLayout({ children, isAdmin, navbar }) {
 								</span>
 							</div>
 							{isMenuOpen && (
+
 								<div className='absolute right-0 mt-2 bg-white text-black rounded-md shadow-lg w-40'>
+
 									<button
 										onClick={handleLogout}
 										className='block px-4 py-2 text-sm w-full text-left hover:bg-gray-200'

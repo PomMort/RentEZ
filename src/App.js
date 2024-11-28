@@ -33,6 +33,7 @@ import ManageOrdersAdmin from "./Admin/Order/ManageOrder";
 // import RouteForLogin from "./layout/RouteForLogin";
 import ResetPassword from "./login/ResetPassword";
 import ManageFeedbacks from "./Shopkeeper/Feedbacks/ManageFeedbacks";
+import MangageProfile from "./Shopkeeper/Profile/MangageProfile";
 
 function App() {
 	const dispatch = useDispatch();
@@ -209,6 +210,14 @@ function App() {
 					element={
 						<ManageLayout isAdmin={false} navbar={<NavbarShop />}>
 							<ManageFeedbacks />
+						</ManageLayout>
+					}
+				/>
+				<Route
+					path='/shop/manage-profile'
+					element={
+						<ManageLayout isAdmin={false} navbar={<NavbarShop />}>
+							<MangageProfile />
 						</ManageLayout>
 					}
 				/>
