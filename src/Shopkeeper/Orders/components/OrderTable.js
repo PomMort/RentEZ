@@ -103,14 +103,13 @@ export default function OrderTable({ orders, setReRender }) {
 						onClick={() => handleClickEditStatus(params?.row)}
 						disabled={
 							params?.row?.status === "WaitingForRefund" ||
-							params?.row?.status === "Completed"
+							params?.row?.status === "Completed" ||
+							params?.row?.status === "WaitForPayment" ||
+							params?.row?.status === "Shipping" ||
+							params?.row?.status === "Received"
 						}
 					>
-						{ORDER_STATUS?.[
-							ORDER_STATUS.findIndex(
-								(stt) => stt.status === params?.row?.status
-							) + 1
-						]?.status_vi || "Hoàn thành"}
+						Xác nhận
 					</Button>
 				</div>
 			),
