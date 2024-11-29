@@ -6,8 +6,12 @@ import { BiSolidDiscount } from "react-icons/bi";
 import { MdDashboard, MdFeedback } from "react-icons/md";
 import { IoInformationCircle } from "react-icons/io5";
 
-
 const NAVBAR_LIST = [
+	{
+		title: "Thông tin cửa hàng",
+		icon: <IoInformationCircle />,
+		path: "/manage-profile",
+	},
 	{
 		title: "Thống kê",
 		icon: <MdDashboard />,
@@ -32,11 +36,6 @@ const NAVBAR_LIST = [
 		title: "Quản lý đánh giá",
 		icon: <MdFeedback />,
 		path: "/manage-feedbacks",
-	},
-	{
-		title: "Thông tin cửa hàng",
-		icon: <IoInformationCircle />,
-		path: "/manage-profile",
 	},
 ];
 

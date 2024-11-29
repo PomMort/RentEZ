@@ -102,7 +102,7 @@ const RegisterShopper = () => {
 					}
 				);
 
-				if (res?.statusCode === 200) {
+				if (res?.data?.statusCode === 200) {
 					formatData = { ...formatData, shopAvatar: res?.data?.data };
 				} else {
 					toast.error("Không thể upload được ảnh");
@@ -119,8 +119,8 @@ const RegisterShopper = () => {
 			}
 		} catch (err) {
 			console.error(err);
-			setErrorsField(err?.response?.data?.errors || {});
-			toast.error(err?.response?.data?.Message || "Đã xảy ra lỗi");
+			setErrorsField(err?.errors || {});
+			toast.error(err?.Message || "Đã xảy ra lỗi");
 		} finally {
 			setLoading(false);
 		}
@@ -130,7 +130,7 @@ const RegisterShopper = () => {
 		<div className='login-container'>
 			<div className='login-box'>
 				<div className='flex-col justify-items-center'>
-					<h1 className="font-bold">Chào mừng đến với</h1>
+					<h1 className='font-bold'>Chào mừng đến với</h1>
 					<img src={logo} alt='Logo' className='logo size-20 mr-20' />
 					<h2 style={{ fontFamily: "cursive", fontWeight: "bold" }}>
 						Tạo cửa hàng với RentEZ
