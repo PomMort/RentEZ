@@ -92,7 +92,6 @@ export default function Profile() {
 			...userInfo,
 			bankId: bankIdUser,
 		};
-		let accountName = "";
 
 		if (fileAvatar) {
 			const formData = new FormData();
@@ -126,41 +125,42 @@ export default function Profile() {
 			}
 		}
 
-		if (data?.bankId && data?.accountNo) {
-			try {
-				const res = await axios.post(
-					"https://api.httzip.com/api/bank/id-lookup-prod",
-					{
-						bank: bankCode,
-						account: data?.accountNo,
-					},
-					{
-						headers: {
-							"x-api-key": process.env.REACT_APP_API_KEY,
-							"x-api-secret": process.env.REACT_APP_API_SECRET,
-						},
-					}
-				);
+		// let accountName = "";
+		// if (data?.bankId && data?.accountNo) {
+		// 	try {
+		// 		const res = await axios.post(
+		// 			"https://api.httzip.com/api/bank/id-lookup-prod",
+		// 			{
+		// 				bank: bankCode,
+		// 				account: data?.accountNo,
+		// 			},
+		// 			{
+		// 				headers: {
+		// 					"x-api-key": process.env.REACT_APP_API_KEY,
+		// 					"x-api-secret": process.env.REACT_APP_API_SECRET,
+		// 				},
+		// 			}
+		// 		);
 
-				if (res.data?.code === 200) {
-					accountName = res.data?.data?.ownerName;
-				} else {
-					console.log(res);
-				}
-			} catch (err) {
-				console.error(err?.response);
-				toast.error(
-					err?.response?.data?.msg === "OUT_OF_CREDIT"
-						? "Hết số lần check STK"
-						: "STK không hợp lệ"
-				);
-				setLoading(false);
-				return;
-			}
-		}
+		// 		if (res.data?.code === 200) {
+		// 			accountName = res.data?.data?.ownerName;
+		// 		} else {
+		// 			console.log(res);
+		// 		}
+		// 	} catch (err) {
+		// 		console.error(err?.response);
+		// 		toast.error(
+		// 			err?.response?.data?.msg === "OUT_OF_CREDIT"
+		// 				? "Hết số lần check STK"
+		// 				: "STK không hợp lệ"
+		// 		);
+		// 		setLoading(false);
+		// 		return;
+		// 	}
+		// }
 
 		const res = await axiosIntance
-			.put("/api/users", { ...data, accountName })
+			.put("/api/users", { ...data })
 			.then((res) => {
 				if (res.statusCode === 200) {
 					toast.success("Cập nhật thành công");
@@ -364,7 +364,7 @@ export default function Profile() {
 						label='Tên tài khoản'
 						variant='outlined'
 						value={userInfo?.accountName || ""}
-						disabled
+						// disabled
 						onChange={(e) => {
 							const input = e.target.value;
 							const normalizedInput = input

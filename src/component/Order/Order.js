@@ -358,7 +358,7 @@ export default function Order() {
 					</div>
 					<hr className='mt-5' />
 					<div className='flex flex-col md:flex-row justify-between mt-5 gap-5'>
-						<div className='min-w-full md:min-w-[500px]'>
+						{/* <div className='min-w-full md:min-w-[500px]'>
 							<TextField
 								id='filled-basic'
 								label='Lời nhắn cho shop'
@@ -369,7 +369,7 @@ export default function Order() {
 								value={note}
 								onChange={(e) => setNote(e.target.value)}
 							/>
-						</div>
+						</div> */}
 						<div className='grid grid-cols-2 gap-3 text-sm md:text-lg w-full'>
 							<div>Tổng tiền thuê đồ: </div>
 							<div className='text-right'>
@@ -396,6 +396,16 @@ export default function Order() {
 								<div className='text-right'>
 									<strong>
 										-{orderInfo?.shipSupportFee?.toLocaleString()}đ
+									</strong>
+								</div>
+							)}
+							{!(orderInfo?.shopRentDiscount === 0.0) && (
+								<div>Giảm tiền thuê đồ: </div>
+							)}
+							{!(orderInfo?.shopRentDiscount === 0.0) && (
+								<div className='text-right'>
+									<strong>
+										-{orderInfo?.shopRentDiscount?.toLocaleString()}đ
 									</strong>
 								</div>
 							)}
