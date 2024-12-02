@@ -6,22 +6,27 @@ import logo from "../Logo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import axiosInstance from "../util/axiosInstance";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const LoginPage = () => {
 	const [username, setUserName] = useState("");
 	const [password, setPassword] = useState("");
+	const [loading, setLoading] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const handleLogin = async (e) => {
+		setLoading(true);
 		e.preventDefault();
 		try {
 			const response = await axiosInstance.post("/api/auth/authentication", {
 				username: username,
 				password: password,
 			});
+
+			setLoading(false);
 
 			const userData = response;
 			dispatch({ type: "LOGIN_SUCCESS", payload: userData });
@@ -38,6 +43,7 @@ const LoginPage = () => {
 		} catch (error) {
 			console.error("Login error:", error);
 			toast.error(error?.Message);
+			setLoading(false);
 		}
 	};
 
@@ -100,14 +106,14 @@ const LoginPage = () => {
 							{showPassword ? <FaEyeSlash /> : <FaEye />}
 						</span>
 					</div>
-
-					<button
+					<LoadingButton
+						variant='contained'
 						type='submit'
-						className='login-button'
-						style={{ marginTop: "30px" }}
+						loading={loading}
+						className='w-full'
 					>
 						Đăng nhập
-					</button>
+					</LoadingButton>
 				</form>
 
 				<div className='signup-container'>

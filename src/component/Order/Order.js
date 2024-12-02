@@ -11,9 +11,11 @@ import { toast } from "react-toastify";
 import { domainFE } from "../../util/constant";
 import { saveOrderId } from "../../util/common";
 
+import LoadingButton from "@mui/lab/LoadingButton";
 export default function Order() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
 	const { productsSelected, user } = useSelector(
 		(state) => state.productListData
 	);
@@ -110,13 +112,17 @@ export default function Order() {
 			note: note,
 		};
 
+		setLoading(true);
+
 		const responseCreateOrder = await axiosInstance
 			.post("/api/orders", data)
 			.catch((err) => {
 				console.log(err);
 				toast.error(err?.Message);
+				setLoading(false);
 			});
 		if (responseCreateOrder?.statusCode !== 200) {
+			setLoading(false);
 			toast.error("Thanh toán thất bại");
 			return;
 		}
@@ -132,10 +138,11 @@ export default function Order() {
 			}
 		);
 		if (responsePayment.statusCode !== 200) {
+			setLoading(false);
 			toast.error("Không thể tạo mã QRCode");
 			return;
 		}
-
+		setLoading(true);
 		saveOrderId(orderId);
 
 		window.location.href = responsePayment?.data?.checkoutUrl;
@@ -417,14 +424,15 @@ export default function Order() {
 					</div>
 					<hr className='my-5' />
 					<div className='flex flex-row-reverse'>
-						<Button
+						<LoadingButton
 							variant='contained'
+							loading={loading}
 							size='large'
 							color='warning'
 							onClick={handlePayment}
 						>
 							Đặt hàng
-						</Button>
+						</LoadingButton>
 					</div>
 				</div>
 			</div>

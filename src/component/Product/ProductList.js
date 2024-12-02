@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductItem from "./ProductItem";
 import axiosInstace from "../../util/axiosInstance";
-import { Button, TextField } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
+import InfiniteScroll from "react-infinite-scroll-component";
+
+const PAGE_SIZE = 10;
 
 export default function ProductList() {
 	const [productList, setProductList] = useState([]);
@@ -10,20 +13,48 @@ export default function ProductList() {
 	const [categorySelected, setCategorySelected] = useState("");
 	const [searchName, setSearchName] = useState("");
 	const [flagClickSearch, setFlagClickSearch] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [pageNumber, setPageNumber] = useState(2);
+	const [hasMore, setHasMore] = useState(true);
 
-	useEffect(() => {
+	const fetchMoreData = () => {
 		axiosInstace
 			.get(
-				`/api/products/category/shop?SearchTerm=${searchName}&categoryId=${categorySelected}`
+				`/api/products/category/shop?SearchTerm=${searchName}&categoryId=${categorySelected}&PageNumber=${pageNumber}&PageSize=${PAGE_SIZE}`
 			)
 			.then((res) => {
 				if (res?.statusCode === 200) {
-					setProductList(res?.data?.items);
+					setProductList([...productList, ...res?.data?.items]);
+					console.log(res?.data?.hasNextPage);
+
+					setHasMore(res?.data?.hasNextPage);
 				}
 			})
 			.catch((err) => {
 				console.log(err);
 				setProductList([]);
+			});
+
+		setPageNumber((prevIndex) => prevIndex + 1);
+	};
+
+	useEffect(() => {
+		setLoading(true);
+		axiosInstace
+			.get(
+				`/api/products/category/shop?SearchTerm=${searchName}&categoryId=${categorySelected}&PageNumber=1&PageSize=${PAGE_SIZE}`
+			)
+			.then((res) => {
+				if (res?.statusCode === 200) {
+					setProductList(res?.data?.items);
+					setLoading(false);
+					setHasMore(res?.data?.hasNextPage);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				setProductList([]);
+				setLoading(false);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [categorySelected, flagClickSearch]);
@@ -87,17 +118,35 @@ export default function ProductList() {
 					</button>
 				))}
 			</div>
-			<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-				{productList?.map((product) => (
-					<div
-						key={product?.id}
-						className='rounded-lg shadow-md hover:shadow-lg mb-10 shadow-gray-500 transition-shadow overflow-hidden'
-					>
-						<Link to={`/Detail/${product.id}`}>
-							<ProductItem product={product} />
-						</Link>
+			<div>
+				{loading ? (
+					<div className='flex justify-center mt-10'>
+						<CircularProgress />
 					</div>
-				))}
+				) : (
+					<InfiniteScroll
+						dataLength={productList.length}
+						next={fetchMoreData}
+						hasMore={hasMore}
+						loader={
+							<div className='flex justify-center mt-10'>
+								<CircularProgress />
+							</div>
+						}
+						className='px-10 mt-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'
+					>
+						{productList?.map((product) => (
+							<div
+								key={product?.id}
+								className='rounded-lg shadow-md hover:shadow-lg mb-10 shadow-gray-500 transition-shadow overflow-hidden'
+							>
+								<Link to={`/Detail/${product.id}`}>
+									<ProductItem product={product} />
+								</Link>
+							</div>
+						))}
+					</InfiniteScroll>
+				)}
 			</div>
 			{!productList?.length && (
 				<div className='flex flex-col justify-center items-center'>

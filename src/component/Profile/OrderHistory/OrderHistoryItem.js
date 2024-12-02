@@ -4,7 +4,7 @@ import ModalOrderHistory from "./ModalOrderHistory";
 import { Button } from "@mui/material";
 import axiosInstance from "../../../util/axiosInstance";
 import { toast } from "react-toastify";
-import { ORDER_STATUS } from "../../../util/constant";
+import { domainFE, ORDER_STATUS } from "../../../util/constant";
 
 export default function OrderHistoryItem({ order, setReRender }) {
 	const [openModal, setOpenModal] = useState(false);
@@ -21,6 +21,43 @@ export default function OrderHistoryItem({ order, setReRender }) {
 			.catch((err) => {
 				console.log(err);
 				toast.error(err?.Message);
+			});
+	};
+
+	const handleCancelOrder = (orderId) => {
+		const confirm = window.confirm(
+			"Bạn có chắc huỷ thanh toán đơn hàng này chứ"
+		);
+		if (confirm) {
+			axiosInstance
+				.delete(`/api/orders/${orderId}`)
+				.then((res) => {
+					if (res?.statusCode === 200) {
+						toast.success("Huỷ thanh toán thành công");
+						setReRender((prev) => !prev);
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					toast.error(err?.Message);
+				});
+		}
+	};
+
+	const handleRePayment = (orderId) => {
+		axiosInstance
+			.post("/api/payments/payos/customer/payment-url", {
+				orderId,
+				cancelUrl: domainFE + "/order-handler",
+				returnUrl: domainFE + "/order-handler",
+			})
+			.then((res) => {
+				if (res?.statusCode === 200) {
+					window.location.href = res?.data?.checkoutUrl;
+				}
+			})
+			.catch((err) => {
+				console.log(err);
 			});
 	};
 
@@ -99,8 +136,18 @@ export default function OrderHistoryItem({ order, setReRender }) {
 				)}
 				{order?.status === "WaitForPayment" && (
 					<>
-						<Button variant='contained'>Thanh toán</Button>
-						<Button variant='outlined'>Huỷ thanh toán</Button>
+						<Button
+							variant='contained'
+							onClick={() => handleRePayment(order?.orderId)}
+						>
+							Thanh toán
+						</Button>
+						<Button
+							variant='outlined'
+							onClick={() => handleCancelOrder(order?.orderId)}
+						>
+							Huỷ thanh toán
+						</Button>
 					</>
 				)}
 			</div>

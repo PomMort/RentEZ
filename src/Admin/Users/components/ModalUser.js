@@ -1,13 +1,15 @@
-import { Button, Modal, TextField } from "@mui/material";
+import { Modal, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axiosInstance from "../../../util/axiosInstance";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export default function ModalUser({
 	openModalAdd,
 	setOpenModalAdd,
 	setReRender,
 }) {
+	const [loading, setLoading] = useState(false);
 	const [user, setUser] = useState({
 		userName: "",
 		fullName: "",
@@ -33,6 +35,8 @@ export default function ModalUser({
 			return;
 		}
 
+		setLoading(true);
+
 		axiosInstance
 			.post("/api/auth/admin/register?role=1", user)
 			.then((res) => {
@@ -40,10 +44,12 @@ export default function ModalUser({
 					toast.success("Thêm mới thành công");
 					setReRender((prev) => !prev);
 					setOpenModalAdd(false);
+					setLoading(false);
 				}
 			})
 			.catch((err) => {
 				console.log(err);
+				setLoading(false);
 				toast.error(err?.errors?.FullName?.[0]);
 				toast.error(err?.errors?.Email?.[0]);
 				toast.error(err?.errors?.PhoneNumber?.[0]);
@@ -123,9 +129,13 @@ export default function ModalUser({
 								setUser({ ...user, confirmPassword: e.target.value })
 							}
 						/>
-						<Button variant='contained' onClick={handleSubmit}>
+						<LoadingButton
+							variant='contained'
+							loading={loading}
+							onClick={handleSubmit}
+						>
 							Thêm
-						</Button>
+						</LoadingButton>
 					</div>
 				</div>
 			</Modal>

@@ -1,5 +1,4 @@
 import {
-	Button,
 	FormControl,
 	InputAdornment,
 	InputLabel,
@@ -16,6 +15,7 @@ import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import dayjs from "dayjs";
 import axiosInstance from "../../../util/axiosInstance";
 import { toast } from "react-toastify";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const initVoucher = {
 	code: "",
@@ -38,6 +38,7 @@ export default function ModalVoucher({
 	_voucher,
 }) {
 	const [voucher, setVoucher] = useState(initVoucher);
+	const [loading, setLoading] = useState(false);
 
 	// GET VOUCHER
 	useEffect(() => {
@@ -72,6 +73,7 @@ export default function ModalVoucher({
 	}, [_voucher]);
 
 	const handleSubmit = () => {
+		setLoading(true);
 		const data = {
 			...voucher,
 			minRentValue: +voucher?.minRentValue,
@@ -92,10 +94,12 @@ export default function ModalVoucher({
 						setReRender((prev) => !prev);
 						setOpenModalAdd(false);
 						setVoucher(initVoucher);
+						setLoading(false);
 					}
 				})
 				.catch((err) => {
 					console.log(err);
+					setLoading(false);
 					toast.error("Có lỗi xảy ra");
 					toast.error(err?.Message);
 					toast.error(err?.errors?.Name?.[0]);
@@ -109,6 +113,7 @@ export default function ModalVoucher({
 						setReRender((prev) => !prev);
 						setOpenModalAdd(false);
 						setVoucher(initVoucher);
+						setLoading(false);
 					}
 				})
 				.catch((err) => {
@@ -116,6 +121,7 @@ export default function ModalVoucher({
 					toast.error("Có lỗi xảy ra");
 					toast.error(err?.Message);
 					toast.error(err?.errors?.Name?.[0]);
+					setLoading(false);
 				});
 		}
 	};
@@ -353,9 +359,13 @@ export default function ModalVoucher({
 						</div>
 
 						<div className='flex flex-row-reverse col-span-2'>
-							<Button variant='contained' onClick={handleSubmit}>
-								Thêm
-							</Button>
+							<LoadingButton
+								variant='contained'
+								loading={loading}
+								onClick={handleSubmit}
+							>
+								{!_voucher ? "Thêm" : "Cập nhật"}
+							</LoadingButton>
 						</div>
 					</div>
 				</div>

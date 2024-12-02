@@ -49,7 +49,7 @@ export const ORDER_STATUS = [
 		status: "Rejected",
 	},
 	{
-		status_vi: "Huỷ bỏ",
+		status_vi: "Đã huỷ thanh toán",
 		status: "Cancelled",
 	},
 ];
