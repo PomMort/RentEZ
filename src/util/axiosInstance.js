@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getUser } from "./common";
-import { domainBE } from "./constant";
+import { domainBE, domainFE } from "./constant";
 
 const axiosInstance = axios.create({
 	baseURL: domainBE,
@@ -30,9 +30,15 @@ axiosInstance.interceptors.response.use(
 	function (response) {
 		// Any status code that lie within the range of 2xx cause this function to trigger
 		// Do something with response data
+
 		return response.data;
 	},
 	function (error) {
+		if (error.response?.status === 401) {
+			localStorage.clear();
+			window.location.href = domainFE + "/Login";
+		}
+
 		// Any status codes that falls outside the range of 2xx cause this function to trigger
 		// Do something with response error
 		return Promise.reject(error.response.data);
