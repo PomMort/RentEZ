@@ -15,9 +15,11 @@ export default function ProductList() {
 	const [flagClickSearch, setFlagClickSearch] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [pageNumber, setPageNumber] = useState(2);
-	const [hasMore, setHasMore] = useState(true);
+	const [hasMore, setHasMore] = useState(false);
+	const [hasError, setHasError] = useState(false);
 
 	const fetchMoreData = () => {
+		setHasError(false);
 		axiosInstace
 			.get(
 				`/api/products/category/shop?SearchTerm=${searchName}&categoryId=${categorySelected}&PageNumber=${pageNumber}&PageSize=${PAGE_SIZE}`
@@ -26,13 +28,13 @@ export default function ProductList() {
 				if (res?.statusCode === 200) {
 					setProductList([...productList, ...res?.data?.items]);
 					console.log(res?.data?.hasNextPage);
-
 					setHasMore(res?.data?.hasNextPage);
 				}
 			})
 			.catch((err) => {
 				console.log(err);
 				setProductList([]);
+				setHasError(true);
 			});
 
 		setPageNumber((prevIndex) => prevIndex + 1);
@@ -112,7 +114,10 @@ export default function ProductList() {
 								? "bg-yellowCustom text-white"
 								: "bg-[#ccc8] text-black opacity-80 hover:opacity-100 hover:-translate-y-1 transition-all ease-linear"
 						}`}
-						onClick={() => setCategorySelected(category?.id)}
+						onClick={() => {
+							setCategorySelected(category?.id);
+							setPageNumber(2);
+						}}
 					>
 						{category.categoryName}
 					</button>
@@ -129,9 +134,11 @@ export default function ProductList() {
 						next={fetchMoreData}
 						hasMore={hasMore}
 						loader={
-							<div className='flex justify-center mt-10'>
-								<CircularProgress />
-							</div>
+							!hasError && (
+								<div className='flex justify-center mt-10'>
+									<CircularProgress />
+								</div>
+							)
 						}
 						className='px-10 mt-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'
 					>

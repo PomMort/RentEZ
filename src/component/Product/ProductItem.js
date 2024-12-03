@@ -7,7 +7,7 @@ export default function ProductItem({ product }) {
 		<div className='min-h-[350px] mx-4 '>
 			<div className='flex justify-center'>
 				<img
-					className=' mt-4 bg-center min-h-[400px] object-contain'
+					className=' mt-4 bg-center h-[350px] object-contain'
 					style={{ width: "80%" }}
 					src={product?.image}
 					alt='anh_cuoi'
